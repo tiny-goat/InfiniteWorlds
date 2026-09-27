@@ -23,10 +23,10 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         if ChartAuthor == "" then ChartAuthor = "Unknown" end
 
         self:GetChild("BigPreviewBallContainer_"..pn):GetChild("BigPreviewBall"):diffuse(ChartTypeToColor(Chart))
-        self:GetChild("BigPreviewBallContainer_"..pn):GetChild("BallGlow"):diffuse(ChartTypeToColor(Chart))
-        self:GetChild("BigPreviewBallContainer_"..pn):GetChild("MeterText"):settext(ChartMeter)
-        self:GetChild("BigPreviewBallContainer_"..pn):GetChild("Difficulty"):settext(FullModeChartLabel(Chart))
-        self:GetChild("BigPreviewBallContainer_"..pn):GetChild("Credit"):settext(ChartAuthor)
+        self:GetChild("BigPreviewBallContainer_"..pn):GetChild("BallGlow0"):diffuse(ChartTypeToColor(Chart))
+        self:GetChild("BigPreviewBallContainer_"..pn):GetChild("MeterText"):finishtweening():cropright(1):smooth(0.25):cropright(0):settext(ChartMeter)
+        self:GetChild("BigPreviewBallContainer_"..pn):GetChild("Difficulty"):finishtweening():faderight(1):smooth(0.1):faderight(0):settext(FullModeChartLabel(Chart))
+        self:GetChild("BigPreviewBallContainer_"..pn):GetChild("Credit"):cropleft(1):smooth(0.25):cropleft(0):settext(ChartAuthor)
       end
     end,
 
@@ -61,17 +61,26 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             Name="BigPreviewBall",
       	InitCommand=function(self) self:zoom(0.723) end
       },
-
+	 
       Def.Sprite {
             Texture=THEME:GetPathG("", "DifficultyDisplay/euv_trim_glow"),
-            Name="BallGlow",
-      InitCommand=function(self) self:zoom(0.21):spin():effectmagnitude(0,0,pn==PLAYER_1 and 240 or -240):effectperiod(0.4) end
+            Name="BallGlow0",
+			InitCommand=function(self) self:zoom(0.21):spin():effectmagnitude(0,0,pn==PLAYER_1 and 240 or -240):effectperiod(0.2) end,
+      },
+	  
+	  Def.Sprite {
+            Texture=THEME:GetPathG("", "DifficultyDisplay/euv_ball"),
+            Name="BallGlow2",
+			InitCommand=function(self) self:blend('Add'):zoom(0.710) end,
+			RefreshCommand=function(self) self:finishtweening():diffusealpha(0.7):smooth(0.15):diffusealpha(0) end,
+			
       },
 
-      Def.Sprite {
+
+	  Def.Sprite {
             Texture=THEME:GetPathG("", "DifficultyDisplay/euv_eval_trim"),
      	    Name="BallLine",
-      InitCommand=function(self) self:zoom(0.21) end
+			InitCommand=function(self) self:zoom(0.21) end,
       },
 
       -- new addition to BigPreviewBall (jkob)
@@ -100,8 +109,15 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         Font="strike fighter 45px",
         Name="Credit",
         InitCommand=function(self) -- to counter the skew, we must skew the skew that skewed the skew (jkob)
-          self:zoom(0.15):x(0):y(17):strokecolor(color("#000000EE")):skewx(pn==PLAYER_1 and -0.2 or 0.2)
+          self:zoom(0.15):x(0):y(17):maxwidth(390):strokecolor(color("#000000EE")):skewx(pn==PLAYER_1 and -0.2 or 0.2)
         end
+      },
+	  
+	  Def.Sprite {
+            Texture=THEME:GetPathG("", "DifficultyDisplay/euv_eval_trim"),
+     	    Name="BallLineFX",
+			InitCommand=function(self) self:zoom(0.21) end,
+			RefreshCommand=function(self) self:finishtweening():zoom(0.21):diffusealpha(0.9):decelerate(0.3):zoom(0.3):diffusealpha(0) end,
       },
 
       Def.BitmapText {

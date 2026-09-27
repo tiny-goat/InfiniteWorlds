@@ -315,7 +315,9 @@ local t = Def.ActorFrame {
 
 for i=1,ItemAmount do
     t[#t+1] = Def.ActorFrame {
-	Def.Sprite {
+		OnCommand=function(self) self:x(20):zoom(1.1):diffusealpha(0):sleep(0.03*i+0.05):decelerate(0.2):x(0):zoom(1):diffusealpha(1) end,
+		OffCommand=function(self) self:zoom(1):diffusealpha(1):sleep(0.03*i+0.05):decelerate(0.15):x(20):zoom(1.3):diffusealpha(0) end,
+		Def.Sprite {
             Name="IconTrim",
             Texture=THEME:GetPathG("", "DifficultyDisplay/euv_shadow_ball"),
             InitCommand=function(self)
@@ -425,7 +427,7 @@ t[#t+1] = Def.ActorFrame {
     },
 
     Def.Sound {
-        File=THEME:GetPathS("", "euv_reverse_step"),
+        File=THEME:GetPathS("", "reverse_step"),
         IsAction=true,
         SongUnchosenMessageCommand=function(self) self:play() end
     }

@@ -121,8 +121,8 @@ end
 
 local t = Def.ActorFrame {
     InitCommand=function(self)
-        self:y(SCREEN_HEIGHT / 2 + 155):fov(90):SetDrawByZPosition(true)
-        :vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150)
+        self:y(SCREEN_HEIGHT / 2 + 155):fov(100):SetDrawByZPosition(true)
+        :vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 165)
         UpdateItemTargets(SongIndex)
     end,
 
@@ -142,11 +142,11 @@ local t = Def.ActorFrame {
     ConfirmCommand=function(self) MESSAGEMAN:Broadcast("SongChosen") end,
     -- These are to control the functionality of the music wheel
     SongChosenMessageCommand=function(self)
-        self:stoptweening():decelerate(0.2):y(SCREEN_HEIGHT / 2 + 165)
+        self:stoptweening():decelerate(0.2):y(SCREEN_HEIGHT / 2 + 10):diffusealpha(0)
         :playcommand("Busy")
     end,
     SongUnchosenMessageCommand=function(self)
-        self:stoptweening():decelerate(0.2):y(SCREEN_HEIGHT / 2 - 169):accelerate(0.1):y(SCREEN_HEIGHT / 2 - 165)
+        self:stoptweening():decelerate(0.2):diffusealpha(1):y(SCREEN_HEIGHT / 2 - 166):accelerate(0.1):y(SCREEN_HEIGHT / 2 - 165)
         :playcommand("NotBusy")
     end,
     
@@ -215,6 +215,8 @@ for i = 1, WheelSize do
 
             -- Set initial position, Direction = 0 means it won't tween
             self:playcommand("Scroll", {Direction = 0})
+			-- enable this intro, but be aware of some bugs if you do :P
+			--[[self:zoomy(0):glow(1,1,1,0.8):sleep(0.05*i+0.03):easeoutexpo(0.2):glow(1,1,1,0):zoomy(1.1):decelerate(0.1):zoomy(1)]]--
         end,
 		
 		ForceUpdateMessageCommand=function(self)
@@ -226,7 +228,7 @@ for i = 1, WheelSize do
             -- Set initial position, Direction = 0 means it won't tween
             self:playcommand("Scroll", {Direction = 0})
 		end,
-
+		
         ScrollMessageCommand=function(self,param)
             self:stoptweening()
 
@@ -264,11 +266,11 @@ for i = 1, WheelSize do
 
         Def.Sprite {
             Texture=THEME:GetPathG("", "MusicWheel/tg_wheelitem_music"),
-	    InitCommand=function(self) self:zoomx(0.73):zoomy(0.73) end
+			InitCommand=function(self) self:zoomx(0.73):zoomy(0.73) end
         },
 
         Def.ActorFrame {
-
+			
             Def.BitmapText {
                 Name="Index",
                 Font="inter medium 25px",

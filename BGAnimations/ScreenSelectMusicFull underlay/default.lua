@@ -82,7 +82,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             end,
             OffCommand=function(self)
                 self:stoptweening():easeoutexpo(1)
-                :y(-SCREEN_CENTER_Y - 100)
+                :diffusealpha(0)
             end,
 
             StepsChosenMessageCommand=function(self, params)
@@ -165,14 +165,14 @@ t[#t+1] = Def.ActorFrame {
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
         end,
         OffCommand=function(self)
-            self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
+            self:stoptweening()
         end,
 
         SongChosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.7):zoom(0.89)
+            self:stoptweening():easeoutexpo(0.65):zoom(0.89)
         end,
         SongUnchosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.7):zoom(1)
+            self:stoptweening():easeoutexpo(0.65):zoom(1)
         end,
 		
         LoadActor("SongsInfo") .. {
@@ -188,13 +188,13 @@ t[#t+1] = Def.ActorFrame {
         },
         
         Def.ActorFrame {
-            InitCommand=function(self) self:diffusealpha(0):y(92):zoom(ZoomChAdj):sleep(0.1):easeoutexpo(1):zoom(0.77):diffusealpha(1) end,
+            InitCommand=function(self) self:diffusealpha(0):y(90):zoom(ZoomChAdj):sleep(0.1):easeoutexpo(1):zoom(0.77):diffusealpha(1) end,
 
             SongChosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.28):y(96):zoom(ZoomChAdj)
+                self:stoptweening():easeoutexpo(0.2):y(96):zoom(ZoomChAdj)
             end,
             SongUnchosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.28):y(92):zoom(0.77)
+                self:stoptweening():easeoutexpo(0.2):y(90):zoom(0.77)
             end,            
 
             LoadActor("ChartDisplay", 12)
@@ -204,7 +204,10 @@ t[#t+1] = Def.ActorFrame {
 
 t[#t+1] = Def.ActorFrame {
 	Def.ActorFrame {
-		InitCommand=function(self) self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y+70):diffusealpha(1):zoom(1) end,         
+		InitCommand=function(self) self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y+50):diffusealpha(1):zoom(1) end, 
+
+			SongChosenMessageCommand=function(self) self:y(SCREEN_CENTER_Y+50):decelerate(0.1):y(SCREEN_CENTER_Y+70) end,
+			SongUnchosenMessageCommand=function(self) self:y(SCREEN_CENTER_Y+70):decelerate(0.1):y(SCREEN_CENTER_Y+80) end,
 
      	LoadActor("ScoreDisplay") .. {
 			InitCommand=function(self) self:zoom(0.8):diffusealpha(0):y(130) end,
@@ -220,7 +223,6 @@ t[#t+1] = Def.ActorFrame {
 	}
 }
 
--- make sure this thing is always in front of everything else
-t[#t+1] = LoadActor("MusicWheel") .. { Name="MusicWheel" }
+t[#t+1] = LoadActor("MusicWheel") .. {}
 
 return t

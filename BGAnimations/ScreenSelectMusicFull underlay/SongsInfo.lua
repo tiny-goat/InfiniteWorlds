@@ -29,7 +29,7 @@ t[#t+1] = Def.ActorFrame {
             if Song:IsDisplayBpmRandom() or BPMDisplay == 0 then BPMDisplay = "???" end
 
             self:GetChild("Title"):settext(TitleText)
-	    self:GetChild("Artist"):settext(AuthorText)
+			self:GetChild("Artist"):settext(AuthorText)
             self:GetChild("BPM"):settext("BPM " .. BPMDisplay)
 
             if GAMESTATE:IsEventMode() then
@@ -103,38 +103,38 @@ t[#t+1] = Def.ActorFrame {
             self:stoptweening():x(-80):easeoutexpo(0.8):x(0) end
 	end
     },
+	
+	Def.BitmapText {
+			Font="inter medium 25px",
+			Name="Artist",
+			InitCommand=function(self)
+				self:zoom(0.7):valign(1)
+				:maxwidth(FrameW * 0.39 / self:GetZoom())
+				:x(0)
+				:y(174):diffuse(color("#CCEE00"))
+			end,
+		ScrollMessageCommand=function(self, params) if params.Direction == 1 then
+				self:stoptweening():x(80):diffusealpha(0):sleep(0.1):easeoutexpo(0.8):diffusealpha(1):x(0)
+		else
+				self:stoptweening():x(-80):diffusealpha(0):sleep(0.1):easeoutexpo(0.8):diffusealpha(1):x(0) end
+		end
+	},
 
-    Def.BitmapText {
-        Font="inter medium 25px",
-        Name="Artist",
-        InitCommand=function(self)
-            self:zoom(0.7):valign(1)
-            :maxwidth(FrameW * 0.39 / self:GetZoom())
-            :x(0)
-            :y(174):diffuse(color("#CCEE00"))
-        end,
-	ScrollMessageCommand=function(self, params) if params.Direction == 1 then
-            self:stoptweening():x(80):diffusealpha(0):sleep(0.1):easeoutexpo(0.8):diffusealpha(1):x(0)
-	else
-            self:stoptweening():x(-80):diffusealpha(0):sleep(0.1):easeoutexpo(0.8):diffusealpha(1):x(0) end
-	end
-    },
-
-    Def.BitmapText {
-        Font="inter medium 25px",
-        Name="BPM",
-        InitCommand=function(self)
-            self:zoom(0.7):valign(1)
-            :maxwidth(FrameW * 0.2 / self:GetZoom())
-            :x(0)
-            :y(192):diffuse(color("#00CCEE"))
-        end,
-	ScrollMessageCommand=function(self, params) if params.Direction == 1 then
-            self:stoptweening():x(80):diffusealpha(0):sleep(0.2):easeoutexpo(0.8):diffusealpha(1):x(0)
-	else
-            self:stoptweening():x(-80):diffusealpha(0):sleep(0.2):easeoutexpo(0.8):diffusealpha(1):x(0) end
-	end
-    },
+	Def.BitmapText {
+			Font="inter medium 25px",
+			Name="BPM",
+			InitCommand=function(self)
+				self:zoom(0.7):valign(1)
+				:maxwidth(FrameW * 0.2 / self:GetZoom())
+				:x(0)
+				:y(192):diffuse(color("#00CCEE"))
+			end,
+		ScrollMessageCommand=function(self, params) if params.Direction == 1 then
+				self:stoptweening():x(80):diffusealpha(0):sleep(0.2):easeoutexpo(0.8):diffusealpha(1):x(0)
+		else
+				self:stoptweening():x(-80):diffusealpha(0):sleep(0.2):easeoutexpo(0.8):diffusealpha(1):x(0) end
+		end
+	},
 
     Def.BitmapText {
         Font="inter medium 25px",
@@ -163,5 +163,6 @@ t[#t+1] = Def.ActorFrame {
             self:stoptweening():x(-244):diffusealpha(0):sleep(0.18):easeoutexpo(0.6):diffusealpha(1):x(-315) end
     }
 }
+
 
 return t
