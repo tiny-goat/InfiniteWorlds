@@ -186,7 +186,7 @@ local t = Def.ActorFrame {
         Name="BarEdgeL",
         Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
         InitCommand=function(self)
-            self:x(-BarW / 1.88):halign(0):setsize(35, BarH)
+            self:x(-BarW / 2):halign(0):setsize(9, BarH)
         end
     },
 	
@@ -194,7 +194,7 @@ local t = Def.ActorFrame {
         Name="BarEdgeR",
         Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
         InitCommand=function(self)
-            self:x(BarW / 1.88):halign(0):setsize(-35, BarH)
+            self:x(BarW / 2):halign(0):setsize(-9, BarH)
         end
     },
 	

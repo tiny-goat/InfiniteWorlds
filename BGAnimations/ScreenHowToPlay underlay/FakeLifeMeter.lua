@@ -81,7 +81,7 @@ local t = Def.ActorFrame {
         Name="BarEdgeL",
         Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
         InitCommand=function(self)
-            self:x(-BarW / 1.88):halign(0):setsize(35, BarH)
+            self:x(-BarW / 2):halign(0):setsize(8, BarH)
         end
     },
 	
@@ -89,7 +89,7 @@ local t = Def.ActorFrame {
         Name="BarEdgeR",
         Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
         InitCommand=function(self)
-            self:x(BarW / 1.88):halign(0):setsize(-35, BarH)
+            self:x(BarW / 2):halign(0):setsize(-8, BarH)
         end
     },
 	
@@ -113,7 +113,7 @@ local t = Def.ActorFrame {
     Def.Quad {
         Name="Meter",
         InitCommand=function(self)
-            self:zoomto(BarW - 10, BarH - 16):x(-25):cropright(0.5)
+            self:zoomto(BarW - 10, BarH - 18):x(-25):cropright(0.5)
             :diffuse(pn == PLAYER_1 and color("#f7931e") or color("#ab78f5"))
             :diffusebottomedge(pn == PLAYER_1 and color("#ed1e79") or color("#1fbcff"))
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
@@ -123,7 +123,7 @@ local t = Def.ActorFrame {
     Def.Quad {
         Name="Pulse",
         InitCommand=function(self)
-            self:zoomto(20, BarH - 16):halign(0)
+            self:zoomto(20, BarH - 18):halign(0)
             :diffuse(pn == PLAYER_1 and color("#f7931e") or color("#ab78f5"))
             :diffusebottomedge(pn == PLAYER_1 and color("#ed1e79") or color("#1fbcff"))
             
@@ -136,7 +136,7 @@ local t = Def.ActorFrame {
         Name="RainbowMeter",
         Texture=THEME:GetPathG("", "UI/RainbowBar"),
         InitCommand=function(self)
-            self:zoomto(BarW - 10, BarH - 16)
+            self:zoomto(BarW - 10, BarH - 18)
             :texcoordvelocity(0.9, 0)
             :diffusealpha(0):diffuseblink():effectcolor1(color("#FFFFFF")):effectcolor2(color("#bbbbbb")):effectperiod(0.09)
         end
