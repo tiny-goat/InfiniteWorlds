@@ -52,7 +52,7 @@ local t = Def.ActorFrame {
             InitCommand=function(self)
                 self:xy(WideScale(220, 225), 40):zoom(1.1):skewy(-0.1)
             end,
-	    OnCommand=function(self) self:xy(WideScale(220,300), 0):sleep(0.2):easeoutexpo(1):xy(WideScale(220, 225), 40) end,
+			OnCommand=function(self) self:xy(WideScale(220,300), 0):sleep(0.2):easeoutexpo(1):xy(WideScale(220, 225), 40) end,
 
             Def.Sprite {
                 Texture=THEME:GetPathG("", "UI/euv_heartbank"),
@@ -69,7 +69,7 @@ local t = Def.ActorFrame {
                     local Hearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
                     self:settext("" .. (GAMESTATE:IsEventMode() and "∞" or Hearts))
                 end,
-		OffCommand=function(self) self:sleep(0.5):diffusealpha(0) end
+				OffCommand=function(self) self:sleep(0.5):diffusealpha(0) end
             },
 
             Def.Sprite {
@@ -100,7 +100,7 @@ local t = Def.ActorFrame {
             :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 128)
         end,
     },
-    Def.Sprite {
+    --[[Def.Sprite {
         Texture=THEME:GetPathG("", "UI/euv_footer_down"),
         InitCommand=function(self)
             self:scaletofit(0, 0, 1280, 128)
@@ -114,7 +114,7 @@ local t = Def.ActorFrame {
             self:sleep(0.2):easeoutexpo(0.9)
             :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 128)
         end,
-    },
+    },]]--
 
 }
 
@@ -123,61 +123,59 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     if PROFILEMAN:GetProfile(pn) and (PROFILEMAN:IsPersistentProfile(pn) or PROFILEMAN:ProfileWasLoadedFromMemoryCard(pn)) then
         t[#t+1] = Def.ActorFrame {
             Def.ActorFrame {
-                InitCommand=function(self) 
-			-- very weird aligment, this'll be my fix for now
-			local PosP1 = IsUsingWideScreen() and -670 or -510
-			local PosP2 = IsUsingWideScreen() and -605 or -450
-			self:y(108):x(SCREEN_CENTER_X + (pn == PLAYER_2 and PosP2 or PosP1)) end,
-                OnCommand=function(self) self:easeoutexpo(0.5):y(-7) end,
+                InitCommand=function(self) self:y(108) end,
+                OnCommand=function(self) self:smooth(0.5):y(-7) end,
                 OffCommand=function(self) self:sleep(0.2):easeoutexpo(0.9):y(128) end,
-
-                Def.Sprite {
-                    Texture=THEME:GetPathG("", "UI/euv_maskslot"),
+				-- this texture can be repositioned to fit more info (like hearts left) in the future
+				
+				Def.Sprite {
+                    Texture=THEME:GetPathG("", "UI/tg_profile_deck"),
                     InitCommand=function(self)
-                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 221 or -221), SCREEN_BOTTOM - 22)
-                        :rotationy(pn == PLAYER_2 and 180 or 0):zoom(1.5):MaskSource()
+                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 260 or -260), SCREEN_BOTTOM + 3)
+                        :rotationy(pn == PLAYER_2 and 180 or 0):zoom(1)
                     end
                 },
-		-- reorder the layering thing of this thing
-		Def.Sprite {
+				
+				Def.Sprite {
+                    Texture=THEME:GetPathG("", "UI/tg_glow_profile_deck"),
+                    InitCommand=function(self)
+                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 260 or -260), SCREEN_BOTTOM + 3)
+                        :rotationy(pn == PLAYER_2 and 180 or 0):zoom(1):blend('Add'):queuecommand("Breathe")
+                    end,
+					BreatheCommand=function(self) self:diffusealpha(0.4):linear(2):diffusealpha(1):linear(2):diffusealpha(0.4):queuecommand("Breathe") end
+                },
+				
+				-- reorder the layering thing of this thing
+				Def.Sprite {
                     Texture=LoadModule("Options.GetProfileData.lua")(pn)["Image"],
                     InitCommand=function(self)
-                        self:scaletocover(0, 0, 289, 289)
-                        :xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 222 or -222), SCREEN_BOTTOM - 8)
-                        :MaskDest():ztestmode("ZTestMode_WriteOnFail"):diffusealpha(0.8)
+                        self:scaletocover(0, 0, 37, 37)
+                        :xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 346 or -346), SCREEN_BOTTOM - 21)
+                        :diffusealpha(1)
                     end
                 },
 
--- what a genius way of making the names and level finally readable /s (tiny)
-		Def.Quad {
-		    InitCommand=function(self) 
-			self:diffuse(Color.Black):diffusealpha(0.6):MaskDest():ztestmode("ZTestMode_WriteOnFail")
-			:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 60 or -60), SCREEN_BOTTOM - 43)
-			:fadeleft(0.2):faderight(0.2):zoomto(150,44):halign(pn == PLAYER_2 and 0 or 1):valign(0) end
-		},
+				-- what a genius way of making the names and level finally readable /s (tiny)
+				--[[Def.Quad {
+					InitCommand=function(self) 
+					self:diffuse(Color.Black):diffusealpha(0.6):MaskDest():ztestmode("ZTestMode_WriteOnFail")
+					:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 60 or -60), SCREEN_BOTTOM - 43)
+					:fadeleft(0.2):faderight(0.2):zoomto(150,44):halign(pn == PLAYER_2 and 0 or 1):valign(0) end
+				},
 
-		Def.Sprite {
-                    Texture=THEME:GetPathG("", "UI/euv_glow_dock"),
-                    InitCommand=function(self)
-                        self:zoomy(1.52):xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 184 or -184), SCREEN_BOTTOM - 20)
-                        :rotationy(pn == PLAYER_2 and 180 or 0):rotationz(-4):queuecommand("Breathe"):diffusecolor(color(pn==PLAYER_2 and ("#EE16FF") or ("#16EEFF"))):fadetop(0.5)
-                    end,
-		    BreatheCommand=function(self) self:diffusealpha(0.4):linear(2):diffusealpha(1):linear(2):diffusealpha(0.4):queuecommand("Breathe") end
-                },
-
-	 	Def.Sprite {
+				Def.Sprite {
                     Texture=THEME:GetPathG("", "UI/euv_dock_light"),
                     InitCommand=function(self)
                         self:zoomy(1.52):xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 184 or -184), SCREEN_BOTTOM - 20)
                         :rotationy(pn == PLAYER_2 and 180 or 0):rotationz(-4)
                     end,
-                },
+                },]]--
 
                 Def.BitmapText {
                     Font="inter medium 25px",
                     Text=PROFILEMAN:GetProfile(pn):GetDisplayName(),
                     InitCommand=function(self)
-                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 130 or -130), SCREEN_BOTTOM - 45):strokecolor(Color.Black):zoom(0.7):halign(pn == PLAYER_2 and 0 or 1):valign(0)
+                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_1 and -240 or 240), SCREEN_BOTTOM - 34):strokecolor(Color.Black):zoom(0.7)
                         :maxwidth(112 / self:GetZoom())
 
                         if PROFILEMAN:GetProfile(pn):GetDisplayName() == "" then
@@ -190,8 +188,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     Font="inter medium 25px",
                     -- This ingenious level system was made up at 4am
                         InitCommand=function(self)
-                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 155 or -155), SCREEN_BOTTOM - 13):strokecolor(Color.Black):zoom(0.7)
-                        :maxwidth(96 / self:GetZoom())
+                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_1 and -240 or 240), SCREEN_BOTTOM - 12):strokecolor(Color.Black):zoom(0.7)
+                        :maxwidth(112 / self:GetZoom())
                         lvl = math.floor(math.sqrt(PROFILEMAN:GetProfile(pn):GetTotalDancePoints() / 500)) + 1
                         -- You can check if a number is "nan" by comparing it to itself
                         -- because "nan" is not equal to anything, not even itself

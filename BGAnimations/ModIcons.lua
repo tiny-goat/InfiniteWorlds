@@ -119,7 +119,7 @@ local t = Def.ActorFrame {
 
     -- Noteskin display
     Def.Sprite {
-        Texture=THEME:GetPathG("", "UI/ModIcon"),
+        Texture=THEME:GetPathG("", "UI/tg_modicon"),
         InitCommand=function(self) self:y(IconH) end
     }
 }
@@ -146,7 +146,7 @@ for i = 1, IconAmount do
         Name="IconFrame",
         Def.Sprite {
             Name="Icon",
-            Texture=THEME:GetPathG("", "UI/ModIcon"),
+            Texture=THEME:GetPathG("", "UI/tg_modicon"),
             InitCommand=function(self)
                 self:y((i > 1 and IconH or 0) + IconH * (i - 1))
                 :visible(false)

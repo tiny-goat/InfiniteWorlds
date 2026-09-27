@@ -66,7 +66,7 @@ t[#t+1] = Def. ActorFrame {
 			self:diffusealpha(0):zoomx(1):zoomy(0.8):sleep(0.45):decelerate(0.2):diffusealpha(1):zoomx(0.8):zoomy(0.8) end,
 	
  	SongChosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.5):diffusealpha(0):zoomx(0):zoomy(0):sleep(0.001):zoomx(1.12):zoomy(0.8)
+            self:stoptweening():easeoutexpo(0.5):diffusealpha(0):zoomx(1):zoomy(1):sleep(0.001):zoomx(1.12):zoomy(0.8)
     end,
 	
     SongUnchosenMessageCommand=function(self)
@@ -86,14 +86,14 @@ t[#t+1] = Def. ActorFrame {
 	LoadActor("tg_pointerwheel_music") .. {
 		InitCommand=function(self) self:cropleft(0.5) end,
 		ScrollMessageCommand=function(self, params) if params.Direction == 1 then
-		self:stoptweening():x(0):linear(0.1):x(60):decelerate(0.2):x(0) end
+		self:stoptweening():x(0):linear(0.1):zoom(1.5):x(60):decelerate(0.2):zoom(1):x(0) end
 		end,
 	},
 	-- right
 	LoadActor("tg_pointerwheel_music") .. {
 		InitCommand=function(self) self:cropright(0.5) end,
 		ScrollMessageCommand=function(self, params) if params.Direction == -1 then
-		self:stoptweening():x(0):linear(0.1):x(-60):decelerate(0.2):x(0) end
+		self:stoptweening():x(0):linear(0.1):zoom(1.5):x(-60):decelerate(0.2):zoom(1):x(0) end
 		end,
 	},
 	

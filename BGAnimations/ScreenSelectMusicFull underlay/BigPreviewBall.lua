@@ -26,7 +26,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         self:GetChild("BigPreviewBallContainer_"..pn):GetChild("BallGlow0"):diffuse(ChartTypeToColor(Chart))
         self:GetChild("BigPreviewBallContainer_"..pn):GetChild("MeterText"):finishtweening():cropright(1):smooth(0.25):cropright(0):settext(ChartMeter)
         self:GetChild("BigPreviewBallContainer_"..pn):GetChild("Difficulty"):finishtweening():faderight(1):smooth(0.1):faderight(0):settext(FullModeChartLabel(Chart))
-        self:GetChild("BigPreviewBallContainer_"..pn):GetChild("Credit"):cropleft(1):smooth(0.25):cropleft(0):settext(ChartAuthor)
+        self:GetChild("BigPreviewBallContainer_"..pn):GetChild("Credit"):finishtweening():cropleft(1):smooth(0.25):cropleft(0):settext(ChartAuthor)
       end
     end,
 
@@ -59,7 +59,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
       Def.Sprite {
             Texture=THEME:GetPathG("", "DifficultyDisplay/euv_ball"),
             Name="BigPreviewBall",
-      	InitCommand=function(self) self:zoom(0.723) end
+			InitCommand=function(self) self:zoom(0.723) end
       },
 	 
       Def.Sprite {
@@ -117,7 +117,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             Texture=THEME:GetPathG("", "DifficultyDisplay/euv_eval_trim"),
      	    Name="BallLineFX",
 			InitCommand=function(self) self:zoom(0.21) end,
-			RefreshCommand=function(self) self:finishtweening():zoom(0.21):diffusealpha(0.9):decelerate(0.3):zoom(0.3):diffusealpha(0) end,
+			RefreshCommand=function(self) self:finishtweening():zoom(0.21):diffusealpha(0.9):decelerate(0.3):zoom(0.3):diffusealpha(0) end
       },
 
       Def.BitmapText {
