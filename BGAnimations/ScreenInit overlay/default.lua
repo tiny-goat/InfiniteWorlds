@@ -17,8 +17,10 @@ return Def.ActorFrame {
 
     -- Possibly unnecessary but last time I tried this it didn't work without
     -- it for ??? reasons so I'm not taking any risks
+	
+	-- AM style screen (1)
     Def.Quad {
-      Name="Background",
+      Name="Background1",
       InitCommand=function(self)
           self:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center()
           :diffuse(Color.White)
@@ -55,6 +57,67 @@ return Def.ActorFrame {
 		}
 		
 	},
+	
+	Def.ActorFrame {
+		-- tinygoat intro
+		Name="tinyIntro",
+		OnCommand=function(self) self:diffusealpha(0):sleep(7):linear(0.7):diffusealpha(1):sleep(4):linear(0.7):diffusealpha(0) end,
+		
+		Def.Sprite {
+			Name="tinyLogo",
+			Texture="tg_logo",
+			InitCommand=function(self)
+				self:Center()
+				:diffusealpha(0):zoom(0.6)
+			end,
+			OnCommand=function(self)
+				self:diffusealpha(1)
+			end
+		},
+		
+	},
+	
+	-- the dj505 intro is back
+	Def.Quad {
+      Name="Background1",
+      InitCommand=function(self)
+          self:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center()
+          :diffuse(color("#7174e4")):diffusealpha(0)
+      end,
+	  OnCommand=function(self) self:sleep(12.6):linear(0.7):diffusealpha(1) end
+    },
+	
+	Def.ActorFrame {
+		-- dj505 logo
+		Name="dj505intro",
+		OnCommand=function(self) self:diffusealpha(0):sleep(13.6):linear(0.7):diffusealpha(1) end,
+		
+		Def.Sprite {
+			Name="dj505_1",
+			Texture="dj505_arrow",
+			InitCommand=function(self)
+				self:Center()
+				:diffusealpha(1):addx(-15):addy(10):zoom(0.36):rotationz(45)
+			end,
+			OnCommand=function(self)
+				self:sleep(14.6):decelerate(1):rotationz(-135)
+			end
+		},
+		
+		Def.Sprite {
+			Name="dj505_2",
+			Texture="dj505_logo",
+			InitCommand=function(self)
+				self:Center()
+				:diffusealpha(0):zoom(0.9)
+			end,
+			OnCommand=function(self)
+				self:diffusealpha(1)
+			end
+		},
+		
+	},
+	
 
     Def.Quad {
         Name="ShutdownDark",
@@ -64,7 +127,7 @@ return Def.ActorFrame {
             :queuecommand("Shutdown")
         end,
         ShutdownCommand=function(self)
-            self:sleep(7):linear(0.7):diffuse(0,0,0,1)
+            self:sleep(19):linear(0.7):diffuse(0,0,0,1)
         end
     },
 
@@ -72,7 +135,7 @@ return Def.ActorFrame {
     Def.Quad {
         Name="ScreenTransferActor",
         InitCommand=function(self)
-               self:diffuse(0,0,0,0):sleep(8):queuecommand("Transfer")
+               self:diffuse(0,0,0,0):sleep(20):queuecommand("Transfer")
         end,
         TransferCommand=function(self)
                SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")

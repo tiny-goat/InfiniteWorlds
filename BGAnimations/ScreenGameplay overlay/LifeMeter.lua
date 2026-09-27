@@ -118,13 +118,13 @@ local t = Def.ActorFrame {
 				-- make sure the pro tip only appears when you actually have pro lifebar available, and hide it like usual when capped
 				-- this could probably be done better but it works so whatever :V
 				if ProLifeAmount <= 0 then
-					self:GetChild("Tip-Pro"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - (0)))
+					self:GetChild("Tip-Pro"):finishtweening():linear(0.01):x(-(((BarW - 12) / 2) - (0)))
 					self:GetChild("Tip-Pro"):visible(0)
 				elseif ProLifeAmount > 0 and ProLifeAmount <= 0.999 and not MeterHotPro then
-					self:GetChild("Tip-Pro"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * ProLifeAmount)))
+					self:GetChild("Tip-Pro"):finishtweening():linear(0.01):x(-(((BarW - 12) / 2) - ((BarW - 12) * ProLifeAmount)))
 					self:GetChild("Tip-Pro"):visible(1)
 				elseif ProLifeAmount >=1 or MeterHotPro then
-					self:GetChild("Tip-Pro"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * 1)))
+					self:GetChild("Tip-Pro"):finishtweening():linear(0.01):x(-(((BarW - 12) / 2) - ((BarW - 12) * 1)))
 					self:GetChild("Tip-Pro"):visible(0)
 				end
 			else
@@ -141,8 +141,8 @@ local t = Def.ActorFrame {
 				self:GetChild("Pulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 20)
 			end
 			
-			self:GetChild("Tip"):finishtweening():linear(0.05):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)))
-			self:GetChild("Tip-Danger"):finishtweening():linear(0.05):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)))
+			self:GetChild("Tip"):finishtweening():linear(0.01):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)))
+			self:GetChild("Tip-Danger"):finishtweening():linear(0.01):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)))
 			
 			-- garbage to make sure that the lifebar actually tweens properly and doesn't just run away from the edge of the lifebar
 			-- extra tweening despite lifebar being capped out is just to ensure less jank when the lifebar exits a 'hot' state
@@ -182,27 +182,27 @@ local t = Def.ActorFrame {
         end
     },
 
+	Def.Sprite {
+        Name="BarEdgeL",
+        Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
+        InitCommand=function(self)
+            self:x(-BarW / 1.88):halign(0):setsize(35, BarH)
+        end
+    },
+	
+	Def.Sprite {
+        Name="BarEdgeR",
+        Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
+        InitCommand=function(self)
+            self:x(BarW / 1.88):halign(0):setsize(-35, BarH)
+        end
+    },
+	
     Def.Sprite {
         Name="BarBody",
-        Texture=THEME:GetPathG("", "UI/euv_center_lifebars"),
+        Texture=THEME:GetPathG("", "UI/tg_lifebar_center"),
         InitCommand=function(self)
-            self:setsize(BarW - 5, BarH)
-        end
-    },
-
-    Def.Sprite {
-        Name="BarEdgeL",
-        Texture=THEME:GetPathG("", "UI/euv_lifebars_sides"),
-        InitCommand=function(self)
-            self:x(-BarW / 1.974):halign(0):zoomx(0.83):setsize(9.3 , BarH)
-        end
-    },
-
-    Def.Sprite {
-        Name="BarEdgeR",
-        Texture=THEME:GetPathG("", "UI/euv_lifebars_sides"),
-        InitCommand=function(self)
-            self:x(BarW / 1.974):halign(0):zoomx(-0.83):setsize(9.3 , BarH)
+            self:setsize(BarW - 10, BarH)
         end
     },
 
@@ -268,11 +268,19 @@ local t = Def.ActorFrame {
         end
     },
 
+	Def.Sprite {
+        Name="BarBodyShade",
+        Texture=THEME:GetPathG("", "UI/tg_lifebar_tone"),
+        InitCommand=function(self)
+            self:setsize(BarW - 10, BarH):diffusealpha(0.7)
+        end
+    },
+
     Def.Sprite {
         Name="BarBodyShine",
         Texture=THEME:GetPathG("", "UI/euv_shine_lifebars"),
         InitCommand=function(self)
-            self:setsize(BarW - 11, BarH):diffusealpha(0.5)
+            self:setsize(BarW - 10, BarH):diffusealpha(0.6)
         end
     },
 
@@ -280,7 +288,7 @@ local t = Def.ActorFrame {
         Name="Tip",
         Texture=THEME:GetPathG("", "UI/LifeBarTip/normal-tip"),
         InitCommand=function(self)
-            self:zoomto(50, 76)
+            self:zoomto(50, 74)
         end
     },
 
@@ -289,7 +297,7 @@ local t = Def.ActorFrame {
         Texture=THEME:GetPathG("", "UI/LifebarTip/danger-tip"),
         InitCommand=function(self)
 			self:visible(0)
-            self:zoomto(50, 76)
+            self:zoomto(50, 74)
 		end
     },
 	
@@ -298,7 +306,7 @@ local t = Def.ActorFrame {
         Texture=THEME:GetPathG("", "UI/LifebarTip/pro-tip"),
         InitCommand=function(self)
 			self:visible(0)
-            self:zoomto(50, 76)
+            self:zoomto(50, 74)
 		end
     },
 

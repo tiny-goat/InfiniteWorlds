@@ -4,7 +4,7 @@ local t = Def.ActorFrame {
             self:xy(SCREEN_CENTER_X, -128)
         end,
         OnCommand=function(self)
-            self:easeoutexpo(0.5):xy(SCREEN_CENTER_X, 0)
+            self:smooth(0.5):xy(SCREEN_CENTER_X, 3):decelerate(0.3):y(0)
         end,
         OffCommand=function(self)
             self:sleep(0.2):easeoutexpo(0.9):xy(SCREEN_CENTER_X, -128)
@@ -13,7 +13,7 @@ local t = Def.ActorFrame {
         Def.Sprite {
             Texture=THEME:GetPathG("", "UI/euv_header_up"),
             InitCommand=function(self)
-                self:scaletofit(0, 0, 1280, 128):xy(0, 0):valign(0)
+                self:scaletofit(0, 0, 1280, 128):xy(0, -5):valign(0)
             end,
         },
 
@@ -92,7 +92,7 @@ local t = Def.ActorFrame {
             :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 128):valign(1)
         end,
         OnCommand=function(self)
-            self:sleep(0.1):easeoutexpo(0.5)
+            self:smooth(0.5)
             :xy(SCREEN_CENTER_X, SCREEN_BOTTOM)
         end,
         OffCommand=function(self)
@@ -100,21 +100,21 @@ local t = Def.ActorFrame {
             :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 128)
         end,
     },
-    --[[Def.Sprite {
+    Def.Sprite {
         Texture=THEME:GetPathG("", "UI/euv_footer_down"),
         InitCommand=function(self)
             self:scaletofit(0, 0, 1280, 128)
-            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 128):valign(1)
+            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 130):valign(1)
         end,
         OnCommand=function(self)
-            self:easeoutexpo(0.5)
-            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 10)
+            self:smooth(0.5)
+            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 28):decelerate(0.3):y(SCREEN_BOTTOM + 30)
         end,
         OffCommand=function(self)
             self:sleep(0.2):easeoutexpo(0.9)
-            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 128)
+            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 130)
         end,
-    },]]--
+    },
 
 }
 
@@ -124,8 +124,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         t[#t+1] = Def.ActorFrame {
             Def.ActorFrame {
                 InitCommand=function(self) self:y(108) end,
-                OnCommand=function(self) self:smooth(0.5):y(-7) end,
-                OffCommand=function(self) self:sleep(0.2):easeoutexpo(0.9):y(128) end,
+                OnCommand=function(self) self:sleep(0.12):smooth(0.5):y(-9):decelerate(0.3):y(-7) end,
+                OffCommand=function(self) self:sleep(0.2):smooth(0.6):y(128) end,
 				-- this texture can be repositioned to fit more info (like hearts left) in the future
 				
 				Def.Sprite {
@@ -149,27 +149,11 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 				Def.Sprite {
                     Texture=LoadModule("Options.GetProfileData.lua")(pn)["Image"],
                     InitCommand=function(self)
-                        self:scaletocover(0, 0, 37, 37)
+                        self:scaletofit(0, 0, 37, 37)
                         :xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 346 or -346), SCREEN_BOTTOM - 21)
                         :diffusealpha(1)
                     end
                 },
-
-				-- what a genius way of making the names and level finally readable /s (tiny)
-				--[[Def.Quad {
-					InitCommand=function(self) 
-					self:diffuse(Color.Black):diffusealpha(0.6):MaskDest():ztestmode("ZTestMode_WriteOnFail")
-					:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 60 or -60), SCREEN_BOTTOM - 43)
-					:fadeleft(0.2):faderight(0.2):zoomto(150,44):halign(pn == PLAYER_2 and 0 or 1):valign(0) end
-				},
-
-				Def.Sprite {
-                    Texture=THEME:GetPathG("", "UI/euv_dock_light"),
-                    InitCommand=function(self)
-                        self:zoomy(1.52):xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 184 or -184), SCREEN_BOTTOM - 20)
-                        :rotationy(pn == PLAYER_2 and 180 or 0):rotationz(-4)
-                    end,
-                },]]--
 
                 Def.BitmapText {
                     Font="inter medium 25px",

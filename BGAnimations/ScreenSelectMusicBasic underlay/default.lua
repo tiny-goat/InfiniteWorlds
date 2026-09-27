@@ -91,9 +91,9 @@ t[#t+1] = LoadActor("MusicWheel")..{ Name="MusicWheel" }
 t[#t+1] = Def. ActorFrame {
 	-- theres gotta be a more efficient way of recreating the kpump counterpart of this (tiny)
 	Def.ActorFrame {
-    InitCommand=function(self)
+	InitCommand=function(self)
             self:diffusealpha(0):xy(SCREEN_CENTER_X, SCREEN_BOTTOM-164)
-            :zoomx(1):zoomy(1.35)
+            :zoomx(1):zoomy(1.35):diffuse(color("#20FFFF"))
     end,
 		
 	OnCommand=function(self) 

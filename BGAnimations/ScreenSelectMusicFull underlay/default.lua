@@ -36,7 +36,7 @@ t[#t+1] = Def.Quad {
 -- background dim 2, the one behind musicwheel
 t[#t+1] = Def.Quad {
     InitCommand=function(self)
-        self:xy(SCREEN_CENTER_X,SCREEN_BOTTOM-154)
+        self:xy(SCREEN_CENTER_X,SCREEN_BOTTOM-150)
         :zoomx(SCREEN_WIDTH)
         :diffuse(0,0,0,0.9)
         :zoomy(300):fadetop(0.13)
