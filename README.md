@@ -5,13 +5,13 @@
 
 ![logo](https://github.com/user-attachments/assets/2b48e6c5-02c5-4110-b1da-e3cefcd9b1a3)
 
-## [Visit the Infinitesimal Discord server, give the folks the support and love!](https://discord.gg/ex6e4jNm6s)
+## Visit the [Infinitesimal Discord Server](https://discord.gg/ex6e4jNm6s), give the folks the support and love!
 
 ## About InfiniteWorlds
-This theme is inspired by K-Pump games and some of its visual style, From Andamiro's mainline Pump It Up series. The current goals are to replicate the feel of KPump while sprinkling in some additions, e.g better animations, utilizing original assets when possible, bringing high performance + cross-platform support to the table with Project OutFox and widening the idea and accessibility of custom Pump It Up content.
+This theme is inspired by K-Pump games and some of its visual style, From Andamiro's mainline Pump It Up series. The current goals are to replicate the feel of KPump while sprinkling in some additions, e.g better animations, handmade graphics and sounds, utilizing original assets when possible, bringing high performance + cross-platform support to the table with Project OutFox and widening the idea and accessibility of custom Pump It Up content.
 
 ## Requirements
-[Project OutFox Alpha 0.5.0-pre042 or newer, click this to download the latest](https://projectoutfox.com/downloads)
+[Project OutFox Alpha 0.5.0-pre042 or newer, please click here to download the latest](https://projectoutfox.com/downloads)
 
 Older StepMania versions such as `5.0.12`, `5.1b2` and `5.1-new` are not supported due to the lack of maintenance to `pump/piu` and the engine in general. Support the developers from Team OutFox who are currently doing the heavy lifting!
 
@@ -25,25 +25,24 @@ Additionally with this theme, you can download this theme's own judgment fonts, 
 
 ## Theme Features
 * Accurate asymmetrical timing windows scoring and lifebar mechanics to K-Pump
-* INFWORLDS: Refreshed Animations and familiar K-Pump Interface (Mirrored Lifebars, etc.)
+* Refreshed Animations and familiar K-Pump Interface (Mirrored Lifebars, etc.)
 * Additional timing windows available (StepMania, ITG, Infinity, Pro, Jump)
 * Basic Mode can be accessed by starting a game with no profiles present, or by using the "Guest" profile
 * Customizable appearance options and modifiers such as arrow size and rush
 * Exit to title screen in home/event mode (hold down any red arrow while selecting a folder)
-* Fully customizable background filters, choose to filter playfield only or the entire screen
+* Fully customizable background filters, choose to filter only the playfield or the entire screen
 * Measures and song progress display
-* Multiply, Automatic and Constant scroll speeds
-* Visualize chart information while selecting a song, previews are currently WIP
+* Multiply (x), Automatic (av) and Constant (c) scroll speeds
 
 ## Theme-Specific Toggles
-The following features can be configured via the Infinitesimal Options submenu of the operator menu:
-* Center Chart List: if there are less charts than the maximum visible number, the charts will be centered to the display.
+The following features can be configured via the Theme Options submenu of the operator menu:
+* Center Chart List: if there are less charts than the maximum visible number, the charts will be centered to the display. This is set to "Off" by default, but you can change it if you like.
 * Chart Preview: preview the selected chart on the select music screen.
 * Image Preview Only: videos will not be displayed while selecting a song, helps with performance on low-end hardware and/or memory usage.
 * Pause With Select Button: use the button mapped to "Select" to open the pause menu during gameplay.
 * Use Video Background: use a pre-rendered video for the animated theme background, requires restart.
 * 3x Center to Exit Evaluation: press the center panel 3 times to exit the results screen like in official KPump, otherwise exit on one press.
-* Show Big Difficulty Icon: display a larger icon while selecting a difficulty, aspect ratios higher than 4:3 only.
+* Show Big Difficulty Icon: display a larger icon while selecting a difficulty. Set to "On" by default to mimic the KPump experience.
 * Show UCS Charts: allow UCS charts to be selected, if a song has no standard charts disabling might not be effective to it.
 * Show Quest Charts: allow Quest charts to be selected, if a song has no standard charts disabling might not be effective to it.
 * Show Hidden Charts: allow Hidden charts to be selected, if a song has no standard charts disabling might not be effective to it.
@@ -56,7 +55,7 @@ Currently, InfiniteWorlds/Infinitesimal supports the following languages:
 * Brazilian Portuguese
 * Polish
 
-## Additional Resources (Noteskins, etc.)
+## Additional Resources (Noteskins, Announcer, etc.)
 If you're looking for assets such as more noteskins or folder icons from StepF2/P1, you can grab them [here](https://drive.google.com/drive/folders/1pO9rbaPUwTTDFuEo_4tX8S1BEwmfukeF?usp=sharing). Keep in mind these are independent from the theme and are only here for accessibility purposes to newcomers.
 
 ## Current Limitations and Issues
