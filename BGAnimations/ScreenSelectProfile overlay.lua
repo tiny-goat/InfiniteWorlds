@@ -303,7 +303,7 @@ local t = Def.ActorFrame {
     children = {
         Def.ActorFrame {
             Name="P1Frame",
-            OnCommand=function(self) self:diffusealpha(0):rotationz(20):x(SCREEN_CENTER_X-500):y(SCREEN_CENTER_Y):zoom(2):easeoutexpo(1):x(SCREEN_CENTER_X-200):rotationz(0):zoom(1):diffusealpha(1) end,
+            OnCommand=function(self) self:diffusealpha(0):x(SCREEN_CENTER_X-600):y(SCREEN_CENTER_Y):zoom(1):easeoutexpo(1):x(SCREEN_CENTER_X - SCREEN_WIDTH * 0.2):diffusealpha(1) end,
             OffCommand=function(self) self:stoptweening():easeoutexpo(1):diffusealpha(0):x(SCREEN_CENTER_X-10):y(SCREEN_CENTER_Y):zoom(0) end,
             PlayerJoinedMessageCommand=function(self, params)
                 if params.Player == PLAYER_1 then
@@ -315,7 +315,7 @@ local t = Def.ActorFrame {
 
         Def.ActorFrame {
             Name="P2Frame",
-            OnCommand=function(self) self:diffusealpha(0):rotationz(-20):x(SCREEN_CENTER_X+500):y(SCREEN_CENTER_Y):zoom(2):easeoutexpo(1):x(SCREEN_CENTER_X+200):rotationz(0):zoom(1):diffusealpha(1) end,
+            OnCommand=function(self) self:diffusealpha(0):x(SCREEN_CENTER_X+600):y(SCREEN_CENTER_Y):zoom(1):easeoutexpo(1):x(SCREEN_CENTER_X + SCREEN_WIDTH * 0.2):diffusealpha(1) end,
             OffCommand=function(self) self:stoptweening():easeoutexpo(1):diffusealpha(0):x(SCREEN_CENTER_X+10):y(SCREEN_CENTER_Y):zoom(0) end,
             PlayerJoinedMessageCommand=function(self, params)
                 if params.Player == PLAYER_2 then
