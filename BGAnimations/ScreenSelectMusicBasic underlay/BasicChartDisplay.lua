@@ -275,7 +275,7 @@ t[#t+1] = Def.ActorFrame {
     },
 
     Def.Sound {
-        File=THEME:GetPathS("", "euv_reverse_step"),
+        File=THEME:GetPathS("", "reverse_step"),
         IsAction=true,
         SongUnchosenMessageCommand=function(self) self:play() end
     }

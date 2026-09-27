@@ -67,10 +67,10 @@ local t = Def.ActorFrame {
         Name="HowToPlay",
         Texture=THEME:GetPathG("", "UI/HowToPlay"),
         InitCommand=function(self)
-            self:diffusealpha(0):cropright(1):sleep(0.25):xy(SCREEN_CENTER_X - self:GetWidth() / 2, SCREEN_CENTER_Y - self:GetHeight() / 2):halign(0):valign(0)
+            self:diffusealpha(0):sleep(0.25):xy(SCREEN_CENTER_X - self:GetWidth() / 2, SCREEN_CENTER_Y - self:GetHeight() / 2)
             :easeoutquad(0.5)
-            :cropright(0):diffusealpha(1)
-            :sleep(1)
+            :zoom(1):diffusealpha(1)
+            :sleep(1):halign(0):valign(0)
             :easeinoutquad(0.5)
             :xy(90, 69):zoom(0.5)
         end

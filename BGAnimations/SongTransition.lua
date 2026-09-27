@@ -14,10 +14,33 @@ local ChartLabels = {
 
 local t = Def.ActorFrame {}
 
+	
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     local PlayerDirection = (pn == PLAYER_2 and 1 or -1)
 
     t[#t+1] = Def.ActorFrame {
+	Def.Sprite {
+		Name="Banner",
+		InitCommand=function(self) self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y) end,
+			OnCommand=function(self) self:playcommand("Refresh") end,
+			StartTransitioningCommand=function(self) self:playcommand("Refresh") end,
+
+			RefreshCommand=function(self)
+				if SCREENMAN:GetTopScreen():GetNextScreenName() ~= "ScreenSelectProfile" then
+					if GAMESTATE:GetCurrentSong() then
+						local Path = GAMESTATE:GetCurrentSong():GetBackgroundPath()
+						if Path and FILEMAN:DoesFileExist(Path) then
+							self:Load(Path):scale_or_crop_background()
+						else
+							self:Load(THEME:GetPathG("Common", "fallback background")):scale_or_crop_background()
+						end
+					end
+				else
+					self:Load(nil)
+				end
+			end
+		},
+		
         Def.ActorFrame {
             OnCommand=function(self)
                 self:xy(pn == PLAYER_2 and SCREEN_RIGHT - 144 or 144, SCREEN_BOTTOM - 64):playcommand("Refresh")
@@ -64,7 +87,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             Def.Sprite {
                 Name="Frame",
                 Texture=THEME:GetPathG("", "UI/StepArtist" .. (pn == PLAYER_2 and "R" or "L")),
-		InitCommand=function(self) self:zoom(0.5) end,
+				InitCommand=function(self) self:zoom(0.5) end,
             },
 
             Def.Sprite {

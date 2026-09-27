@@ -30,7 +30,7 @@ local t = Def.ActorFrame {
 	
     Def.ActorFrame {
         OnCommand=function(self)
-            self:xy(SCREEN_CENTER_X, SCREENMAN:GetTopScreen():GetName() == "ScreenLogo" and SCREEN_CENTER_Y or SCREEN_CENTER_Y - 20)
+            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
             :queuecommand("ZoomY")
         end,
 

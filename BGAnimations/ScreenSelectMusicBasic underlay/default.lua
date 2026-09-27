@@ -97,10 +97,10 @@ t[#t+1] = Def. ActorFrame {
     end,
 		
 	OnCommand=function(self) 
-			self:diffusealpha(0):zoomx(1):zoomy(0.8):sleep(0.45):decelerate(0.2):diffusealpha(1):zoomx(0.8):zoomy(0.8):pulse():effectmagnitude(1,1.05,0) end,
+			self:diffusealpha(0):zoomx(1):zoomy(0.8):sleep(0.45):decelerate(0.2):diffusealpha(1):zoomx(0.8):zoomy(0.8) end,
 	
  	SongChosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.2):zoomx(1.2):zoomy(0.8):diffusealpha(0)
+            self:stoptweening():easeoutexpo(0.5):diffusealpha(0):zoomx(0):zoomy(0):sleep(0.001):zoomx(1.12):zoomy(0.8)
     end,
 	
     SongUnchosenMessageCommand=function(self)
@@ -109,6 +109,13 @@ t[#t+1] = Def. ActorFrame {
 		
 	CloseGroupWheelMessageCommand=function(self) self:zoomx(1.2):zoomy(0.8):sleep(0.2):easeoutexpo(1):zoomx(0.8):zoomy(0.8) end,
 
+	LoadActor(THEME:GetPathB("", "ScreenSelectMusicFull overlay/tg_glow_pointerwheel_music")) .. {
+		InitCommand=function(self) self:diffusealpha(1):zoom(0.82):pulse():effectmagnitude(1,1.05,0):effectperiod(1) end,
+		ScrollMessageCommand=function(self)
+			self:stoptweening():x(0):linear(0.1):zoom(0.95):decelerate(0.2):zoom(0.82)
+		end,
+	},
+	
 	-- left
 	LoadActor(THEME:GetPathB("", "ScreenSelectMusicFull overlay/tg_pointerwheel_music")) .. {
 		InitCommand=function(self) self:cropleft(0.5) end,
