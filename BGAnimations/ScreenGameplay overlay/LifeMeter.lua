@@ -194,7 +194,7 @@ local t = Def.ActorFrame {
         Name="BarEdgeR",
         Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
         InitCommand=function(self)
-            self:x(BarW / 2):halign(0):setsize(-9, BarH)
+            self:x(BarW / 2):halign(0):setsize(9, BarH):rotationy(180)
         end
     },
 	
@@ -218,7 +218,7 @@ local t = Def.ActorFrame {
     Def.Quad {
         Name="Meter",
         InitCommand=function(self)
-            self:zoomto(BarW - 10, BarH - 16):x(-20):cropright(0.5)
+            self:zoomto(BarW - 10, BarH - 18):x(-20):cropright(0.5)
             :diffuse(pn == PLAYER_1 and color("#00d7fd") or color("#00d7fd"))
             :diffusebottomedge(pn == PLAYER_1 and color("#007be8") or color("#007be8"))
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
@@ -228,7 +228,7 @@ local t = Def.ActorFrame {
     Def.Quad {
         Name="Pulse",
         InitCommand=function(self)
-            self:zoomto(20, BarH - 16):halign(0)
+            self:zoomto(20, BarH - 18):halign(0)
             :diffuse(pn == PLAYER_1 and color("#00d7fd") or color("#00d7fd"))
             :diffusebottomedge(pn == PLAYER_1 and color("#007be8") or color("#007be8"))
 
@@ -240,7 +240,7 @@ local t = Def.ActorFrame {
     Def.Quad {
         Name="ProMeter",
         InitCommand=function(self)
-            self:zoomto(BarW - 10, BarH - 16):x(-20):cropright(1)
+            self:zoomto(BarW - 10, BarH - 18):x(-20):cropright(1)
             :diffuse(pn == PLAYER_1 and color("#f7931e") or color("#ab78f5"))
             :diffusebottomedge(Color.White)
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
@@ -250,7 +250,7 @@ local t = Def.ActorFrame {
     Def.Quad {
         Name="ProPulse",
         InitCommand=function(self)
-            self:zoomto(20, BarH - 16):halign(0):x(-20 - BarW / 2)
+            self:zoomto(20, BarH - 18):halign(0):x(-20 - BarW / 2)
             :diffuse(pn == PLAYER_1 and color("#f7931e") or color("#ab78f5"))
             :diffusebottomedge(Color.White)
             self:bounce():effectmagnitude(-20,0,0):effectclock("bgm"):effecttiming(1,0,0,0)
@@ -262,7 +262,7 @@ local t = Def.ActorFrame {
         Name="RainbowMeter",
         Texture=THEME:GetPathG("", "UI/RainbowBar"),
         InitCommand=function(self)
-            self:zoomto(BarW - 10, BarH - 16)
+            self:zoomto(BarW - 10, BarH - 18)
             :texcoordvelocity(0.9, 0)
             :diffusealpha(0):diffuseblink():effectcolor1(color("#FFFFFF")):effectcolor2(color("#bbbbbb")):effectperiod(0.09)
         end

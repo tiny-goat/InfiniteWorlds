@@ -89,7 +89,7 @@ local t = Def.ActorFrame {
         Name="BarEdgeR",
         Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
         InitCommand=function(self)
-            self:x(BarW / 2):halign(0):setsize(-8, BarH)
+            self:x(BarW / 2):halign(0):setsize(8, BarH):rotationz(180)
         end
     },
 	
