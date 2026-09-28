@@ -23,10 +23,11 @@ local t = Def.ActorFrame {
         AssembleGroupSorting()
     end,
     
+	-- this is for the credits/coin text
     Def.BitmapText {
         Font="Common normal",
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM - 19):zoom(0.8):strokecolor(Color.Black):queuecommand('Refresh')
+            self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM - 19):zoom(0.8):strokecolor(Color.Black):diffusebottomedge(color("#EECC33")):diffusetopedge(color("#DDFF33")):queuecommand('Refresh')
         end,
         
         OnCommand=function(self) self:playcommand('Refresh') end,
@@ -69,12 +70,52 @@ local t = Def.ActorFrame {
             if CoinMode == "CoinMode_Home" then
                 self:visible(false)
             elseif EventMode then
-                self:visible(true):diffuse(color("#FFFFFF")):settext("EVENT")
+                self:visible(false)
             elseif CoinMode == 'CoinMode_Free' then
-                self:visible(true):diffuse(color("#FFFFFF")):settext("FREE PLAY")
+                self:visible(false)
             elseif CoinMode == 'CoinMode_Pay' then
                 local CreditText = "CREDIT(S) " .. creditCount .. " [" .. GAMESTATE:GetCoinsNeededToJoin() .. "/" .. GAMESTATE:GetCoins() .. "]"
-                self:visible(true):settext(CreditText):diffusebottomedge(color("#EECC33")):diffusetopedge(color("#DDFF33"))
+                self:visible(true):settext(CreditText)
+            end
+        end
+    },
+	
+	-- text only for freeplay/event
+	Def.BitmapText {
+        Font="Eurostile Extended 32px",
+        InitCommand=function(self)
+            self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM - 19):zoom(0.65):strokecolor(Color.Black):diffusetopedge(color("#FFFFFF")):diffusebottomedge(color("#555555")):queuecommand('Refresh')
+        end,
+        
+        OnCommand=function(self) self:playcommand('Refresh') end,
+		
+        ScreenChangedMessageCommand=function(self)
+            local Screen = SCREENMAN:GetTopScreen()
+            local IsVisible = true
+            if Screen then
+                local sClass = Screen:GetName()
+                IsVisible = THEME:GetMetric(sClass, "ShowCreditDisplay")
+            end
+            
+            self:visible(IsVisible)
+			self:playcommand('Refresh')
+        end,
+		
+        PlayerJoinedMessageCommand=function(self) self:playcommand('Refresh') end,
+        RefreshCreditTextMessageCommand=function(self) self:playcommand('Refresh') end,
+
+        RefreshCommand=function(self)
+            local CoinMode = GAMESTATE:GetCoinMode()
+            local EventMode = GAMESTATE:IsEventMode()
+			
+            if CoinMode == "CoinMode_Home" then
+                self:visible(false)
+            elseif EventMode then
+                self:visible(true):settext("EVENT")
+            elseif CoinMode == 'CoinMode_Free' then
+                self:visible(true):settext("FREE PLAY")
+            elseif CoinMode == 'CoinMode_Pay' then
+                self:visible(false)
             end
         end
     }

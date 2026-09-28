@@ -186,7 +186,7 @@ local t = Def.ActorFrame {
         Name="BarEdgeL",
         Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
         InitCommand=function(self)
-            self:x(-BarW / 2):halign(0):setsize(9, BarH)
+            self:x(-BarW / 1.987):halign(0):setsize(9, BarH)
         end
     },
 	
@@ -194,7 +194,7 @@ local t = Def.ActorFrame {
         Name="BarEdgeR",
         Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
         InitCommand=function(self)
-            self:x(BarW / 2):halign(0):setsize(9, BarH):rotationy(180)
+            self:x(BarW / 1.987):halign(0):setsize(9, BarH):rotationy(180)
         end
     },
 	
@@ -341,7 +341,7 @@ if SongProgress then
     t[#t+1] = Def.ActorFrame {
         Def.SongMeterDisplay {
             InitCommand=function(self)
-                self:SetStreamWidth(BarW - 12):y(-(BarH / 2) - 1)
+                self:SetStreamWidth(BarW - 12):y(-(BarH / 2) - 1):rotationy(pn == PLAYER_1 and 0 or -180)
             end,
             Stream=Def.Quad {
                 InitCommand=function(self) self:zoomto(384, 2):diffuse(Color.Yellow) end

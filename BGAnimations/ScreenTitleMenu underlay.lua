@@ -98,8 +98,8 @@ if not IsHome() and GAMESTATE:EnoughCreditsToJoin() then
         end,
 
         LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {
-            InitCommand=function(self) self:xy(SCREEN_CENTER_X - SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.75):queuecommand("Refresh") end,
-			OnCommand=function(self) self:diffusealpha(0):zoom(1):sleep(0.2):easeoutexpo(0.2):diffusealpha(1) end,
+            InitCommand=function(self) self:xy(SCREEN_CENTER_X - SCREEN_WIDTH * 0.35, SCREEN_HEIGHT * 0.7):queuecommand("Refresh") end,
+			OnCommand=function(self) self:y(SCREEN_HEIGHT * 0.75):diffusealpha(0):zoom(1):sleep(0.2):smooth(0.3):y(SCREEN_HEIGHT * 0.7):diffusealpha(1) end,
             OffCommand=function(self) self:stoptweening():easeoutexpo(.7):x(SCREEN_LEFT-90):diffusealpha(0) end,
             StorageDevicesChangedMessageCommand=function(self)self:queuecommand("Refresh")end,
             RefreshCommand=function(self)
@@ -115,8 +115,8 @@ if not IsHome() and GAMESTATE:EnoughCreditsToJoin() then
         },
 
         LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {
-            InitCommand=function(self) self:xy(SCREEN_CENTER_X + SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.75):queuecommand("Refresh") end,
-			OnCommand=function(self) self:diffusealpha(0):zoom(1):sleep(0.2):easeoutexpo(0.2):diffusealpha(1) end,
+            InitCommand=function(self) self:xy(SCREEN_CENTER_X + SCREEN_WIDTH * 0.35, SCREEN_HEIGHT * 0.7):queuecommand("Refresh") end,
+			OnCommand=function(self) self:y(SCREEN_HEIGHT * 0.75):diffusealpha(0):zoom(1):sleep(0.2):smooth(0.3):y(SCREEN_HEIGHT * 0.7):diffusealpha(1) end,
             OffCommand=function(self) self:stoptweening():easeoutexpo(.7):x(SCREEN_RIGHT+90):diffusealpha(0) end,
             StorageDevicesChangedMessageCommand=function(self)self:queuecommand("Refresh")end,
             RefreshCommand=function(self)
@@ -131,6 +131,24 @@ if not IsHome() and GAMESTATE:EnoughCreditsToJoin() then
     		end
         }
     }
+end
+
+if GAMESTATE:GetCoinMode() == "CoinMode_Pay" and GAMESTATE:EnoughCreditsToJoin() == false then
+	t[#t+1] = Def.ActorFrame {
+		OnCommand=function(self)
+			self:visible(SCREENMAN:GetTopScreen():GetName() ~= "ScreenLogo" and false or true)
+		end,
+		
+		-- left
+		LoadActor(THEME:GetPathG("", "InsertCredit/insertcoin")) .. {
+			InitCommand=function(self) self:zoom(0.8):xy(SCREEN_CENTER_X + SCREEN_WIDTH * 0.33, SCREEN_HEIGHT * 0.9) end,
+		},
+		
+		-- right
+		LoadActor(THEME:GetPathG("", "InsertCredit/insertcoin")) .. {
+			InitCommand=function(self) self:zoom(0.8):xy(SCREEN_CENTER_X - SCREEN_WIDTH * 0.33, SCREEN_HEIGHT * 0.9) end,
+		},
+	}
 end
 
 return t

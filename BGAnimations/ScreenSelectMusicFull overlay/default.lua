@@ -15,19 +15,29 @@ local t = Def.ActorFrame {
 
 if GAMESTATE:GetNumSidesJoined() < 2 then
     local PosX = SCREEN_CENTER_X + SCREEN_WIDTH * (GAMESTATE:IsSideJoined(PLAYER_1) and 0.35 or -0.35)
-    local PosY = (IsUsingWideScreen() and (SCREEN_HEIGHT * 0.4) or SCREEN_HEIGHT * 0.35)
+    local PosY = (IsUsingWideScreen() and (SCREEN_HEIGHT * 0.34) or SCREEN_HEIGHT * 0.34)
 
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
             self:xy((IsUsingWideScreen() and PosX or (PosX * 1)), PosY):zoom(IsUsingWideScreen() and 1 or 0.8)
-            :playcommand('Refresh')
+            :diffusealpha(0):playcommand('Refresh')
         end,
-
+		
+		OnCommand=function(self)
+			self:sleep(0.3):zoom(1.1):diffusealpha(0)
+			:smooth(0.5):zoom(1):diffusealpha(1)
+		end,
+		
+		OffCommand=function(self)
+            self:GetChild("CenterStep"):visible(true)
+            self:GetChild("InsertCredit"):visible(false)
+        end,
+		
         SongChosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.5):y(PosY - 40)
+            self:stoptweening():easeoutexpo(0.65):y(PosY - 40)
         end,
         SongUnchosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.5):y(PosY)
+            self:stoptweening():easeoutexpo(0.65):y(PosY)
         end,
 
         CoinInsertedMessageCommand=function(self) self:playcommand('Refresh') end,
@@ -37,12 +47,7 @@ if GAMESTATE:GetNumSidesJoined() < 2 then
             self:GetChild("InsertCredit"):visible(NoSongs or GAMESTATE:GetCoinsNeededToJoin() > GAMESTATE:GetCoins())
         end,
 
-        OffCommand=function(self)
-            self:GetChild("CenterStep"):visible(true)
-            self:GetChild("InsertCredit"):visible(false)
-            self:stoptweening():easeoutexpo(0.25):zoom(2):diffusealpha(0)
-        end,
-
+        
         LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {
             Name="CenterStep",
         },

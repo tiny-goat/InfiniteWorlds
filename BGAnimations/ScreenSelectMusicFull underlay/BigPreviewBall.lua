@@ -124,7 +124,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         Font="Strike Fighter 45px",
         Name="MeterText",
         InitCommand=function(self) -- to counter the skew, we must skew the skew that skewed the skew (jkob)
-          self:zoom(0.58):strokecolor(color("#000000CC")):skewx(pn==PLAYER_1 and -0.2 or 0.2)
+          self:zoom(0.58):strokecolor(color("#000000EE")):skewx(pn==PLAYER_1 and -0.2 or 0.2)
         end
       }
 
