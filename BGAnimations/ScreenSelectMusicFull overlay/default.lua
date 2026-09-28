@@ -30,7 +30,7 @@ if GAMESTATE:GetNumSidesJoined() < 2 then
 		
 		OffCommand=function(self)
             self:GetChild("CenterStep"):visible(true)
-            self:GetChild("InsertCredit"):visible(false)
+            self:GetChild("InsertCredit"):visible(true)
         end,
 		
         SongChosenMessageCommand=function(self)
