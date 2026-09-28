@@ -47,7 +47,7 @@ return Def.ActorFrame {
 	    :smooth(0.5)
             :sleep(2.08)
             :accelerate(0.5)
-	    :zoom(1.9)
+	    :zoom(1.5)
             :diffusealpha(0)
         end
     },
@@ -65,7 +65,7 @@ return Def.ActorFrame {
 	    :cropright(0)
             :sleep(1.8)
             :accelerate(0.5)
-	    :zoom(1.4)
+	    :zoom(1.5)
             :diffusealpha(0)
         end
     },
@@ -74,26 +74,26 @@ return Def.ActorFrame {
     Def.Sprite{
         Texture="tg_gameover",
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y-190)
-            :diffusealpha(0):cropbottom(0.3):cropright(0.475):zoom(0.8):sleep(0)
-            :linear(0.3)
+            self:xy(SCREEN_CENTER_X-200, SCREEN_CENTER_Y-100)
+            :diffusealpha(0):cropbottom(0.3):cropright(0.475):zoom(1.5):sleep(0)
+            :linear(0.5)
             :diffusealpha(1)
-            :easeoutexpo(0.5)
-            :diffusealpha(1)
-	    :zoom(1.3)
+			:x(SCREEN_CENTER_X)
+			:linear(0.5)
+			:x(SCREEN_CENTER_X+200)
             :diffusealpha(0)
         end
     },
     Def.Sprite{
         Texture="tg_gameover",
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y+190)
-            :diffusealpha(0):cropbottom(0.3):cropleft(0.53):zoom(0.8):sleep(0.4)
-            :linear(0.3)
+            self:xy(SCREEN_CENTER_X+200, SCREEN_CENTER_Y+130)
+            :diffusealpha(0):cropbottom(0.3):cropleft(0.53):zoom(1.5):sleep(0)
+            :linear(0.5)
             :diffusealpha(1)
-            :easeoutexpo(0.5)
-            :diffusealpha(1)
-	    :zoom(1.3)
+			:x(SCREEN_CENTER_X)
+			:linear(0.5)
+			:x(SCREEN_CENTER_X-200)
             :diffusealpha(0)
         end
     },
@@ -106,9 +106,9 @@ return Def.ActorFrame {
             :diffusealpha(0):cropbottom(0.3):sleep(0.65)
             :accelerate(0.3)
             :diffusealpha(1)
-	    :zoom(0.8)
-            :easeoutexpo(0.5)
-	    :zoom(1.9)
+	    :zoom(0.9)
+            :linear(0.5)
+	    :zoom(1.2)
             :diffusealpha(0)
         end
     },
