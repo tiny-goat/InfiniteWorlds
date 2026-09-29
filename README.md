@@ -1,11 +1,11 @@
 # InfiniteWorlds - a KPump-inspired OutFox theme based on Infinitesimal
 
+![Logo](https://github.com/user-attachments/assets/6b5fa285-5bf5-4b05-b31d-1e783512e338)
+
 ## **This branch is a work-in-progress and requires the latest test builds of OutFox Alpha V to function as intended.**
+
 ### Make sure to drop by the Project OutFox Discord server and grab the appropriate tester roles to gain access to the latest builds, and remember to properly report bugs and issues while you're at it!
-
-![logo](https://github.com/user-attachments/assets/2b48e6c5-02c5-4110-b1da-e3cefcd9b1a3)
-
-## Visit the [Infinitesimal Discord Server](https://discord.gg/ex6e4jNm6s), give the folks the support and love!
+### Visit the [Infinitesimal Discord Server](https://discord.gg/ex6e4jNm6s), give the folks the support and love!
 
 ## About InfiniteWorlds
 This theme is inspired by K-Pump games and some of its visual style, From Andamiro's mainline Pump It Up series. The current goals are to replicate the feel of KPump while sprinkling in some additions, e.g better animations, handmade graphics and sounds, utilizing original assets when possible, bringing high performance + cross-platform support to the table with Project OutFox and widening the idea and accessibility of custom Pump It Up content.
