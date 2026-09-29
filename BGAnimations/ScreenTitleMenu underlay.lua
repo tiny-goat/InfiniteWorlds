@@ -12,7 +12,7 @@ local t = Def.ActorFrame {
 	-- woah suspense bg
     Def.Quad {
 		InitCommand=function(self) self:FullScreen():diffuse(Color.Black) end,
-		OnCommand=function(self) self:diffusealpha(1):sleep(1.45):easeoutexpo(0.9):diffusealpha(0) end
+		OnCommand=function(self) self:diffusealpha(1):sleep(1.45):easeoutexpo(0.7):diffusealpha(0) end
 	},
 	
 	Def.Quad {

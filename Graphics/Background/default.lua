@@ -6,7 +6,7 @@ t[#t+1] = Def.Quad {
     InitCommand=function(self)
         self:Center()
         :zoomto(SCREEN_WIDTH, SCREEN_HEIGHT)
-        :diffuse(color("#000030"))
+        :diffuse(color("#002030"))
     end
 }
 
@@ -20,7 +20,8 @@ t[#t+1] = Def.Sprite {
     end,
     ScreenChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
     RefreshCommand=function(self)
-            self:diffusetopedge(color("#33EECC")):diffusebottomedge(color("#EE16FF"))
+            --[[self:diffusetopedge(color("#33EECC")):diffusebottomedge(color("#EE16FF"))]]--
+			self:diffuse(color("#600080")):diffusealpha(1)
     end
 }
 
@@ -33,7 +34,7 @@ for i=1,4 do
             self:Center()
             :zoom(1 + i / 8)
             :texcoordvelocity((math.random(-3, 3) / 10) + 0.05, 0) -- bad hack to make sure the X velocity is 0 less often
-            :diffusealpha(0.15)
+            :diffusealpha(0.05)
         end
     }
 end

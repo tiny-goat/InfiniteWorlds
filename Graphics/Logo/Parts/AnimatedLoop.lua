@@ -15,27 +15,14 @@ return Def.ActorFrame {
         end
     },
 
--- duped the grid animation to here, looks awesome af
     Def.Sprite {
-        Name="ArrowPatternTop",
-        Texture="ArrowPattern",
-        InitCommand=function(self)
-            self:blend("BlendMode_Add"):diffusealpha(0.3):y(90):diffusecolor(color("#FFFFFF"))
-            :zoomto(1125,1125):rotationx(97)
-            :customtexturerect(0,0,4,2.4)
-            :texcoordvelocity(0.3,1)
-            :MaskDest():ztestmode("ZTestMode_WriteOnFail")
-        end,
-	OnCommand=function(self) self:diffusealpha(0):sleep(0.8):diffusealpha(0.3) end
-    },
-    Def.Sprite {
-        Name="ArrowPatternBottom",
+        Name="ArrowPattern0",
         Texture="ArrowPattern",
         InitCommand=function(self)
             self:blend("BlendMode_Add"):diffusealpha(0.3):y(-95):diffusecolor(color("#FFFFFF"))
-            :zoomto(1125,1125):rotationx(87)
+            :zoomto(1125,1125)
             :customtexturerect(0,0,4,2.4)
-            :texcoordvelocity(-0.3,1)
+            :texcoordvelocity(-0.1,0.3)
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
         end,
 	OnCommand=function(self) self:diffusealpha(0):sleep(0.8):diffusealpha(0.3) end

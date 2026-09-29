@@ -50,11 +50,7 @@ return Def.ActorFrame {
         end,
         AnimateCommand=function(self)
             self:GetChild("PlainLoop"):diffusealpha(1)
-            self:GetChild("ArrowPatternTop"):croptop(1):fadebottom(0.6)
-            :sleep(0.2)
-            :easeoutexpo(0.9)
-            :croptop(0)
-			self:GetChild("ArrowPatternBottom"):cropbottom(1):fadebottom(0.6)
+			self:GetChild("ArrowPattern0"):cropbottom(1):fadebottom(0.6)
             :sleep(0.2)
             :easeoutexpo(0.9)
             :cropbottom(0)
