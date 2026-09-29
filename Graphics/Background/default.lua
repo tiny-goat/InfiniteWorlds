@@ -15,12 +15,12 @@ t[#t+1] = Def.Sprite {
     Name="Gradient",
     Texture="gradient",
     InitCommand=function(self)
-        self:Center():diffuse(color("#16EEFF"))
+        self:Center():diffuse(color("#000000"))
         :queuecommand("Refresh")
     end,
     ScreenChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
     RefreshCommand=function(self)
-            self:diffusebottomedge(color("#16EEFF")):diffusetopedge(color("#EE16FF"))
+            self:diffusetopedge(color("#33EECC")):diffusebottomedge(color("#EE16FF"))
     end
 }
 

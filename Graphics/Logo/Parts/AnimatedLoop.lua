@@ -3,15 +3,15 @@ return Def.ActorFrame {
     Def.Sprite {
         Name="PlainLoop",
         Texture="iw_logo_4",
-	InitCommand=function(self) self:zoom(1.3):croptop(1):diffuse(1,1,1,1):linear(0.5):croptop(0):sleep(0.2)
-	:easeoutexpo(1):diffusetopedge(color("#16EEFF")):diffusebottomedge(color("#FF16EE")):zoom(1) end
+	InitCommand=function(self) self:zoom(0):rotationy(180):diffuse(1,1,1,1):linear(0.3):sleep(0.2)
+	:easeoutexpo(0.7):diffusetopedge(color("#22CCDD")):diffusebottomedge(color("#EE16DD")):rotationy(0):zoom(1.15) end
     },
 
     Def.Sprite {
         Name="InnerLoop",
         Texture="iw_logo_3",
         InitCommand=function(self)
-          self:MaskSource()
+          self:zoom(1.1):MaskSource()
         end
     },
 

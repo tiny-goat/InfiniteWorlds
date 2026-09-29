@@ -54,7 +54,7 @@ return Def.ActorFrame {
             :sleep(0.2)
             :easeoutexpo(0.9)
             :croptop(0)
-	    self:GetChild("ArrowPatternBottom"):cropbottom(1):fadebottom(0.6)
+			self:GetChild("ArrowPatternBottom"):cropbottom(1):fadebottom(0.6)
             :sleep(0.2)
             :easeoutexpo(0.9)
             :cropbottom(0)
@@ -62,10 +62,10 @@ return Def.ActorFrame {
     },
 
     Def.Sprite {
-        Texture="iw_logo_4",
+        Texture="iw_logo_3",
         Name="Text_Mask",
         InitCommand=function(self)
-            self:MaskSource():zoom(0.9)
+            self:MaskSource():zoom(1.15)
         end
     },
 
@@ -79,7 +79,7 @@ return Def.ActorFrame {
             :diffuse(1,1,1,0.8)
             :skewx(-1)
             :x(-535)
-            :sleep(0.5)
+            :sleep(0.9)
             :linear(0.5)
             :x(535):MaskDest():ztestmode("ZTestMode_WriteOnFail"):queuecommand("Shine")
         end,
