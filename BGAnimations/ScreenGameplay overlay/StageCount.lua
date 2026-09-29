@@ -27,10 +27,10 @@ return Def.ActorFrame {
     },
 
     Def.BitmapText {
-        Font="Strike Fighter 45px",
+        Font="_praetorian numbers 42px",
         Text=string.format("%02d", GAMESTATE:GetCurrentStageIndex() + 1),
         InitCommand=function(self)
-            self:y(14):zoom(0.6)
+            self:y(14):zoom(0.65)
         end
     }
 }
