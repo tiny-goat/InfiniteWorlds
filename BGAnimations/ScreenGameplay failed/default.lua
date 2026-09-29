@@ -1,3 +1,4 @@
+local timeDelay = 0
 local t = Def.ActorFrame{
     Def.Sprite {
         Texture=THEME:GetPathG("", "Gradient background"),
@@ -5,69 +6,59 @@ local t = Def.ActorFrame{
             self:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center():diffusecolor(Color.Red)
         end,
     },
-
-    Def.Quad {
-        InitCommand=function(self)
-            self:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT)
-            :Center():diffuse(1,1,1,0.9)
-        end,
-
-        OnCommand=function(self)
-            self:easeoutexpo(0.3)
-            :diffusealpha(0)
-        end
-    },
-
-Def.Sprite {
-        Texture="broken glass",
-        InitCommand=function(self)
-            self:Center():diffusealpha(0):zoom(3):easeoutexpo(0.05):diffusealpha(0.3):zoom(1.1):linear(5):diffusealpha(0)
-        end
+	
+	--[[Def.Sprite {
+		Texture="tg_stage_crash_2",
+		InitCommand=function(self)
+			self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y):zoom(1.4):diffusealpha(0.4):accelerate(0.2):zoom(0.9):decelerate(0.1):zoom(1):sleep(0.3):linear(0.7):diffusealpha(0)			
+		end
+	},]]--
+	
+	Def.ActorFrame {
+		InitCommand=function(self)
+				self:xy(SCREEN_CENTER_X+300, SCREEN_CENTER_Y)
+				:diffusealpha(0)
+				:shadowlength(3)
+				:shadowcolor(0,0,0,0.25)
+				:zoom(0.9)
+				:sleep(timeDelay)
+				:accelerate(0.25)
+				:diffusealpha(1)
+				:x(SCREEN_CENTER_X-10)
+				:decelerate(0.1)
+				:x(SCREEN_CENTER_X)
+				:zoom(0.9):linear(4.9):zoom(1)
+			end,
+			
+		Def.Sprite {
+			Texture="tg_stage_crash_1",
+			InitCommand=function(self)
+				self:cropleft(0.5):sleep(0.6):accelerate(0.1):y(22):rotationz(1):decelerate(0.1):y(20)
+			end
+		},
+		Def.Sprite {
+			Texture="tg_stage_crash_1",
+			InitCommand=function(self)
+				self:cropright(0.5):sleep(0.6):accelerate(0.1):rotationz(-2):decelerate(0.1):rotationz(-2.3)
+			end
+		},
 	},
+	
 
     Def.Sprite {
-        Texture="fail_hey",
+        Texture="tg_stage_crash_3",
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y-140)
-            :diffusealpha(0)
-            :shadowlength(3)
-            :shadowcolor(0,0,0,0.25)
-            :zoom(0.2)
-            :sleep(0.5 + 0.25)
-            :easeoutexpo(0.25)
-            :diffusealpha(1)
-            :zoom(0.7):linear(4.9):rotationz(-2):zoom(0.8):y(SCREEN_CENTER_Y-170)
-        end
-    },
-
-    Def.Sprite {
-        Texture="fail_u_suck",
-        InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X - 10, SCREEN_CENTER_Y+60)
-            :diffusealpha(0)
-            :shadowlength(3)
-            :shadowcolor(0,0,0,0.25)
-            :zoom(0.1)
-            :sleep(0.5 + 0.85)
-            :easeoutexpo(0.25)
-            :diffusealpha(1)
-            :zoom(0.6):linear(4):rotationz(6):zoom(0.7):y(SCREEN_CENTER_Y+70)
+            self:xy(SCREEN_CENTER_X - 10, SCREEN_CENTER_Y+100)
+            :diffuse(color("#FF0000"))
+            :zoom(0.4):diffusealpha(0)
+            :sleep(0.3):linear(4):diffusealpha(1):zoom(0.45):y(SCREEN_CENTER_Y+120)
         end
     },
 
     Def.Sound {
-        File="Shatter",
+        File="pipe",
         OnCommand=function(self)
             self:queuecommand("Play")
-        end,
-        PlayCommand=function(self) self:play() end
-    },
-
-    Def.Sound {
-        File="Voice",
-        OnCommand=function(self)
-            self:sleep(0.9)
-            :queuecommand("Play")
         end,
         PlayCommand=function(self) self:play() end
     },
@@ -79,6 +70,18 @@ Def.Sprite {
         end,
         PlayCommand=function(self) self:play() end
     },
+	
+	Def.Quad {
+        InitCommand=function(self)
+            self:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT)
+            :Center():diffuse(1,1,1,0)
+        end,
+
+        OnCommand=function(self)
+            self:sleep(timeDelay+0.1):diffusealpha(1):sleep(0.1):easeoutexpo(0.4)
+            :diffusealpha(0)
+        end
+    },
     
     Def.Quad {
         InitCommand=function(self)
@@ -87,8 +90,8 @@ Def.Sprite {
         end,
 
         OnCommand=function(self)
-            self:sleep(3.6)
-            :linear(2)
+            self:sleep(2.9)
+            :linear(0.7)
             :diffusealpha(1)
         end
     }
