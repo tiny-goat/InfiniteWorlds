@@ -125,7 +125,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         LoadActor("../ModIcons", pn) .. {
             InitCommand=function(self)
                 self:zoomx(0):xy(pn == PLAYER_2 and SCREEN_RIGHT + 40 * 2 or -40 * 2, 160)
-                :sleep(0.5):easeoutexpo(1):zoomx(1):x(pn == PLAYER_2 and SCREEN_RIGHT - 40 or 40)
+                :sleep(0.5):easeoutexpo(0.6):zoomx(1):x(pn == PLAYER_2 and SCREEN_RIGHT - 40 or 40)
                 :visible(not BasicMode)
             end,
         },
