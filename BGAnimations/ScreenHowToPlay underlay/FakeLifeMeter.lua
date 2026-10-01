@@ -124,8 +124,7 @@ local t = Def.ActorFrame {
         Name="Pulse",
         InitCommand=function(self)
             self:zoomto(40, BarH - 18):halign(0)
-            :diffuse(pn == PLAYER_1 and color("#00d7fd") or color("#00d7fd"))
-            :diffusebottomedge(pn == PLAYER_1 and color("#007be8") or color("#007be8"))
+            :diffuse(color("#00CCEE"))
 
             
             self:bounce():effectmagnitude(-40,0,0):effectclock("bgm"):effecttiming(1,0,0,0)
@@ -149,7 +148,15 @@ local t = Def.ActorFrame {
         InitCommand=function(self)
             self:zoomto(BarW - 10, BarH - 18)
             :texcoordvelocity(0.9, 0)
-            :diffusealpha(0):diffuseblink():effectcolor1(color("#FFFFFF")):effectcolor2(color("#bbbbbb")):effectperiod(0.09)
+            :diffusealpha(0):diffuseblink():effectcolor1(color("#FFFFFF")):effectcolor2(color("#bbbbbb")):effectperiod(0.06)
+        end
+    },
+
+	Def.Sprite {
+        Name="Scanline",
+        Texture=THEME:GetPathG("", "UI/scan_lifebars"),
+        InitCommand=function(self)
+            self:setsize(BarW - 10, BarH):customtexturerect(0,0,BarW - 10,1):diffusealpha(0.2)
         end
     },
 
@@ -157,7 +164,7 @@ local t = Def.ActorFrame {
         Name="BarBodyShade",
         Texture=THEME:GetPathG("", "UI/tg_lifebar_tone"),
         InitCommand=function(self)
-            self:setsize(BarW - 10, BarH):diffusealpha(0.7)
+            self:setsize(BarW - 10, BarH):diffusealpha(0.57)
         end
     },
 
@@ -165,7 +172,7 @@ local t = Def.ActorFrame {
         Name="BarBodyShine",
         Texture=THEME:GetPathG("", "UI/euv_shine_lifebars"),
         InitCommand=function(self)
-            self:setsize(BarW - 10, BarH):diffusealpha(0.5)
+            self:setsize(BarW - 10, BarH):diffusealpha(0.7)
         end
     },
 }
