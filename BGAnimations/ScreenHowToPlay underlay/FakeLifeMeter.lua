@@ -73,8 +73,8 @@ local t = Def.ActorFrame {
             MeterFail = false
         end
         
-        self:GetChild("Meter"):finishtweening():x(MeterHot and 0 or -20):linear(0.1):cropright(1 - LifeAmount)
-        self:GetChild("Pulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 20)
+        self:GetChild("Meter"):finishtweening():x(MeterHot and 0 or -20):linear(0.1):cropright(1.05 - LifeAmount)
+        self:GetChild("Pulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 40)
     end,
     
     Def.Sprite {
@@ -110,7 +110,7 @@ local t = Def.ActorFrame {
         end
     },
 
-    Def.Quad {
+    --[[Def.Quad {
         Name="Meter",
         InitCommand=function(self)
             self:zoomto(BarW - 10, BarH - 18):x(-25):cropright(0.5)
@@ -118,16 +118,27 @@ local t = Def.ActorFrame {
             :diffusebottomedge(pn == PLAYER_1 and color("#ed1e79") or color("#1fbcff"))
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
         end
-    },
+    },]]--
 
     Def.Quad {
         Name="Pulse",
         InitCommand=function(self)
-            self:zoomto(20, BarH - 18):halign(0)
-            :diffuse(pn == PLAYER_1 and color("#f7931e") or color("#ab78f5"))
-            :diffusebottomedge(pn == PLAYER_1 and color("#ed1e79") or color("#1fbcff"))
+            self:zoomto(40, BarH - 18):halign(0)
+            :diffuse(pn == PLAYER_1 and color("#00d7fd") or color("#00d7fd"))
+            :diffusebottomedge(pn == PLAYER_1 and color("#007be8") or color("#007be8"))
+
             
-            self:bounce():effectmagnitude(-20,0,0):effectclock("bgm"):effecttiming(1,0,0,0)
+            self:bounce():effectmagnitude(-40,0,0):effectclock("bgm"):effecttiming(1,0,0,0)
+            :MaskDest():ztestmode("ZTestMode_WriteOnFail")
+        end
+    },
+	
+	-- kpump rainbow meter style
+	Def.Sprite {
+        Name="Meter",
+        Texture=THEME:GetPathG("", "UI/RainbowBar"),
+        InitCommand=function(self)
+            self:zoomto(BarW - 10, BarH - 18)
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
         end
     },
@@ -154,7 +165,7 @@ local t = Def.ActorFrame {
         Name="BarBodyShine",
         Texture=THEME:GetPathG("", "UI/euv_shine_lifebars"),
         InitCommand=function(self)
-            self:setsize(BarW - 10, BarH):diffusealpha(0.6)
+            self:setsize(BarW - 10, BarH):diffusealpha(0.5)
         end
     },
 }

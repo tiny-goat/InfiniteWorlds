@@ -54,8 +54,8 @@ local t = Def.ActorFrame {
 			ProLifebarCrop = 1 / (ProLifebarMax - 1)
 		end
 	end,
-
-    OnCommand=function(self) self:easeoutexpo(1):addy(IsReverse and -100 or 100):playcommand("Refresh", {Player = pn, Life = 0.5}) end,
+	
+    OnCommand=function(self) self:easeoutexpo(0.8):addy(IsReverse and -100 or 100):playcommand("Refresh", {Player = pn, Life = 0.5}) end,
 
     -- This message command is only used if the Gameplay.Life module is active. Due to it being able to
     -- manipulate the player's health, it can restore life and break certain fail conditions, so the visible
@@ -92,7 +92,7 @@ local t = Def.ActorFrame {
 			if ProLifebar then
 				-- Only show the rainbow meter if the overflow health is full
 				if LifeAmount >= ProLifebarMax and not MeterHotPro then
-					self:GetChild("RainbowMeter"):stoptweening():linear(0.5):diffusealpha(1)
+					self:GetChild("RainbowMeter"):stoptweening():linear(0.2):diffusealpha(1)
 					MeterHotPro = true
 				elseif LifeAmount < ProLifebarMax and MeterHotPro then
 					self:GetChild("RainbowMeter"):diffusealpha(0)
@@ -105,8 +105,8 @@ local t = Def.ActorFrame {
 					MeterHot = false
 				end
 
-				self:GetChild("Meter"):finishtweening():x(MeterHot and 0 or -20):linear(0.1):cropright(1 - LifeAmount)
-				self:GetChild("Pulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 20)
+				self:GetChild("Meter"):finishtweening():x(MeterHot and 0 or -20):linear(0.01):cropright(1.05 - LifeAmount)
+				self:GetChild("Pulse"):finishtweening():linear(0.01):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 40)
 
 				local ProLifeAmount = ProLifebarCrop * (LifeAmount - 1)
 				if ProLifeAmount < 0 then ProLifeAmount = 0 end
@@ -137,8 +137,8 @@ local t = Def.ActorFrame {
 					MeterHot = false
 				end
 
-				self:GetChild("Meter"):finishtweening():x(MeterHot and 0 or -20):linear(0.1):cropright(1 - LifeAmount)
-				self:GetChild("Pulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 20)
+				self:GetChild("Meter"):finishtweening():x(MeterHot and 0 or -20):linear(0.01):cropright(1.05 - LifeAmount)
+				self:GetChild("Pulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 40)
 			end
 			
 			self:GetChild("Tip"):finishtweening():linear(0.01):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)))
@@ -179,9 +179,27 @@ local t = Def.ActorFrame {
         InitCommand=function(self)
             self:scaletofit(0, 0, 37, 37):rotationy(pn==PLAYER_1 and 0 or -180)
             :xy(-BarW / 2 - 29, 0)
-        end
+        end,
+		
+		-- only show profile avatars if we are actually on gameplay, make it not visible if were only on demo play
+		OnCommand=function(self)
+			if GAMESTATE:IsDemonstration() then
+				self:diffusealpha(0)
+			else
+				self:diffusealpha(0):sleep(0.2):smooth(0.5):diffusealpha(1)
+			end
+		end,
     },
 
+	
+    Def.Sprite {
+        Name="BarBody",
+        Texture=THEME:GetPathG("", "UI/tg_lifebar_center"),
+        InitCommand=function(self)
+            self:setsize(BarW - 10, BarH)
+        end
+    },
+	
 	Def.Sprite {
         Name="BarEdgeL",
         Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
@@ -197,14 +215,6 @@ local t = Def.ActorFrame {
             self:x(BarW / 1.987):halign(0):setsize(9, BarH):rotationy(180)
         end
     },
-	
-    Def.Sprite {
-        Name="BarBody",
-        Texture=THEME:GetPathG("", "UI/tg_lifebar_center"),
-        InitCommand=function(self)
-            self:setsize(BarW - 10, BarH)
-        end
-    },
 
     Def.Quad {
         Name="Mask",
@@ -215,24 +225,35 @@ local t = Def.ActorFrame {
         end
     },
 
-    Def.Quad {
+	-- old meter style, inf
+    --[[Def.Quad {
         Name="Meter",
         InitCommand=function(self)
-            self:zoomto(BarW - 10, BarH - 18):x(-20):cropright(0.5)
+            self:zoomto(BarW - 10, BarH - 18):x(-10):cropright(0.5)
             :diffuse(pn == PLAYER_1 and color("#00d7fd") or color("#00d7fd"))
             :diffusebottomedge(pn == PLAYER_1 and color("#007be8") or color("#007be8"))
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
         end
-    },
+    },]]--
 
     Def.Quad {
         Name="Pulse",
         InitCommand=function(self)
-            self:zoomto(20, BarH - 18):halign(0)
+            self:zoomto(40, BarH - 18):halign(0)
             :diffuse(pn == PLAYER_1 and color("#00d7fd") or color("#00d7fd"))
             :diffusebottomedge(pn == PLAYER_1 and color("#007be8") or color("#007be8"))
 
-            self:bounce():effectmagnitude(-20,0,0):effectclock("bgm"):effecttiming(1,0,0,0)
+            self:bounce():effectmagnitude(-40,0,0):effectclock("bgm"):effecttiming(1,0,0,0)
+            :MaskDest():ztestmode("ZTestMode_WriteOnFail")
+        end
+    },
+	
+	-- kpump rainbow meter style
+	Def.Sprite {
+        Name="Meter",
+        Texture=THEME:GetPathG("", "UI/RainbowBar"),
+        InitCommand=function(self)
+            self:zoomto(BarW - 10, BarH - 18)
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
         end
     },
@@ -264,7 +285,7 @@ local t = Def.ActorFrame {
         InitCommand=function(self)
             self:zoomto(BarW - 10, BarH - 18)
             :texcoordvelocity(0.9, 0)
-            :diffusealpha(0):diffuseblink():effectcolor1(color("#FFFFFF")):effectcolor2(color("#bbbbbb")):effectperiod(0.09)
+            :diffusealpha(0):diffuseramp():effectcolor1(color("#FFFFFF")):effectcolor2(color("#bbbbbb")):effectperiod(0.09)
         end
     },
 
@@ -280,7 +301,7 @@ local t = Def.ActorFrame {
         Name="BarBodyShine",
         Texture=THEME:GetPathG("", "UI/euv_shine_lifebars"),
         InitCommand=function(self)
-            self:setsize(BarW - 10, BarH):diffusealpha(0.6)
+            self:setsize(BarW - 10, BarH):diffusealpha(0.5)
         end
     },
 
