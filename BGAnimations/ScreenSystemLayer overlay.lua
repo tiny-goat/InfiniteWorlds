@@ -139,7 +139,7 @@ t[#t+1] = Def.ActorFrame {
         Font="Common Normal",
         Name="Text",
         InitCommand=function (self)
-            self:maxwidth(750):horizalign(left):vertalign(top):y(SCREEN_TOP+10):x(SCREEN_LEFT+10):shadowlength(1):diffusealpha(0)
+            self:maxwidth(750):horizalign(left):vertalign(top):y(SCREEN_TOP+10):x(SCREEN_LEFT+10):strokecolor(Color.Black):diffusealpha(0)
         end,
         OnCommand=function (self)
             self:finishtweening():diffusealpha(1):zoom(0.5)

@@ -7,11 +7,11 @@ return Def.ActorFrame {
     
     StartTransitioningCommand=function(self)
         if SCREENMAN:GetTopScreen():GetNextScreenName() == "ScreenStageInformation" then
-        self:GetChild("FirstFade"):sleep(0.3):easeoutexpo(0.5):diffusealpha(1):sleep(2.9)
+        self:GetChild("FirstFade"):sleep(0.3):easeoutexpo(0.5):diffusealpha(1):sleep(1.8)
 		
-	    self:GetChild("ChartStats"):sleep(1.45):diffusealpha(1)
+	    self:GetChild("ChartStats"):sleep(1):diffusealpha(1)
 
-	    self:GetChild("SFX"):sleep(0.2):play()
+	    self:GetChild("SFX"):play()
         else
             self:sleep(0)
         end

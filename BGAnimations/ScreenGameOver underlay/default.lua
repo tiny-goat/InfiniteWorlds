@@ -72,12 +72,12 @@ return Def.ActorFrame {
 
 --[[up and down flashes of game and over]]--
     Def.Sprite{
-        Texture="tg_gameover",
+        Texture="matte",
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X-200, SCREEN_CENTER_Y-100)
             :diffusealpha(0):cropbottom(0.3):cropright(0.475):zoom(1.5):sleep(0)
             :linear(0.5)
-            :diffusealpha(1)
+            :diffusealpha(0.8)
 			:x(SCREEN_CENTER_X)
 			:linear(0.5)
 			:x(SCREEN_CENTER_X+200)
@@ -85,12 +85,12 @@ return Def.ActorFrame {
         end
     },
     Def.Sprite{
-        Texture="tg_gameover",
+        Texture="matte",
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X+200, SCREEN_CENTER_Y+130)
             :diffusealpha(0):cropbottom(0.3):cropleft(0.53):zoom(1.5):sleep(0)
             :linear(0.5)
-            :diffusealpha(1)
+            :diffusealpha(0.8)
 			:x(SCREEN_CENTER_X)
 			:linear(0.5)
 			:x(SCREEN_CENTER_X-200)
