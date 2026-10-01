@@ -111,8 +111,8 @@ local t = Def.ActorFrame {
 				local ProLifeAmount = ProLifebarCrop * (LifeAmount - 1)
 				if ProLifeAmount < 0 then ProLifeAmount = 0 end
 
-				self:GetChild("ProMeter"):finishtweening():x(MeterHotPro and 0 or -20):linear(0.1):cropright(1 - ProLifeAmount)
-				self:GetChild("ProPulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * ProLifeAmount)) - 20)
+				self:GetChild("ProMeter"):finishtweening():x(MeterHotPro and 0 or -20):linear(0.1):cropright(1.05 - ProLifeAmount)
+				self:GetChild("ProPulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * ProLifeAmount)) - 55)
 				
 				-- lifebar tip for the pro meter
 				-- make sure the pro tip only appears when you actually have pro lifebar available, and hide it like usual when capped
@@ -191,15 +191,6 @@ local t = Def.ActorFrame {
 		end,
     },
 
-	
-    Def.Sprite {
-        Name="BarBody",
-        Texture=THEME:GetPathG("", "UI/tg_lifebar_center"),
-        InitCommand=function(self)
-            self:setsize(BarW - 10, BarH)
-        end
-    },
-	
 	Def.Sprite {
         Name="BarEdgeL",
         Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
@@ -215,6 +206,15 @@ local t = Def.ActorFrame {
             self:x(BarW / 1.987):halign(0):setsize(9, BarH):rotationy(180)
         end
     },
+	
+    Def.Sprite {
+        Name="BarBody",
+        Texture=THEME:GetPathG("", "UI/tg_lifebar_center"),
+        InitCommand=function(self)
+            self:setsize(BarW - 10, BarH)
+        end
+    },
+	
 
     Def.Quad {
         Name="Mask",
@@ -225,7 +225,7 @@ local t = Def.ActorFrame {
         end
     },
 
-	-- old meter style, inf
+	-- old meter style, reserved for inf
     --[[Def.Quad {
         Name="Meter",
         InitCommand=function(self)
@@ -240,8 +240,7 @@ local t = Def.ActorFrame {
         Name="Pulse",
         InitCommand=function(self)
             self:zoomto(60, BarH - 18):halign(0)
-            :diffuse(pn == PLAYER_1 and color("#00CCEE") or color("#00CCEE"))
-            :diffusebottomedge(pn == PLAYER_1 and color("#00CCEE") or color("#00CCEE"))
+            :diffuse(color("#00CCEE"))
 
             self:bounce():effectmagnitude(-60,0,0):effectclock("bgm"):effecttiming(1,0,0,0)
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
@@ -271,10 +270,10 @@ local t = Def.ActorFrame {
     Def.Quad {
         Name="ProPulse",
         InitCommand=function(self)
-            self:zoomto(20, BarH - 18):halign(0):x(-20 - BarW / 2)
+            self:zoomto(50, BarH - 18):halign(0):x(-50 - BarW / 2)
             :diffuse(pn == PLAYER_1 and color("#f7931e") or color("#ab78f5"))
             :diffusebottomedge(Color.White)
-            self:bounce():effectmagnitude(-20,0,0):effectclock("bgm"):effecttiming(1,0,0,0)
+            self:bounce():effectmagnitude(-60,0,0):effectclock("bgm"):effecttiming(1,0,0,0)
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
         end
     },
@@ -294,7 +293,7 @@ local t = Def.ActorFrame {
         Name="Scanline",
         Texture=THEME:GetPathG("", "UI/scan_lifebars"),
         InitCommand=function(self)
-            self:setsize(BarW - 10, BarH):customtexturerect(0,0,BarW - 10,1):diffusealpha(0.2)
+            self:setsize(BarW - 13, BarH):customtexturerect(0,0,BarW - 10,1):diffusealpha(0.2)
         end
     },
 
