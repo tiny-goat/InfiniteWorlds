@@ -136,5 +136,10 @@ return Def.ActorFrame {
 		
     },
 	
+	
+	LoadActor("Hat")..{
+		Condition=IsAnniversary()
+	}
+	
 
 }

@@ -78,26 +78,19 @@ local t = Def.ActorFrame {
     end,
     
     Def.Sprite {
-        Name="BarEdgeL",
-        Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
-        InitCommand=function(self)
-            self:x(-BarW / 2):halign(0):setsize(8, BarH)
-        end
-    },
-	
-	Def.Sprite {
-        Name="BarEdgeR",
-        Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
-        InitCommand=function(self)
-            self:x(BarW / 2):halign(0):setsize(8, BarH):rotationz(180)
-        end
-    },
-	
-    Def.Sprite {
         Name="BarBody",
         Texture=THEME:GetPathG("", "UI/tg_lifebar_center"),
         InitCommand=function(self)
             self:setsize(BarW - 10, BarH)
+        end
+    },
+	
+	
+	Def.Sprite {
+        Name="Scanline",
+        Texture=THEME:GetPathG("", "UI/scan_lifebars"),
+        InitCommand=function(self)
+            self:setsize(BarW - 10, BarH - 1):customtexturerect(0,0,BarW - 7,1):diffusealpha(0.8)
         end
     },
     
@@ -152,13 +145,23 @@ local t = Def.ActorFrame {
         end
     },
 
-	Def.Sprite {
-        Name="Scanline",
-        Texture=THEME:GetPathG("", "UI/scan_lifebars"),
+
+    Def.Sprite {
+        Name="BarEdgeL",
+        Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
         InitCommand=function(self)
-            self:setsize(BarW - 10, BarH):customtexturerect(0,0,BarW - 10,1):diffusealpha(0.2)
+            self:x(-BarW / 2):halign(0):setsize(8, BarH)
         end
     },
+	
+	Def.Sprite {
+        Name="BarEdgeR",
+        Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
+        InitCommand=function(self)
+            self:x(BarW / 2):halign(0):setsize(8, BarH):rotationz(180)
+        end
+    },
+	
 
 	Def.Sprite {
         Name="BarBodyShade",

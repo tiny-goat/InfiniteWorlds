@@ -174,7 +174,7 @@ function FullModeChartLabel(Chart)
 end
 
 function IsAnniversary()
-    if MonthOfYear() == 4 and DayOfMonth() == 19 then return true end
+    if MonthOfYear() == 9 and DayOfMonth() == 20 then return true end
     return false
 end
 
