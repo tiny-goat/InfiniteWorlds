@@ -473,7 +473,7 @@ t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
             self:zoomto(4,15)
             :xy(SCREEN_CENTER_X - 100, SCREEN_CENTER_Y + 150)
-            :diffuse(1,1,1,0)
+            :diffuse(0,0,0,0)
         end,
         ExitPressedMessageCommand=function(self)
             self:sleep(0.2)
