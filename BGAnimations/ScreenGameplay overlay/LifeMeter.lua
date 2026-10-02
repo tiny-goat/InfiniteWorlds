@@ -55,7 +55,7 @@ local t = Def.ActorFrame {
 		end
 	end,
 	
-    OnCommand=function(self) self:easeoutexpo(0.8):addy(IsReverse and -100 or 100):playcommand("Refresh", {Player = pn, Life = 0.5}) end,
+    OnCommand=function(self) self:easeoutexpo(0.6):addy(IsReverse and -100 or 100):playcommand("Refresh", {Player = pn, Life = 0.5}) end,
 
     -- This message command is only used if the Gameplay.Life module is active. Due to it being able to
     -- manipulate the player's health, it can restore life and break certain fail conditions, so the visible
@@ -106,13 +106,13 @@ local t = Def.ActorFrame {
 				end
 
 				self:GetChild("Meter"):finishtweening():x(MeterHot and 0 or -20):linear(0.01):cropright(1.05 - LifeAmount)
-				self:GetChild("Pulse"):finishtweening():linear(0.01):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 55)
+				self:GetChild("Pulse"):finishtweening():linear(0.01):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 60)
 
 				local ProLifeAmount = ProLifebarCrop * (LifeAmount - 1)
 				if ProLifeAmount < 0 then ProLifeAmount = 0 end
 
 				self:GetChild("ProMeter"):finishtweening():x(MeterHotPro and 0 or -20):linear(0.1):cropright(1.05 - ProLifeAmount)
-				self:GetChild("ProPulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * ProLifeAmount)) - 55)
+				self:GetChild("ProPulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * ProLifeAmount)) - 60)
 				
 				-- lifebar tip for the pro meter
 				-- make sure the pro tip only appears when you actually have pro lifebar available, and hide it like usual when capped
@@ -147,7 +147,7 @@ local t = Def.ActorFrame {
 			-- garbage to make sure that the lifebar actually tweens properly and doesn't just run away from the edge of the lifebar
 			-- extra tweening despite lifebar being capped out is just to ensure less jank when the lifebar exits a 'hot' state
 			if LifeAmount >=1 and MeterHot and not MeterFail then
-				self:GetChild("Tip"):finishtweening():x(-(((BarW - 12) / 2) - ((BarW - 12) * 1.011)))
+				self:GetChild("Tip"):finishtweening():x(-(((BarW - 12) / 2) - ((BarW - 12) * 0.9995)))
 				self:GetChild("Pulse"):finishtweening():visible(false)
 				self:GetChild("Tip"):visible(0)
 		    elseif LifeAmount > 0.33 and not MeterDanger and not MeterFail then
@@ -190,22 +190,7 @@ local t = Def.ActorFrame {
 			end
 		end,
     },
-
-	Def.Sprite {
-        Name="BarEdgeL",
-        Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
-        InitCommand=function(self)
-            self:x(-BarW / 1.987):halign(0):setsize(9, BarH)
-        end
-    },
 	
-	Def.Sprite {
-        Name="BarEdgeR",
-        Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
-        InitCommand=function(self)
-            self:x(BarW / 1.987):halign(0):setsize(9, BarH):rotationy(180)
-        end
-    },
 	
     Def.Sprite {
         Name="BarBody",
@@ -216,6 +201,14 @@ local t = Def.ActorFrame {
     },
 	
 
+	Def.Sprite {
+        Name="Scanline",
+        Texture=THEME:GetPathG("", "UI/scan_lifebars"),
+        InitCommand=function(self)
+            self:setsize(BarW - 10, BarH - 1):customtexturerect(0,0,BarW - 7,1):diffusealpha(0.8)
+        end
+    },
+	
     Def.Quad {
         Name="Mask",
         InitCommand=function(self)
@@ -288,20 +281,15 @@ local t = Def.ActorFrame {
         end
     },
 	
+	
+	
 	-- more aesthetics
-	Def.Sprite {
-        Name="Scanline",
-        Texture=THEME:GetPathG("", "UI/scan_lifebars"),
-        InitCommand=function(self)
-            self:setsize(BarW - 13, BarH):customtexturerect(0,0,BarW - 10,1):diffusealpha(0.2)
-        end
-    },
 
 	Def.Sprite {
         Name="BarBodyShade",
         Texture=THEME:GetPathG("", "UI/tg_lifebar_tone"),
         InitCommand=function(self)
-            self:setsize(BarW - 10, BarH):diffusealpha(0.57)
+            self:setsize(BarW - 10, BarH - 2):diffusealpha(0.57)
         end
     },
 
@@ -309,15 +297,31 @@ local t = Def.ActorFrame {
         Name="BarBodyShine",
         Texture=THEME:GetPathG("", "UI/euv_shine_lifebars"),
         InitCommand=function(self)
-            self:setsize(BarW - 10, BarH):diffusealpha(0.7)
+            self:setsize(BarW - 10, BarH):diffusealpha(0.5)
         end
     },
+	
+	Def.Sprite {
+        Name="BarEdgeL",
+        Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
+        InitCommand=function(self)
+            self:x(-BarW / 1.987):halign(0):setsize(9, BarH)
+        end
+    },
+	
+	Def.Sprite {
+        Name="BarEdgeR",
+        Texture=THEME:GetPathG("", "UI/tg_lifebar_sides"),
+        InitCommand=function(self)
+            self:x(BarW / 1.987):halign(0):setsize(9, BarH):rotationy(180)
+        end
+	},
 
     Def.Sprite {
         Name="Tip",
         Texture=THEME:GetPathG("", "UI/LifeBarTip/normal-tip"),
         InitCommand=function(self)
-            self:zoomto(50, 74)
+            self:zoomto(45, 72)
         end
     },
 
@@ -326,7 +330,7 @@ local t = Def.ActorFrame {
         Texture=THEME:GetPathG("", "UI/LifebarTip/danger-tip"),
         InitCommand=function(self)
 			self:visible(0)
-            self:zoomto(50, 74)
+            self:zoomto(45, 72)
 		end
     },
 	
@@ -335,7 +339,7 @@ local t = Def.ActorFrame {
         Texture=THEME:GetPathG("", "UI/LifebarTip/pro-tip"),
         InitCommand=function(self)
 			self:visible(0)
-            self:zoomto(50, 74)
+            self:zoomto(45, 72)
 		end
     },
 

@@ -449,16 +449,16 @@ end
 
 t[#t+1] = Def.ActorFrame {
     Def.BitmapText {
-        Font="inter light 22px",
+        Font="inter medium 25px",
         Name="ExitText",
         InitCommand=function(self)
             self:diffusealpha(0)
-            :xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 125)
+            :xy(SCREEN_CENTER_X, SCREEN_CENTER_Y + 175):zoom(0.8):strokecolor(Color.Black)
             :settext("Exiting...")
         end,
         ExitPressedMessageCommand=function(self)
-            self:stoptweening():sleep(0.1)
-            :linear(0.25)
+            self:stoptweening()
+            :easeoutexpo(0.25)
             :diffusealpha(1)
         end,
         ExitTickDownMessageCommand=function(self)
@@ -469,30 +469,10 @@ t[#t+1] = Def.ActorFrame {
     },
 
     Def.Quad {
-        Name="ExitBar",
-        InitCommand=function(self)
-            self:zoomto(200,15)
-            :cropright(1)
-            :xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 100)
-            :diffuse(color("#f7931e")):diffusebottomedge(color("#ed1e79"))
-        end,
-        ExitTickUpMessageCommand=function(self)
-            self:stoptweening()
-            :linear(0.2)
-            :cropright(1 - (TickCount + 1) / 15)
-        end,
-        ExitTickDownMessageCommand=function(self)
-            self:stoptweening()
-            :easeoutexpo(0.25)
-            :cropright(1)
-        end
-    },
-
-    Def.Quad {
         Name="ExitBarEnd",
         InitCommand=function(self)
-            self:zoomto(5,15)
-            :xy(SCREEN_CENTER_X - 100, SCREEN_CENTER_Y - 100)
+            self:zoomto(4,15)
+            :xy(SCREEN_CENTER_X - 100, SCREEN_CENTER_Y + 150)
             :diffuse(1,1,1,0)
         end,
         ExitPressedMessageCommand=function(self)
@@ -506,6 +486,26 @@ t[#t+1] = Def.ActorFrame {
             :easeoutquad(0.25)
             :diffusealpha(0)
             :x(SCREEN_CENTER_X - 100)
+        end
+    },
+	
+    Def.Quad {
+        Name="ExitBar",
+        InitCommand=function(self)
+            self:zoomto(200,15)
+            :cropright(1)
+            :xy(SCREEN_CENTER_X, SCREEN_CENTER_Y + 150)
+            :diffuse(color("#00CCEE")):diffusebottomedge(color("#CC00EE"))
+        end,
+        ExitTickUpMessageCommand=function(self)
+            self:stoptweening()
+            :linear(0.2)
+            :cropright(1 - (TickCount + 1) / 15)
+        end,
+        ExitTickDownMessageCommand=function(self)
+            self:stoptweening()
+            :easeoutexpo(0.25)
+            :cropright(1)
         end
     }
 }
