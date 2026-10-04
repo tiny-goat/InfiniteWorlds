@@ -115,8 +115,8 @@ for i=2, StarCount do
                 :zoom(Size)
                 
             if Star[i][1]["Type"] == 1 then
-                self:zoom(Size * 2)
-                    :rotationz(45)
+                self:zoom(Size * 3)
+                    :rotationz(0)
             end
         end,
     }

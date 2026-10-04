@@ -24,6 +24,9 @@ local RowAmount = Length
 
 local PlateZoom = IsUsingWideScreen() and 0.7 or 0.45
 
+-- how long it takes for the grading/plate/sfx to play after evallines finishes showing all stats
+local GradeTime = 1.6
+
 local Grades = { PlayerNumber_P1 = "FailF", PlayerNumber_P2 = "FailF" }
 local GradePriority = {
     Pass3S = 1, Fail3S = 2, Pass2S = 3, Fail2S = 4, Pass1S = 5, Fail1S = 6, PassA = 7, FailA = 8,
@@ -133,7 +136,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 	-- the 2nd element that needs that y adjustment
         LoadActor("EvalBall", pn) .. {
             InitCommand=function(self)
-		local DynamicY = RowAmount == 9 and 242.3 or 230
+			local DynamicY = RowAmount == 9 and 242.3 or 230
                 self:zoom(2):xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 100 or -100), SCREEN_CENTER_Y +200):rotationy(80):sleep(0.1):easeoutexpo(0.5):zoom(RowAmount == 9 and 1.2 or 1.3):xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 75 or -75), SCREEN_CENTER_Y+DynamicY):rotationy(0)
             end,
 
@@ -141,32 +144,32 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
         Def.Sprite {
             InitCommand=function(self)
-                local GradeX = IsUsingWideScreen() and 305 or 260
-                self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6):skewx(0.15)
+                local GradeX = IsUsingWideScreen() and 300 or 260
+                self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 4)
 
                 local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                 Grades[pn] = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
 
                 self:Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") .. Grades[pn]))
-                :diffusealpha(0):sleep(1.41):diffusealpha(0.8):zoom(GradeZoomAdd):easeoutexpo(0.8)
-                :zoom(GradeZoomAdd * 1.3):diffusealpha(0)
-            end
-        },
-
+                :diffusealpha(0):rotationz(0):sleep(GradeTime):decelerate(0.15)
+                :zoom(GradeZoomAdd):diffusealpha(1)
+            end,
+		},
+		
+		
         Def.Sprite {
             InitCommand=function(self)
                 local GradeX = IsUsingWideScreen() and 300 or 260
-                self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 4):skewx(0.15)
+                self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 3):blend("Add")
 
                 local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                 Grades[pn] = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
 
                 self:Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") .. Grades[pn]))
-                :diffusealpha(0):rotationz(0):sleep(1.41):easeoutexpo(0.35)
-                :zoom(GradeZoomAdd):diffusealpha(1):queuecommand("Levitate")
-            end,
-		LevitateCommand=function(self) self:y(SCREEN_CENTER_Y + 4):smooth(1):y(SCREEN_CENTER_Y - 4):smooth(1):y(SCREEN_CENTER_Y + 4):queuecommand("Levitate") end
-	},
+                :diffusealpha(0):sleep(GradeTime+0.15):diffusealpha(0.8):zoom(GradeZoomAdd):decelerate(0.8)
+                :zoom(GradeZoomAdd * 1.3):diffusealpha(0)
+            end
+        },
 
 	-- fx here (not the cab kind)
         Def.Sprite {
@@ -175,7 +178,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6)
 
                 self:Load(THEME:GetPathG("", "ParticlesAndEffects/Stars2"))
-                :diffusealpha(0):sleep(1.4):diffusealpha(1):zoom(0):easeoutexpo(0.75)
+                :diffusealpha(0):sleep(GradeTime):diffusealpha(1):zoom(0):easeoutexpo(0.75)
                 :zoom(0.1):diffusealpha(0)
             end
         },
@@ -186,14 +189,14 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6)
 
                 self:Load(THEME:GetPathG("", "Background/circle"))
-                :diffusealpha(0):sleep(1.4):diffusealpha(1):zoom(0):decelerate(0.75)
+                :diffusealpha(0):sleep(GradeTime):diffusealpha(1):zoom(0):decelerate(0.75)
                 :zoom(0.3):diffusealpha(0)
             end
         },
 
         Def.Sound {
             File=THEME:GetPathS("", "hit"),
-            InitCommand=function(self) self:sleep(1.42):queuecommand("Play") end,
+            InitCommand=function(self) self:sleep(GradeTime):queuecommand("Play") end,
             PlayCommand=function(self) self:play() end,
         }
 
@@ -202,34 +205,34 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 	-- plates
     if Scoring == "New" then
         t[#t+1] = Def.ActorFrame {
-
-            Def.Sprite {
+			
+			Def.Sprite {
                 InitCommand=function(self)
-                    local GradeX = IsUsingWideScreen() and 285 or 260
+                    local GradeX = IsUsingWideScreen() and 300 or 260
                     self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y - 100)
 
                     local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                     Plates[pn] = LoadModule("PIU/Score.PlatesEval.lua")(PlayerScore)
 
                     self:Load(THEME:GetPathG("", "LetterGrades/New/" .. Plates[pn]))
-                    :blend("Add"):diffusealpha(0):sleep(1.41):diffusealpha(0.8):zoom(PlateZoom):easeoutexpo(0.8)
-                    :zoom(PlateZoom * 1.3):diffusealpha(0)
-                end
+                    :diffusealpha(0):zoomx(2):zoomy(0):sleep(GradeTime+0.3):easeoutexpo(0.25)
+                    :zoom(PlateZoom):diffusealpha(1):queuecommand("Levitate")
+                end,
+				LevitateCommand=function(self) self:y(SCREEN_CENTER_Y - 100):smooth(1.2):y(SCREEN_CENTER_Y - 104):smooth(1.2):y(SCREEN_CENTER_Y - 100):queuecommand("Levitate") end
             },
 			
 			Def.Sprite {
                 InitCommand=function(self)
-                    local GradeX = IsUsingWideScreen() and 285 or 260
+                    local GradeX = IsUsingWideScreen() and 300 or 260
                     self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y - 100)
 
                     local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                     Plates[pn] = LoadModule("PIU/Score.PlatesEval.lua")(PlayerScore)
 
                     self:Load(THEME:GetPathG("", "LetterGrades/New/" .. Plates[pn]))
-                    :diffusealpha(0):sleep(1.41):easeoutexpo(0.25)
-                    :zoom(PlateZoom):diffusealpha(1):queuecommand("Levitate")
-                end,
-				LevitateCommand=function(self) self:y(SCREEN_CENTER_Y - 100):smooth(1.2):y(SCREEN_CENTER_Y - 104):smooth(1.2):y(SCREEN_CENTER_Y - 100):queuecommand("Levitate") end
+                    :blend("Add"):diffusealpha(0):sleep(GradeTime+0.4):diffusealpha(0.8):zoom(PlateZoom):decelerate(0.3)
+                    :zoom(PlateZoom * 1.3):diffusealpha(0)
+                end
             }
         }
     end
@@ -237,7 +240,7 @@ end
 
 t[#t+1] = Def.ActorFrame {
     OnCommand=function(self)
-        self:sleep(1.45):queuecommand("Announcer")
+        self:sleep(GradeTime+0.1):queuecommand("Announcer")
     end,
 
     AnnouncerCommand=function(self)
