@@ -29,7 +29,6 @@ if GAMESTATE:GetNumSidesJoined() < 2 then
 		end,
 		
 		OffCommand=function(self)
-            self:GetChild("CenterStep"):visible(false)
             self:GetChild("InsertCredit"):visible(false)
         end,
 		
@@ -43,14 +42,8 @@ if GAMESTATE:GetNumSidesJoined() < 2 then
         CoinInsertedMessageCommand=function(self) self:playcommand('Refresh') end,
 
         RefreshCommand=function(self)
-            self:GetChild("CenterStep"):visible(NoSongs or GAMESTATE:GetCoins() >= GAMESTATE:GetCoinsNeededToJoin())
             self:GetChild("InsertCredit"):visible(NoSongs or GAMESTATE:GetCoinsNeededToJoin() > GAMESTATE:GetCoins())
         end,
-
-        
-        LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {
-            Name="CenterStep",
-        },
 
         LoadActor(THEME:GetPathG("", "InsertCredit")) .. {
             Name="InsertCredit",

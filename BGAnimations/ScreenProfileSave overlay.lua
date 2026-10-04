@@ -11,7 +11,7 @@ return Def.ActorFrame {
             self:GetChild("Text"):settext("SAVE PROFILE DATA...")
         end
     },
-
+	
     Def.Actor {
         BeginCommand=function(self)
             if SCREENMAN:GetTopScreen():HaveProfileToSave() then self:sleep(1) end
@@ -19,4 +19,5 @@ return Def.ActorFrame {
         end,
         LoadCommand=function() SCREENMAN:GetTopScreen():Continue() end
     }
+
 }
