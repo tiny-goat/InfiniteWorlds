@@ -71,7 +71,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 :easeoutexpo(0.6):x(pn == PLAYER_2 and SCREEN_RIGHT - 40 or 40)
             end,
             OffCommand=function(self)
-                self:stoptweening():accelerate(0.7):x(pn == PLAYER_2 and SCREEN_RIGHT + 40 * 2 or -40 * 2)
+                self:stoptweening():decelerate(0.7):x(pn == PLAYER_2 and SCREEN_RIGHT + 40 * 2 or -40 * 2)
             end
         },
 
@@ -114,12 +114,9 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     end
                 end
             },
-
-			Def.BitmapText {
-				Name="ReadyText",
-				Font="inter medium 32px",
-				Text="Press a 2nd time to start!",
-				InitCommand=function(self) self:zoom(0.3):y(-25):skewx(-0.1):diffuse(Color.White) end
+			
+			LoadActor(THEME:GetPathG("","PressCenterStep")) .. {
+				InitCommand=function(self) self:y(-120):x(-10):zoom(0.8) end
 			},
 			
 			Def.Sprite {

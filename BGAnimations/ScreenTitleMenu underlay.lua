@@ -100,7 +100,7 @@ if not IsHome() and GAMESTATE:EnoughCreditsToJoin() then
         LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {
             InitCommand=function(self) self:xy(SCREEN_CENTER_X - SCREEN_WIDTH * 0.35, SCREEN_HEIGHT * 0.7):queuecommand("Refresh") end,
 			OnCommand=function(self) self:y(SCREEN_HEIGHT * 0.75):diffusealpha(0):zoom(1):sleep(0.2):smooth(0.3):y(SCREEN_HEIGHT * 0.7):diffusealpha(1) end,
-            OffCommand=function(self) self:stoptweening():easeoutexpo(.7):x(SCREEN_LEFT-90):diffusealpha(0) end,
+            OffCommand=function(self) self:stoptweening():easeoutexpo(.7):x(SCREEN_LEFT-150) end,
             StorageDevicesChangedMessageCommand=function(self)self:queuecommand("Refresh")end,
             RefreshCommand=function(self)
     			CardState = MEMCARDMAN:GetCardState(PLAYER_1)
@@ -117,7 +117,7 @@ if not IsHome() and GAMESTATE:EnoughCreditsToJoin() then
         LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {
             InitCommand=function(self) self:xy(SCREEN_CENTER_X + SCREEN_WIDTH * 0.35, SCREEN_HEIGHT * 0.7):queuecommand("Refresh") end,
 			OnCommand=function(self) self:y(SCREEN_HEIGHT * 0.75):diffusealpha(0):zoom(1):sleep(0.2):smooth(0.3):y(SCREEN_HEIGHT * 0.7):diffusealpha(1) end,
-            OffCommand=function(self) self:stoptweening():easeoutexpo(.7):x(SCREEN_RIGHT+90):diffusealpha(0) end,
+            OffCommand=function(self) self:stoptweening():easeoutexpo(.7):x(SCREEN_RIGHT+150) end,
             StorageDevicesChangedMessageCommand=function(self)self:queuecommand("Refresh")end,
             RefreshCommand=function(self)
     			CardState = MEMCARDMAN:GetCardState(PLAYER_2)
