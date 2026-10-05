@@ -123,18 +123,6 @@ t[#t+1] = Def.ActorFrame {
     end
 }
 
-
--- ticking sound effect, this is timed to EvalLines
--- plays a tick every time a new eval line element appears.
-
-for i = 1, RowAmount do
-	t[#t+1] = Def.Sound {
-		File = THEME:GetPathS("","tg_tick"),
-		OnCommand=function(self) self:sleep(1.5+i*0.1):queuecommand("Play") end,
-		PlayCommand=function(self) self:play() end
-	}
-end
-
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = Def.ActorFrame {
         LoadActor("../ModIcons", pn) .. {
@@ -145,7 +133,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             end,
         },
 
-	-- the 2nd element that needs that y adjustment
+		-- the 2nd element that needs that y adjustment
         LoadActor("EvalBall", pn) .. {
             InitCommand=function(self)
 			local DynamicY = RowAmount == 9 and 242.3 or 230
@@ -186,12 +174,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 :diffusealpha(1):zoom(0):sleep(GradeTime):decelerate(0.75)
                 :zoom(0.35):diffusealpha(0)
             end
-        },
-
-        Def.Sound {
-            File=THEME:GetPathS("", "hit"),
-            InitCommand=function(self) self:sleep(GradeTime):queuecommand("Play") end,
-            PlayCommand=function(self) self:play() end,
         },
 		
 		-- letter grades
@@ -266,6 +248,28 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         }
     end
 end
+
+-- Sounds
+
+-- ticking sound effect, this is timed to EvalLines, plays a tick every time a new eval line element appears.
+
+for i = 1, RowAmount do
+	t[#t+1] = Def.Sound {
+		File = THEME:GetPathS("","tg_tick"),
+		OnCommand=function(self) self:sleep(1.5+i*0.1):queuecommand("Play") end,
+		PlayCommand=function(self) self:play() end
+	}
+end
+
+-- evaluation hit
+
+t[#t+1] = Def.Sound {
+            File=THEME:GetPathS("", "tg_hit"),
+            InitCommand=function(self) self:sleep(GradeTime):queuecommand("Play") end,
+            PlayCommand=function(self) self:play() end,
+}
+
+-- announcer
 
 t[#t+1] = Def.ActorFrame {
     OnCommand=function(self)
