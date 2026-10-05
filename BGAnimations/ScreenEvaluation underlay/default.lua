@@ -259,9 +259,9 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             },
 			
 			Def.Sound {
-            File=THEME:GetPathS("", "tg_platesound"),
-            InitCommand=function(self) self:sleep(GradeTime+0.3):queuecommand("Play") end,
-            PlayCommand=function(self) self:play() end,
+				File=THEME:GetPathS("", "tg_platesound"),
+				InitCommand=function(self) self:sleep(GradeTime+0.3):queuecommand("Play") end,
+				PlayCommand=function(self) self:play() end,
 			}
         }
     end

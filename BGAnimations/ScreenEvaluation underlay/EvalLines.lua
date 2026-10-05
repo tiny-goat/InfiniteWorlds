@@ -91,8 +91,8 @@ for i = 1, RowAmount + 1 do
             InitCommand=function(self)
                 self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24 - (RowH / 2))
                 :zoomto(190 + math.sin(math.abs(self:GetY() - SCREEN_CENTER_Y) / SCREEN_CENTER_Y) * 210, 3)
-                :diffuse(color("#11CCFFFF"))
-                :fadeleft(0.1):faderight(0.1)
+                :diffuse(color("#11CCFF")):diffusealpha(0)
+                :fadeleft(0.1):faderight(0.1):sleep(0.9):linear(0.2):diffusealpha(1)
             end
         }
     }
@@ -102,18 +102,19 @@ for i = 1, RowAmount do
     t[#t+1] = Def.ActorFrame {
             InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 26)
-            :zoomy(0.68):zoomx(1):diffusealpha(0):sleep(0.2+i*0.05):decelerate(0.05):zoomx(0.67):diffusealpha(1):accelerate(0.1):zoomx(0.68)
+            :zoomy(0.68):zoomx(1.3):diffusealpha(0):sleep(0.1+i*0.05):easeoutexpo(0.5):zoomx(0.68):diffusealpha(1)
         end,
         Def.BitmapText {
             Font="Strike Fighter 45px",
             InitCommand=function(self)
-                self:maxwidth(360):zoom(0.7):shadowlength(0.6):visible(true):y(-3)
+                self:maxwidth(360):zoom(0.7):strokecolor(Color.Black):visible(true):y(-3)
 
                 if Name[i] == "Accuracy" or Name[i] == "Score" then
                     self:settext(ToUpper(THEME:GetString("EvaluationLabel", Name[i])))
                 else
                     self:settext(ToUpper(THEME:GetString(CurPrefTiming or "Original" , "Judgment" .. Name[i])))
                 end
+				
             end
         }
     }
