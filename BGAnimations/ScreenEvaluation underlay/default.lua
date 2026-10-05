@@ -25,7 +25,7 @@ local RowAmount = Length
 local PlateZoom = IsUsingWideScreen() and 0.7 or 0.45
 
 -- how long it takes for the grading/plate/sfx to play after evallines finishes showing all stats
-local GradeTime = 1.6
+local GradeTime = 3
 
 local Grades = { PlayerNumber_P1 = "FailF", PlayerNumber_P2 = "FailF" }
 local GradePriority = {
@@ -123,6 +123,18 @@ t[#t+1] = Def.ActorFrame {
     end
 }
 
+
+-- ticking sound effect, this is timed to EvalLines
+-- plays a tick every time a new eval line element appears.
+
+for i = 1, RowAmount do
+	t[#t+1] = Def.Sound {
+		File = THEME:GetPathS("","tg_tick"),
+		OnCommand=function(self) self:sleep(1.5+i*0.1):queuecommand("Play") end,
+		PlayCommand=function(self) self:play() end
+	}
+end
+
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = Def.ActorFrame {
         LoadActor("../ModIcons", pn) .. {
@@ -142,6 +154,47 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
         },
 
+		-- fx
+		Def.Sprite {
+            InitCommand=function(self)
+                local GradeX = IsUsingWideScreen() and 300 or 260
+                self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6)
+
+                self:Load(THEME:GetPathG("", "ParticlesAndEffects/Stars2"))
+                :diffusealpha(1):zoom(0):sleep(GradeTime):decelerate(0.75)
+                :zoom(0.13):diffusealpha(0)
+            end
+        },
+		
+		Def.Sprite {
+            InitCommand=function(self)
+                local GradeX = IsUsingWideScreen() and 300 or 260
+                self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6)
+
+                self:Load(THEME:GetPathG("", "ParticlesAndEffects/Stars3"))
+                :diffusealpha(1):zoom(0):sleep(GradeTime+0.1):decelerate(0.75)
+                :zoom(0.13):diffusealpha(0)
+            end
+        },
+		
+		Def.Sprite {
+            InitCommand=function(self)
+                local GradeX = IsUsingWideScreen() and 300 or 260
+                self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6)
+
+                self:Load(THEME:GetPathG("", "Background/circle"))
+                :diffusealpha(1):zoom(0):sleep(GradeTime):decelerate(0.75)
+                :zoom(0.35):diffusealpha(0)
+            end
+        },
+
+        Def.Sound {
+            File=THEME:GetPathS("", "hit"),
+            InitCommand=function(self) self:sleep(GradeTime):queuecommand("Play") end,
+            PlayCommand=function(self) self:play() end,
+        },
+		
+		-- letter grades
         Def.Sprite {
             InitCommand=function(self)
                 local GradeX = IsUsingWideScreen() and 300 or 260
@@ -151,7 +204,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 Grades[pn] = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
 
                 self:Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") .. Grades[pn]))
-                :diffusealpha(0):rotationz(0):sleep(GradeTime):decelerate(0.15)
+                :diffusealpha(0):rotationz(0):sleep(GradeTime):decelerate(0.1)
                 :zoom(GradeZoomAdd):diffusealpha(1)
             end,
 		},
@@ -166,40 +219,10 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 Grades[pn] = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
 
                 self:Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") .. Grades[pn]))
-                :diffusealpha(0):sleep(GradeTime+0.15):diffusealpha(0.8):zoom(GradeZoomAdd):decelerate(0.8)
-                :zoom(GradeZoomAdd * 1.3):diffusealpha(0)
+                :diffusealpha(0):glow(1,1,1,0):sleep(GradeTime+0.1):glow(1,1,1,1):diffusealpha(0.9):zoom(GradeZoomAdd):decelerate(0.6)
+                :zoom(GradeZoomAdd * 1.28):glow(1,1,1,0):diffusealpha(0)
             end
-        },
-
-	-- fx here (not the cab kind)
-        Def.Sprite {
-            InitCommand=function(self)
-                local GradeX = IsUsingWideScreen() and 300 or 260
-                self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6)
-
-                self:Load(THEME:GetPathG("", "ParticlesAndEffects/Stars2"))
-                :diffusealpha(0):sleep(GradeTime):diffusealpha(1):zoom(0):easeoutexpo(0.75)
-                :zoom(0.1):diffusealpha(0)
-            end
-        },
-		
-		Def.Sprite {
-            InitCommand=function(self)
-                local GradeX = IsUsingWideScreen() and 300 or 260
-                self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6)
-
-                self:Load(THEME:GetPathG("", "Background/circle"))
-                :diffusealpha(0):sleep(GradeTime):diffusealpha(1):zoom(0):decelerate(0.75)
-                :zoom(0.3):diffusealpha(0)
-            end
-        },
-
-        Def.Sound {
-            File=THEME:GetPathS("", "hit"),
-            InitCommand=function(self) self:sleep(GradeTime):queuecommand("Play") end,
-            PlayCommand=function(self) self:play() end,
         }
-
     }
 
 	-- plates
@@ -233,7 +256,13 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     :blend("Add"):diffusealpha(0):sleep(GradeTime+0.4):diffusealpha(0.8):zoom(PlateZoom):decelerate(0.3)
                     :zoom(PlateZoom * 1.3):diffusealpha(0)
                 end
-            }
+            },
+			
+			Def.Sound {
+            File=THEME:GetPathS("", "tg_platesound"),
+            InitCommand=function(self) self:sleep(GradeTime+0.3):queuecommand("Play") end,
+            PlayCommand=function(self) self:play() end,
+			}
         }
     end
 end

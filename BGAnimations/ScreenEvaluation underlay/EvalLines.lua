@@ -78,7 +78,7 @@ for i = 1, RowAmount do
         Def.Sprite {
             Texture=THEME:GetPathG("", "Evaluation/EvalRow"),
             InitCommand=function(self)
-                self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24):zoomy(0):sleep(0.2):easeoutexpo(0.5):xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24):zoomx(0.92):zoomy(0.85)
+                self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24):zoomy(0):easeoutexpo(0.5):xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24):zoomx(0.92):zoomy(0.85)
             end
         }
     }
@@ -97,11 +97,12 @@ for i = 1, RowAmount + 1 do
         }
     }
 end
+
 for i = 1, RowAmount do
     t[#t+1] = Def.ActorFrame {
             InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 26)
-            :zoomy(0):zoomx(1):diffusealpha(0):sleep(0.5 + i * 0.1):easeoutexpo(0.2):zoomx(0.68):zoomy(0.68):diffusealpha(1)
+            :zoomy(0.68):zoomx(1):diffusealpha(0):sleep(0.2+i*0.05):decelerate(0.05):zoomx(0.67):diffusealpha(1):accelerate(0.1):zoomx(0.68)
         end,
         Def.BitmapText {
             Font="Strike Fighter 45px",
@@ -179,7 +180,7 @@ for i = 1, RowAmount do
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
             self:x(SCREEN_CENTER_X):y(RowY + RowH * (i - 1) + 22)
-            :zoomy(0):diffusealpha(0):sleep(0.6+i*0.1):decelerate(0.1):zoomy(1):diffusealpha(1)
+            :zoomy(2):diffusealpha(0):sleep(1.5+i*0.1):decelerate(0.05):zoomy(0.8):diffusealpha(1):accelerate(0.1):zoomy(1)
         end,
 
 
