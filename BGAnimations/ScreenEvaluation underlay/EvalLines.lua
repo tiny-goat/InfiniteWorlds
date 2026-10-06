@@ -201,7 +201,7 @@ for i = 1, RowAmount do
             Font="inter medium 25px",
             Text=GetJLineValue(Name[i], PLAYER_2),
             InitCommand=function(self)
-                self:x(RowX):zoom(0.95)
+                self:x(RowX):zoom(0.95):strokecolor(Color.Black)
                 :halign(1):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_2))
                 if Name[i] == "Score" then
                     ColourHighScoreCount(self)
