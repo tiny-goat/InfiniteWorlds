@@ -127,7 +127,7 @@ return Def.ActorFrame {
 				:diffusealpha(1):addx(-15):addy(10):zoom(0.36):rotationz(45)
 			end,
 			OnCommand=function(self)
-				self:sleep(20.6):decelerate(1):rotationz(-135)
+				self:sleep(21.6):decelerate(1):rotationz(-135)
 			end
 		},
 		
@@ -139,7 +139,7 @@ return Def.ActorFrame {
 				:diffusealpha(0):zoom(0.9)
 			end,
 			OnCommand=function(self)
-				self:sleep(19.6):linear(0.5):diffusealpha(1)
+				self:sleep(20.6):linear(0.5):diffusealpha(1)
 			end
 		},
 		
