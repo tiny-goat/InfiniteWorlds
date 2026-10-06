@@ -1,5 +1,6 @@
 return Def.ActorFrame {
     -- simplified ScreenInit, i have plans to further improve this soon, but when? (tiny)
+	-- i think we finally done it (tiny)
     -- bro wake up it's 2008
     CodeMessageCommand=function(self, param)
         if param.Name == "Secret" then
@@ -71,7 +72,7 @@ return Def.ActorFrame {
 				:diffusealpha(0):zoom(0.6)
 			end,
 			OnCommand=function(self)
-				self:diffusealpha(1)
+				self:diffusealpha(1):sleep(10.7):easeoutexpo(0.5):zoomx(0.8):zoomy(0)
 			end
 		},
 		
@@ -81,7 +82,13 @@ return Def.ActorFrame {
 	Def.ActorFrame {
 		-- the4kman logo
 		Name="4kmanintro",
-		OnCommand=function(self) self:diffusealpha(0):sleep(12.6):linear(0.7):diffusealpha(1):sleep(5):linear(0.7):diffusealpha(0) end,
+		OnCommand=function(self) self:diffusealpha(0):sleep(11.6):linear(0.7):diffusealpha(1):sleep(5):linear(0.7):diffusealpha(0) end,
+		
+		Def.Sound {
+			File="the4k",
+			InitCommand=function(self) self:sleep(10.6):queuecommand("Play") end,
+			PlayCommand=function(self) self:play() end
+		},
 		
 		Def.Quad {
 			Name="Background1",
@@ -89,6 +96,15 @@ return Def.ActorFrame {
 				self:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center()
 				:diffuse(color("#007fff")):diffusealpha(1)
 			end,
+		},
+		
+		Def.BitmapText {
+			Name="text",
+			Font="Eurostile Extended 32px",
+			InitCommand=function(self)
+				self:Center()
+				:settext("SOUND BY"):zoomx(1):zoomy(1):diffusealpha(0)
+				:sleep(11):easeoutexpo(0.7):diffusealpha(1):sleep(1.3):easeoutexpo(0.4):zoomx(1):zoomy(1.5):diffusealpha(0) end,
 		},
 		
 		Def.Sprite {
@@ -117,7 +133,7 @@ return Def.ActorFrame {
 	Def.ActorFrame {
 		-- dj505 logo
 		Name="dj505intro",
-		OnCommand=function(self) self:diffusealpha(0):sleep(19.6):linear(0.7):diffusealpha(1) end,
+		OnCommand=function(self) self:diffusealpha(0):sleep(19):linear(0.7):diffusealpha(1) end,
 		
 		Def.Sprite {
 			Name="dj505_1",
@@ -127,7 +143,7 @@ return Def.ActorFrame {
 				:diffusealpha(1):addx(-15):addy(10):zoom(0.36):rotationz(45)
 			end,
 			OnCommand=function(self)
-				self:sleep(21.6):decelerate(1):rotationz(-135)
+				self:sleep(20.6):decelerate(1):rotationz(-135)
 			end
 		},
 		
@@ -136,10 +152,7 @@ return Def.ActorFrame {
 			Texture="dj505_logo",
 			InitCommand=function(self)
 				self:Center()
-				:diffusealpha(0):zoom(0.9)
-			end,
-			OnCommand=function(self)
-				self:sleep(20.6):linear(0.5):diffusealpha(1)
+				:diffusealpha(1):zoom(0.9)
 			end
 		},
 		
