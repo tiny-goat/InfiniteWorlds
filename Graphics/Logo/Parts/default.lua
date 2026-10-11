@@ -91,12 +91,12 @@ return Def.ActorFrame {
         end,
         AnimateCommand=function(self)
             self:diffusealpha(0)
-            :zoom(1.5):y(-150):cropright(1):rotationz(-40)
+            :zoom(1.5):y(-150):cropright(1)
             :sleep(1.45):queuecommand("Displace")
             :diffusealpha(1)
             :glow(1,1,1,1)
             :easeoutexpo(1)
-            :zoom(0.9):y(0):cropright(0):rotationz(0)
+            :zoom(0.9):y(0):cropright(0)
             :glow(1,1,1,0)
         end,
 		

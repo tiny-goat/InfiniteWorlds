@@ -1,7 +1,7 @@
 return Def.ActorFrame {
     -- Up Left
-    Def.Sprite {
-        Texture=THEME:GetPathG("", "CornerArrows/shiftarrow_red"),
+    LoadActor(THEME:GetPathG("", "CornerArrows/red")).. {
+        --[[Texture=THEME:GetPathG("", "CornerArrows/shiftarrow_red"),]]--
         OnCommand=function(self) self:zoom(0.6):xy(-40, -40):rotationz(135):easeoutexpo(1):xy(50,50) end,
         OffCommand=function(self) self:stoptweening():easeoutexpo(1):xy(-72, -72) end
     },
@@ -17,8 +17,8 @@ return Def.ActorFrame {
     },
 
     -- Up Right
-    Def.Sprite {
-        Texture=THEME:GetPathG("", "CornerArrows/shiftarrow_red"),
+    LoadActor(THEME:GetPathG("", "CornerArrows/red")).. {
+        --[[Texture=THEME:GetPathG("", "CornerArrows/shiftarrow_red"),]]--
         OnCommand=function(self) self:zoom(0.6):xy(SCREEN_RIGHT + 40, -40):rotationz(-135):easeoutexpo(1):xy(SCREEN_RIGHT - 50, 50) end,
         OffCommand=function(self) self:stoptweening():easeoutexpo(1):xy(SCREEN_RIGHT + 72, -72) end
     },
@@ -34,8 +34,8 @@ return Def.ActorFrame {
     },
 
     -- Down Left
-    Def.Sprite {
-        Texture=THEME:GetPathG("", "CornerArrows/shiftarrow_blue"),
+    LoadActor(THEME:GetPathG("", "CornerArrows/blue")).. {
+        --[[Texture=THEME:GetPathG("", "CornerArrows/blue"),]]--
         OnCommand=function(self) self:zoom(0.6):xy(-72, SCREEN_BOTTOM + 72):rotationz(45):easeoutexpo(1):xy(50, SCREEN_BOTTOM - 50) end,
         OffCommand=function(self) self:stoptweening():easeoutexpo(1):xy(-72, SCREEN_BOTTOM + 72) end
     },
@@ -52,8 +52,8 @@ return Def.ActorFrame {
     },
 
     -- Down Right
-    Def.Sprite {
-        Texture=THEME:GetPathG("", "CornerArrows/shiftarrow_blue"),
+    LoadActor(THEME:GetPathG("", "CornerArrows/blue")).. {
+        --[[Texture=THEME:GetPathG("", "CornerArrows/shiftarrow_blue"),]]--
         OnCommand=function(self) self:zoom(0.6):xy(SCREEN_RIGHT + 72, SCREEN_BOTTOM + 72):rotationz(-45):easeoutexpo(1):xy(SCREEN_RIGHT - 50, SCREEN_BOTTOM - 50) end,
         OffCommand=function(self) self:stoptweening():easeoutexpo(1):xy(SCREEN_RIGHT + 72, SCREEN_BOTTOM + 72) end
     },
