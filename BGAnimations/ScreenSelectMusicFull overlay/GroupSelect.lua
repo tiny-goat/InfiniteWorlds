@@ -34,6 +34,8 @@ local IsOptionsList = { PLAYER_1 = false, PLAYER_2 = false }
 local IsSelectingGroup = false
 local IsBusy = false
 local IsFocusedMain = false
+-- group sound
+local CurrentGroupSoundPath
 
 LastGroupMainIndex = tonumber(LoadModule("Config.Load.lua")("GroupMainIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
 LastGroupSubIndex = tonumber(LoadModule("Config.Load.lua")("GroupSubIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
@@ -91,6 +93,42 @@ local function UpdateSubItemTargets(val)
         -- Wrap to fit to Songs list size
         while SubTargets[i] > #GroupsList[CurMainIndex].SubGroups do SubTargets[i] = SubTargets[i] - #GroupsList[CurMainIndex].SubGroups end
         while SubTargets[i] < 1 do SubTargets[i] = SubTargets[i] + #GroupsList[CurMainIndex].SubGroups end
+    end
+end
+
+-- group sound effect here, slight port from other pump themes that have done the same thing (tiny)
+local function GetFocusedGroupSoundPath()
+    local MainGroup = GroupsList[CurMainIndex]
+    if not IsSelectingGroup or IsFocusedMain or not MainGroup or MainGroup.Name ~= "Group" then
+        return nil
+    end
+
+    local SubGroup = MainGroup.SubGroups[CurSubIndex]
+    local Song = SubGroup and SubGroup.Songs and SubGroup.Songs[1]
+    if not Song then return nil end
+
+    local SongDir = Song:GetSongDir():gsub("[/\\]+$", "")
+    local GroupDir = SongDir:match("^(.*)[/\\][^/\\]+$")
+    local SongsRoot = GroupDir and GroupDir:match("^(.*)[/\\][^/\\]+$")
+    local RootName = SongsRoot and SongsRoot:match("([^/\\]+)$")
+    RootName = RootName and string.lower(RootName)
+
+    if RootName ~= "song" and RootName ~= "songs" and RootName ~= "additionalsongs" then
+        return nil
+    end
+
+    local InfoDir = GroupDir .. "/info/"
+    local Files = FILEMAN:GetDirListing(InfoDir, false, false)
+    table.sort(Files)
+
+    -- to make sure that all valid soundbytes work, not fixate on one specific file for compatibility reasons
+    for _, File in ipairs(Files) do
+        if ActorUtil.GetFileType(File) == "FileType_Sound" then
+            local Path = InfoDir .. File
+            if FILEMAN:DoesFileExist(Path) then
+                return Path
+            end
+        end
     end
 end
 
@@ -199,6 +237,9 @@ local function InputHandler(event)
 				end
             end
         end
+
+        -- we refresh sound here
+        MESSAGEMAN:Broadcast("RefreshGroupSound")
     end
 end
 
@@ -239,14 +280,21 @@ local t = Def.ActorFrame {
     BusyCommand=function(self) IsBusy = true end,
     NotBusyCommand=function(self) IsBusy = false end,
     
-    OpenGroupCommand=function(self) IsSelectingGroup = true end,
-    CloseGroupCommand=function(self) IsSelectingGroup = false end,
+    OpenGroupCommand=function(self)
+        IsSelectingGroup = true
+    end,
+
+    CloseGroupCommand=function(self)
+        IsSelectingGroup = false
+        MESSAGEMAN:Broadcast("RefreshGroupSound")
+    end,
     
     CloseGroupWheelMessageCommand=function(self, params)
         self:stoptweening():easeoutexpo(0.25):diffusealpha(0)
         
         BlockScreenInput(false)
         IsSelectingGroup = false
+        MESSAGEMAN:Broadcast("RefreshGroupSound")
         
         if params.Silent == false then
             -- The built in wheel needs to be told the group has been changed
@@ -266,6 +314,28 @@ local t = Def.ActorFrame {
         File=THEME:GetPathS("", "euv_folder_start"),
         IsAction=true,
         CloseGroupWheelMessageCommand=function(self) self:play() end
+    },
+
+    -- when a folder is in focus, play the respective soundbyte in the info folder
+    Def.Sound {
+        File=THEME:GetPathS("MusicWheel", "change"),
+        IsAction=true,
+        OffCommand=function(self)
+            self:stop()
+            CurrentGroupSoundPath = nil
+        end,
+        RefreshGroupSoundMessageCommand=function(self)
+            local Path = GetFocusedGroupSoundPath()
+            if Path and FILEMAN:DoesFileExist(Path) then
+                if Path ~= CurrentGroupSoundPath then
+                    self:stop():load(Path):play()
+                    CurrentGroupSoundPath = Path
+                end
+            else
+                self:stop()
+                CurrentGroupSoundPath = nil
+            end
+        end
     },
 }
 

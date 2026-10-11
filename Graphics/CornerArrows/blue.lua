@@ -15,6 +15,6 @@ return Def.ActorFrame {
 	
 	Def.Sprite {
         Texture="pattern",
-		InitCommand=function(self) self:texcoordvelocity(0, -0.3):MaskDest():ztestmode("ZTestMode_WriteOnFail") end,
+		InitCommand=function(self) self:texcoordvelocity(0, -0.3):MaskDest():ztestmode("ZTestMode_WriteOnFail") end
     },
 }
