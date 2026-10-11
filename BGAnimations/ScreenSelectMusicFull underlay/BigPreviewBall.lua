@@ -39,7 +39,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
       end,
 
       OnCommand=function(self)
-        self:diffusealpha(0):xy(pn == PLAYER_1 and -65 or 65, 120):zoom(2):skewx(pn==PLAYER_1 and 0.2 or -0.2)
+        self:diffusealpha(0):xy(pn == PLAYER_1 and -65 or 65, 130):zoom(2)
       end,
 
       SongChosenMessageCommand=function(self)
@@ -93,8 +93,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
       Def.BitmapText {
         Font="strike fighter 45px",
         Name="Difficulty",
-        InitCommand=function(self) -- to counter the skew, we must skew the skew that skewed the skew (jkob)
-          self:zoom(0.2):x(0):y(-17):strokecolor(color("#000000EE")):skewx(pn==PLAYER_1 and -0.2 or 0.2)
+        InitCommand=function(self)
+          self:zoom(0.2):x(0):y(-17):strokecolor(color("#000000EE"))
         end
       },
 
@@ -108,23 +108,16 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
       Def.BitmapText {
         Font="strike fighter 45px",
         Name="Credit",
-        InitCommand=function(self) -- to counter the skew, we must skew the skew that skewed the skew (jkob)
-          self:zoom(0.15):x(0):y(17):maxwidth(390):strokecolor(color("#000000EE")):skewx(pn==PLAYER_1 and -0.2 or 0.2)
+        InitCommand=function(self)
+          self:zoom(0.15):x(0):y(17):maxwidth(390):strokecolor(color("#000000EE"))
         end
-      },
-	  
-	  Def.Sprite {
-            Texture=THEME:GetPathG("", "DifficultyDisplay/euv_eval_trim"),
-     	    Name="BallLineFX",
-			InitCommand=function(self) self:zoom(0.21) end,
-			RefreshCommand=function(self) self:finishtweening():zoom(0.21):diffusealpha(0.9):decelerate(0.3):zoom(0.3):diffusealpha(0) end
       },
 
       Def.BitmapText {
         Font="Strike Fighter 45px",
         Name="MeterText",
-        InitCommand=function(self) -- to counter the skew, we must skew the skew that skewed the skew (jkob)
-          self:zoom(0.58):strokecolor(color("#000000EE")):skewx(pn==PLAYER_1 and -0.2 or 0.2)
+        InitCommand=function(self)
+          self:zoom(0.58):strokecolor(color("#000000EE"))
         end
       }
 

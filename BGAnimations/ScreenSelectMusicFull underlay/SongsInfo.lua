@@ -14,6 +14,9 @@ t[#t+1] = Def.ActorFrame {
     RefreshCommand=function(self)
         if GAMESTATE:GetCurrentSong() then
             local Song = GAMESTATE:GetCurrentSong()
+			local StepList = Song:GetAllSteps()
+            local FirstStep = StepList[1]
+            local Duration = FirstStep:GetChartLength()
 
             local TitleText = Song:GetDisplayFullTitle()
             if TitleText == "" then TitleText = "Unknown" end
@@ -31,6 +34,7 @@ t[#t+1] = Def.ActorFrame {
             self:GetChild("Title"):settext(TitleText)
 			self:GetChild("Artist"):settext(AuthorText)
             self:GetChild("BPM"):settext("BPM " .. BPMDisplay)
+			self:GetChild("Length"):settext(SecondsToMMSS(Duration))
 
             if GAMESTATE:IsEventMode() then
                 self:GetChild("HeartsIcon"):visible(false)
@@ -104,6 +108,20 @@ t[#t+1] = Def.ActorFrame {
 	end
     },
 	
+	
+	Def.BitmapText {
+        Font="inter medium 25px",
+        Name="Length",
+        InitCommand=function(self)
+            self:zoom(0.9):halign(0)
+            :x(220)
+            :y(158)
+        end,
+		
+		CurrentSongChangedMessageCommand=function(self)
+            self:stoptweening():x(220):diffusealpha(0):sleep(0.2):easeoutexpo(0.5):diffusealpha(1):x(245) end
+    },
+	
 	Def.BitmapText {
 			Font="inter medium 25px",
 			Name="Artist",
@@ -140,14 +158,14 @@ t[#t+1] = Def.ActorFrame {
         Font="inter medium 25px",
         Name="Hearts",
         InitCommand=function(self)
-            self:zoom(1):halign(0)
+            self:zoom(0.9):halign(0)
             :x(-265)
             :y(158)
 
             local Hearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
             self:settext(" " .. (GAMESTATE:IsEventMode() and "∞" or Hearts))
         end,
-	CurrentSongChangedMessageCommand=function(self)
+		CurrentSongChangedMessageCommand=function(self)
             self:stoptweening():x(-300):diffusealpha(0):sleep(0.4):diffusealpha(1):easeoutquad(0.2):x(-280) end
     },
 

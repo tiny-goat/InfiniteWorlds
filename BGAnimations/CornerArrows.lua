@@ -10,9 +10,9 @@ return Def.ActorFrame {
         Texture=THEME:GetPathG("", "CornerArrows/shiftarrow_red"),
         InitCommand=function(self) self:xy(50,50):rotationz(135):zoom(0.6):blend('add'):diffusealpha(0) end,
         SongUnchosenMessageCommand=function(self) self:playcommand("Glow") end,
-        StartSelectingGroupMessageCommand=function(self) self:playcommand("Glow") end,
+        OpenGroupWheelMessageCommand=function(self) self:playcommand("Glow") end,
         GlowCommand=function(self)
-            self:stoptweening():diffusealpha(1):zoom(0.6):linear(0.25):diffusealpha(0):zoom(0.7)
+            self:stoptweening():glow(1,0.4,0,1):zoom(0.6):linear(0.25):glow(1,1,1,0):zoom(0.7)
         end
     },
 
@@ -27,9 +27,9 @@ return Def.ActorFrame {
         Texture=THEME:GetPathG("", "CornerArrows/shiftarrow_red"),
         InitCommand=function(self) self:xy(SCREEN_RIGHT - 50,  50):rotationz(-135):zoom(0.6):blend('add'):diffusealpha(0) end,
         SongUnchosenMessageCommand=function(self) self:playcommand("Glow") end,
-        StartSelectingGroupMessageCommand=function(self) self:playcommand("Glow") end,
+        OpenGroupWheelMessageCommand=function(self) self:playcommand("Glow") end,
         GlowCommand=function(self)
-            self:stoptweening():diffusealpha(1):zoom(0.6):linear(0.25):diffusealpha(0):zoom(0.7)
+            self:stoptweening():glow(1,0.4,0,1):zoom(0.6):linear(0.25):glow(1,1,1,0):zoom(0.7)
         end
     },
 
@@ -44,11 +44,20 @@ return Def.ActorFrame {
         Texture=THEME:GetPathG("", "CornerArrows/shiftarrow_blue"),
         InitCommand=function(self) self:xy(50, SCREEN_BOTTOM - 50):rotationz(45):zoom(0.6):blend('add'):diffusealpha(0) end,
         PreviousSongMessageCommand=function(self)
-            self:stoptweening():diffusealpha(1):zoom(0.6):linear(0.25):diffusealpha(0):zoom(0.7)
+            self:stoptweening():glow(1,1,1,1):zoom(0.6):linear(0.25):glow(1,1,1,0):zoom(0.7)
         end,
         ScrollMessageCommand=function(self, params) if params.Direction == -1 then
-            self:stoptweening():diffusealpha(1):zoom(0.6):linear(0.25):diffusealpha(0):zoom(0.7) end
-        end
+            self:playcommand("Glow") end
+        end,
+		ScrollMainMessageCommand=function(self, params) if params.Direction == -1 then
+            self:playcommand("Glow") end
+        end,
+		ScrollSubMessageCommand=function(self, params) if params.Direction == -1 then
+            self:playcommand("Glow") end
+        end,
+		
+		GlowCommand=function(self)
+            self:stoptweening():glow(0,1,1,1):zoom(0.6):linear(0.25):glow(1,1,1,0):zoom(0.7) end
     },
 
     -- Down Right
@@ -62,10 +71,19 @@ return Def.ActorFrame {
         Texture=THEME:GetPathG("", "CornerArrows/shiftarrow_blue"),
         InitCommand=function(self) self:xy(SCREEN_RIGHT - 50, SCREEN_BOTTOM - 50):rotationz(-45):zoom(0.6):blend('add'):diffusealpha(0) end,
         NextSongMessageCommand=function(self)
-            self:stoptweening():diffusealpha(1):zoom(0.6):linear(0.25):diffusealpha(0):zoom(0.7)
+            self:stoptweening():glow(1,1,1,1):zoom(0.6):linear(0.25):glow(1,1,1,0):zoom(0.7)
         end,
         ScrollMessageCommand=function(self, params) if params.Direction == 1 then
-            self:stoptweening():diffusealpha(1):zoom(0.6):linear(0.25):diffusealpha(0):zoom(0.7) end
-        end
+            self:playcommand("Glow") end
+        end,
+		ScrollMainMessageCommand=function(self, params) if params.Direction == 1 then
+            self:playcommand("Glow") end
+        end,
+		ScrollSubMessageCommand=function(self, params) if params.Direction == 1 then
+            self:playcommand("Glow") end
+        end,
+		
+		GlowCommand=function(self)
+            self:stoptweening():glow(0,1,1,1):zoom(0.6):linear(0.25):glow(1,1,1,0):zoom(0.7) end
     }
 }

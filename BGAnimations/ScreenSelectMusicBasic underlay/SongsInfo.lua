@@ -14,6 +14,9 @@ t[#t+1] = Def.ActorFrame {
     RefreshCommand=function(self)
         if GAMESTATE:GetCurrentSong() then
             local Song = GAMESTATE:GetCurrentSong()
+			local StepList = Song:GetAllSteps()
+            local FirstStep = StepList[1]
+            local Duration = FirstStep:GetChartLength()
 
             local TitleText = Song:GetDisplayFullTitle()
             if TitleText == "" then TitleText = "Unknown" end
@@ -29,8 +32,9 @@ t[#t+1] = Def.ActorFrame {
             if Song:IsDisplayBpmRandom() or BPMDisplay == 0 then BPMDisplay = "???" end
 
             self:GetChild("Title"):settext(TitleText)
-	    self:GetChild("Artist"):settext(AuthorText)
+			self:GetChild("Artist"):settext(AuthorText)
             self:GetChild("BPM"):settext("BPM " .. BPMDisplay)
+			self:GetChild("Length"):settext(SecondsToMMSS(Duration))
 
             if GAMESTATE:IsEventMode() then
                 self:GetChild("HeartsIcon"):visible(false)
@@ -120,6 +124,19 @@ t[#t+1] = Def.ActorFrame {
 	else
             self:stoptweening():x(-80):diffusealpha(0):sleep(0.1):easeoutexpo(0.8):diffusealpha(1):x(0) end
 	end
+    },
+	
+	Def.BitmapText {
+        Font="inter medium 25px",
+        Name="Length",
+        InitCommand=function(self)
+            self:zoom(0.9):halign(0)
+            :x(220)
+            :y(158)
+        end,
+		
+		CurrentSongChangedMessageCommand=function(self)
+            self:stoptweening():x(220):diffusealpha(0):sleep(0.2):easeoutexpo(0.5):diffusealpha(1):x(245) end
     },
 
     Def.BitmapText {

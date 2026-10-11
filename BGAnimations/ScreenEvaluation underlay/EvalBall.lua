@@ -42,8 +42,6 @@ return Def.ActorFrame {
             end
         end
     end,
-
-    OnCommand=function(self) self:skewx(pn==PLAYER_1 and 0.2 or -0.2) end,
     
     Def.Sprite {
         Name="Ball",
@@ -73,7 +71,7 @@ return Def.ActorFrame {
         Name="Meter",
         Font="Strike Fighter 45px",
         InitCommand=function(self)
-            self:zoom(0.73):y(0):x(0):strokecolor(color("#000000CC")):skewx(pn==PLAYER_1 and -0.2 or 0.2)
+            self:zoom(0.73):y(0):x(0):strokecolor(color("#000000CC"))
         end
     },
     
@@ -88,7 +86,7 @@ return Def.ActorFrame {
         Font="Strike Fighter 45px",
         Name="Difficulty",
         InitCommand=function(self)
-            self:y(-25):x(0):visible(true):zoom(0.3):strokecolor(Color.Black):skewx(pn==PLAYER_1 and -0.2 or 0.2)
+            self:y(-25):x(0):visible(true):zoom(0.3):strokecolor(Color.Black)
         end
     },
     
@@ -96,7 +94,7 @@ return Def.ActorFrame {
         Name="Label",
         Texture=THEME:GetPathG("", "DifficultyDisplay/Labels"),
         InitCommand=function(self)
-            self:y(24):visible(false):animate(false):skewx(pn==PLAYER_1 and -0.2 or 0.2)
+            self:y(24):visible(false):animate(false)
         end
     }
 }
