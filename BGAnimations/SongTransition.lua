@@ -55,7 +55,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		
         Def.ActorFrame {
             OnCommand=function(self)
-                self:xy(pn == PLAYER_2 and SCREEN_RIGHT - 144 or 144, SCREEN_BOTTOM - 64):playcommand("Refresh")
+                self:xy(pn == PLAYER_2 and SCREEN_RIGHT - 85 or 85, SCREEN_BOTTOM - 35):playcommand("Refresh")
             end,
 
             StartTransitioningCommand=function(self) self:playcommand("Refresh") end,
@@ -96,33 +96,31 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 end
             end,
 
-            Def.Sprite {
-                Name="Frame",
-                Texture=THEME:GetPathG("", "UI/StepArtist" .. (pn == PLAYER_2 and "R" or "L")),
-				InitCommand=function(self) self:zoom(0.5) end,
+            -- Def.Sprite {
+                -- Name="Frame",
+                -- Texture=THEME:GetPathG("", "UI/StepArtist" .. (pn == PLAYER_2 and "R" or "L")),
+				-- InitCommand=function(self) self:zoom(0.5) end,
+            -- },
+			
+			Def.Sprite {
+                 Name="Frame",
+                 Texture=THEME:GetPathG("", "UI/tg_base_stepartist"),
+				 InitCommand=function(self) self:zoom(0.38):rotationy(pn== PLAYER_2 and -180 or 0) end,
             },
 
             Def.Sprite {
                 Name="Ball",
-                Texture=THEME:GetPathG("", "DifficultyDisplay/euv_ball"),
+                Texture=THEME:GetPathG("", "UI/tg_stepartist_diff"),
                 InitCommand=function(self)
-                    self:xy(79.25 * PlayerDirection, 0.25):zoom(1.1)
+                    self:rotationy(pn== PLAYER_2 and -180 or 0):zoom(0.38)
                 end
             },
-
-            Def.Sprite {
-                Name="BallTrim",
-                Texture=THEME:GetPathG("", "DifficultyDisplay/ThickTrim"),
-                InitCommand=function(self)
-                    self:xy(79.25 * PlayerDirection, 0.25):zoom(0.33)
-                end
-            },
-
+			
             Def.BitmapText {
                 Name="Meter",
                 Font="inter extrabold 45px",
                 InitCommand=function(self)
-                    self:xy(80.5 * PlayerDirection, 1):zoom(0.9):strokecolor(Color.Black)
+                    self:xy(53.5 * PlayerDirection, 13):zoom(0.58):strokecolor(Color.Black)
                 end
             },
 
@@ -130,19 +128,27 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 Name="Label",
                 Texture=THEME:GetPathG("", "DifficultyDisplay/Labels"),
                 InitCommand=function(self)
-                    self:xy(79.25 * PlayerDirection, 23.25):visible(false):animate(false)
+                    self:xy(53 * PlayerDirection, -17):zoom(0.7):visible(false):animate(false)
                 end
             },
 
             Def.BitmapText {
                 Name="Credit",
-                Font="inter light 22px",
+                Font="inter medium 25px",
                 InitCommand=function(self)
-                    self:xy(-41 * PlayerDirection, 22.5)
-                    :vertspacing(-8)
+                    self:xy(-21 * PlayerDirection, 14)
+                    :vertspacing(-8):zoom(0.72):strokecolor(Color.Black)
                     :wrapwidthpixels(150)
                     :maxheight(40)
-                    :maxwidth(150)
+                    :maxwidth(115)
+                end
+            },
+			
+			Def.BitmapText {
+                Font="inter light 22px",
+                InitCommand=function(self)
+                    self:settext("Step Artist"):xy(-21 * PlayerDirection, -17)
+                    :vertspacing(-8):zoom(0.6):strokecolor(Color.Black)
                 end
             }
         }

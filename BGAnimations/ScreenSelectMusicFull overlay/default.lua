@@ -103,7 +103,7 @@ t[#t+1] = Def.ActorFrame {
     -- Background for the group select wheel
     Def.Quad {
         InitCommand=function(self)
-            self:FullScreen():diffusetopedge(Color.Black):diffusealpha(0)
+            self:FullScreen():diffusetopedge(Color.Black):diffusebottomedge(color("#3458CD")):diffusealpha(0)
         end,
         CloseGroupWheelMessageCommand=function(self) self:stoptweening():sleep(0.25):diffusealpha(0) end,
         OpenGroupWheelMessageCommand=function(self) self:stoptweening():linear(0.3):diffusealpha(0.96) end,
@@ -126,6 +126,37 @@ t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
             self:zoom(1.25):xy(-SCREEN_WIDTH / 8, -SCREEN_HEIGHT / 8)
         end,
+    },
+
+    Def.ActorFrame{
+        -- group select arrows
+        InitCommand=function(self) self:diffuse(color("#FFFF20")):diffusealpha(0) end,
+        OpenGroupWheelMessageCommand=function(self) self:linear(0.08):diffusealpha(1) end,
+        CloseGroupWheelMessageCommand=function(self) self:linear(0.08):diffusealpha(0) end,
+
+        Def.Sprite {
+            Texture="tg_grouparrow",
+            InitCommand=function(self) self:xy(SCREEN_CENTER_X+150, SCREEN_CENTER_Y) end,
+
+            ScrollSubMessageCommand=function(self, params)
+                if params.Direction == 1 then
+                    self:playcommand("Move") end
+                end,
+
+            MoveCommand=function(self) self:stoptweening():x(SCREEN_CENTER_X+150):linear(0.09):zoom(1.1):x(SCREEN_CENTER_X+235):decelerate(0.2):zoom(1):x(SCREEN_CENTER_X+150) end,
+        },
+
+        Def.Sprite {
+            Texture="tg_grouparrow",
+            InitCommand=function(self) self:xy(SCREEN_CENTER_X-150, SCREEN_CENTER_Y):rotationy(-180) end,
+
+            ScrollSubMessageCommand=function(self, params)
+                if params.Direction == -1 then
+                    self:playcommand("Move") end
+                end,
+
+            MoveCommand=function(self) self:stoptweening():x(SCREEN_CENTER_X-150):linear(0.09):zoom(1.1):x(SCREEN_CENTER_X-235):decelerate(0.2):zoom(1):x(SCREEN_CENTER_X-150) end,
+        },
     },
 
  -- here bro, have a flashbang (jkob)

@@ -6,7 +6,7 @@ local SubWheelSize = 13
 local SubWheelCenter = math.ceil( SubWheelSize * 0.5 )
 local SubWheelSpacing = 250
 
-local WheelItem = { Width = 252, Height = 160 }
+local WheelItem = { Width = 282, Height = 190 }
 local WheelRotation = 0.1
 
 local MenuButtonsOnly = PREFSMAN:GetPreference("OnlyDedicatedMenuButtons")
@@ -465,8 +465,8 @@ for i = 1, SubWheelSize do
             -- Animate!
 	    -- juust to make it close to the original one from infinity but not enough that we may get copyright issues, if AM still cares?
             self:xy(xpos + displace, SCREEN_CENTER_Y)
-            --[[self:rotationy((SCREEN_CENTER_X - xpos - displace) * -WheelRotation)]]--
-            --[[self:z(-math.abs(SCREEN_CENTER_X - xpos - displace) * 0.5)]]--
+            --[[ self:rotationy((SCREEN_CENTER_X - xpos - displace) * -WheelRotation)
+            self:z(-math.abs(SCREEN_CENTER_X - xpos - displace) * 0.5) ]]
         end,
         
         
@@ -496,7 +496,7 @@ for i = 1, SubWheelSize do
 		Def.Quad {
 			Name="GroupInfoBack",
 			InitCommand=function(self)
-                    self:zoomto(232, 50):y(20)
+                    self:zoomto(232, 50):y(0)
                     :diffuse(0,0,0,0):fadeleft(0.05):faderight(0.05)
             end,
 			RefreshCommand=function(self) self:diffusealpha(CurMainIndex == OrigGroupIndex and 0 or 0.6) end
@@ -511,7 +511,7 @@ for i = 1, SubWheelSize do
             end,
             RefreshCommand=function(self, params) 
                 self:settext(GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Name) 
-                :y(CurMainIndex == OrigGroupIndex and 64 or 0):zoom(CurMainIndex == OrigGroupIndex and 0.4 or 1.18)
+                :y(CurMainIndex == OrigGroupIndex and 64 or -20):zoom(CurMainIndex == OrigGroupIndex and 0.4 or 1.18)
             end
         }
     }
