@@ -4,10 +4,10 @@ local MainWheelSpacing = 170
 
 local SubWheelSize = 13
 local SubWheelCenter = math.ceil( SubWheelSize * 0.5 )
-local SubWheelSpacing = 280
+local SubWheelSpacing = 240
 
 local WheelItem = { Width = 282, Height = 190 }
-local WheelRotation = 0.1
+local WheelRotation = 0.15
 
 local MenuButtonsOnly = PREFSMAN:GetPreference("OnlyDedicatedMenuButtons")
 
@@ -322,7 +322,12 @@ local t = Def.ActorFrame {
         IsAction=true,
         CloseGroupWheelMessageCommand=function(self) self:play() end
     },
-
+    
+    Def.Sound {
+        File=THEME:GetPathS("", "tg_groupfocus"),
+        IsAction=true,
+        RefreshHighlightMessageCommand=function(self) self:play() end
+    },
     -- when a folder is in focus, play the respective soundbyte in the info folder
     Def.Sound {
         File=THEME:GetPathS("MusicWheel", "change"),
@@ -384,7 +389,7 @@ for i = 1, MainWheelSize do
             if i == 2 or i == MainWheelSize - 1 then
 				self:GetChild("Text"):settext(GroupsList[MainTargets[i]].Name)
             elseif tween then
-                self:easeoutexpo(0.3)
+                self:easeoutexpo(0.4)
             end
 			
 			self:GetChild("Text"):playcommand("Refresh")
@@ -405,7 +410,7 @@ for i = 1, MainWheelSize do
             RefreshHighlightMessageCommand=function(self) self:playcommand("Refresh") end,
                 
             RefreshCommand=function(self)
-                self:finishtweening():easeoutexpo(0.4):diffusealpha(i == MainWheelCenter and 1 or 0)
+                self:finishtweening():easeoutexpo(0.23):zoom(i == MainWheelCenter and 0.56 or 1):diffusealpha(i == MainWheelCenter and 1 or 0)
             end,
         }
     }
@@ -476,8 +481,8 @@ for i = 1, SubWheelSize do
             -- Animate!
 	    -- juust to make it close to the original one from infinity but not enough that we may get copyright issues, if AM still cares?
             self:xy(xpos + displace, SCREEN_CENTER_Y)
-            --[[ self:rotationy((SCREEN_CENTER_X - xpos - displace) * -WheelRotation)
-            self:z(-math.abs(SCREEN_CENTER_X - xpos - displace) * 0.5) ]]
+            self:rotationy((SCREEN_CENTER_X - xpos - displace) * -WheelRotation)
+            self:z(-math.abs(SCREEN_CENTER_X - xpos - displace) * -0.4)
         end,
         
         
