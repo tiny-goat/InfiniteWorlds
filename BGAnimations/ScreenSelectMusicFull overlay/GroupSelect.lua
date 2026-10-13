@@ -1,10 +1,10 @@
-local MainWheelSize = 15
+local MainWheelSize = 13
 local MainWheelCenter = math.ceil( MainWheelSize * 0.5 )
-local MainWheelSpacing = 180
+local MainWheelSpacing = 170
 
 local SubWheelSize = 13
 local SubWheelCenter = math.ceil( SubWheelSize * 0.5 )
-local SubWheelSpacing = 250
+local SubWheelSpacing = 280
 
 local WheelItem = { Width = 282, Height = 190 }
 local WheelRotation = 0.1
@@ -132,6 +132,11 @@ local function GetFocusedGroupSoundPath()
     end
 end
 
+local function GrabCurrentSongGroup()
+    local subGroup = GroupsList[CurMainIndex] and GroupsList[CurMainIndex].SubGroups[CurSubIndex]
+    MESSAGEMAN:Broadcast("SongGroupChanged", { Name = subGroup and subGroup.Name or "" })
+end
+
 -- Manages banner on sprite
 function UpdateBanner(self, Banner)
     if Banner == "" then Banner = THEME:GetPathG("Common fallback", "banner") end
@@ -238,8 +243,9 @@ local function InputHandler(event)
             end
         end
 
-        -- we refresh sound here
+        -- we refresh thing here
         MESSAGEMAN:Broadcast("RefreshGroupSound")
+        GrabCurrentSongGroup()
     end
 end
 
@@ -255,6 +261,7 @@ local t = Def.ActorFrame {
         BlockScreenInput(false)
         ScreenSelectMusic = SCREENMAN:GetTopScreen()
         ScreenSelectMusic:AddInputCallback(InputHandler)
+        GrabCurrentSongGroup()
     end,
     
     OffCommand=function(self) BlockScreenInput(false) end,
@@ -349,6 +356,11 @@ for i = 1, MainWheelSize do
             
             -- Set initial position, Direction = 0 means it won't tween
             self:playcommand("ScrollMain", {Direction = 0})
+            self:diffuse(IsFocusedMain and color("#FFFF20") or color("#FFFF20A0"))
+        end,
+
+        RefreshHighlightMessageCommand=function(self)
+            self:finishtweening():easeoutexpo(0.4):diffuse(IsFocusedMain and color("#FFFF20") or color("#FFFF20A0"))
         end,
 
         ScrollMainMessageCommand=function(self, params)
@@ -378,23 +390,22 @@ for i = 1, MainWheelSize do
 			self:GetChild("Text"):playcommand("Refresh")
 
             -- Animate!
-            self:xy(xpos + displace, SCREEN_CENTER_Y - 98)
+            self:xy(xpos + displace, SCREEN_CENTER_Y - 115)
         end,
        
-        
         Def.BitmapText {
             Name="Text",
             Font="inter extrabold 45px",
             InitCommand=function(self)
-                self:zoom(0.6):diffuse(Color.White):strokecolor(Color.Black):shadowlength(1.5)
+                self:zoom(0.56):diffuse(Color.White):strokecolor(Color.Black):shadowlength(1.5)
                 :maxwidth(MainWheelSpacing / self:GetZoom())
             end,
-            
+                
             OnCommand=function(self) self:playcommand("Refresh") end,
             RefreshHighlightMessageCommand=function(self) self:playcommand("Refresh") end,
-            
+                
             RefreshCommand=function(self)
-                self:finishtweening():easeoutexpo(0.4):diffusealpha(i == MainWheelCenter and 1 or 0.5)
+                self:finishtweening():easeoutexpo(0.4):diffusealpha(i == MainWheelCenter and 1 or 0)
             end,
         }
     }
@@ -416,7 +427,7 @@ for i = 1, SubWheelSize do
             self:GetChild(""):GetChild("Index"):playcommand("Refresh")
             
             -- Ensure the wheel is highlighted or not at the beginning
-            self:diffusealpha(IsFocusedMain and 0.5 or 1)
+            self:diffusealpha(IsFocusedMain and 0.8 or 1)
             
             -- Set initial position, Direction = 0 means it won't tween
             self:playcommand("ScrollSub", {Direction = 0})
@@ -477,7 +488,7 @@ for i = 1, SubWheelSize do
         Def.ActorFrame {
             Def.Quad {
                 InitCommand=function(self)
-                    self:zoomto(60, 18):addy(90)
+                    self:zoomto(60, 18):addy(-67)
                     :diffuse(0,0,0,0.3)
                     :fadeleft(0.3):faderight(0.3)
                 end
@@ -487,7 +498,7 @@ for i = 1, SubWheelSize do
                 Name="Index",
                 Font="inter medium 25px",
                 InitCommand=function(self)
-                    self:addy(89):zoom(0.6):strokecolor(Color.Black)
+                    self:addy(-69):zoom(0.6):strokecolor(Color.Black)
                 end,
                 RefreshCommand=function(self, params) self:settext(SubTargets[i]) end
             }
@@ -496,7 +507,7 @@ for i = 1, SubWheelSize do
 		Def.Quad {
 			Name="GroupInfoBack",
 			InitCommand=function(self)
-                    self:zoomto(232, 50):y(0)
+                    self:zoomto(232, 80):y(0)
                     :diffuse(0,0,0,0):fadeleft(0.05):faderight(0.05)
             end,
 			RefreshCommand=function(self) self:diffusealpha(CurMainIndex == OrigGroupIndex and 0 or 0.6) end
@@ -511,11 +522,99 @@ for i = 1, SubWheelSize do
             end,
             RefreshCommand=function(self, params) 
                 self:settext(GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Name) 
-                :y(CurMainIndex == OrigGroupIndex and 64 or -20):zoom(CurMainIndex == OrigGroupIndex and 0.4 or 1.18)
+                :y(-20):zoom(1.18):diffusealpha(CurMainIndex == OrigGroupIndex and 0 or 1)
             end
         }
     }
 end
+
+t[#t+1] = Def.ActorFrame {
+    -- this shows the current song folder name in focus. make it invisible if we are not selecting a group/folder
+    InitCommand=function(self) self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y + 120) end,
+
+    Def.BitmapText {
+        Font = "inter medium 32px",
+        InitCommand=function(self)
+            self:zoom(0.6)
+                :diffuse(color("#FFFF20"))
+                :strokecolor(Color.Black)
+                :diffusealpha(0)
+        end,
+        SongGroupChangedMessageCommand=function(self, params)
+            self:settext("Here you can play songs originally from " .. params.Name or ""):diffusealpha(CurMainIndex == OrigGroupIndex and 1 or 0)
+        end,
+        OpenGroupWheelMessageCommand=function(self)
+            self:stoptweening():easeoutexpo(0.4):diffusealpha(1)
+        end,
+        CloseGroupWheelMessageCommand=function(self)
+            self:stoptweening():sleep(0.25):diffusealpha(0)
+        end
+    },
+}
+
+-- the sort text thing
+t[#t+1] = Def.ActorFrame {
+    InitCommand=function(self) self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 140):diffusealpha(0.7) end,
+    Def.BitmapText {
+            Name="Text",
+            Font="inter light 22px",
+            InitCommand=function(self)
+                self:settext("CATEGORY"):zoom(0.56):diffuse(Color.White)
+            end,
+    }
+}
+
+-- this thing just wont center on zoom adjusts, it sucksss
+t[#t+1] = Def.ActorFrame{
+        -- group select arrows
+        InitCommand=function(self) self:y(SCREEN_CENTER_Y):diffuse(color("#FFFF20")):diffusealpha(0) end,
+        OpenGroupWheelMessageCommand=function(self) self:linear(0.08):diffusealpha(1) end,
+        CloseGroupWheelMessageCommand=function(self) self:linear(0.08):diffusealpha(0) end,
+
+        RefreshHighlightMessageCommand=function(self)
+            self:stoptweening():easeoutexpo(0.4):y(IsFocusedMain and SCREEN_CENTER_Y-115 or SCREEN_CENTER_Y)
+        end,
+
+        Def.Sprite {
+            Texture="tg_grouparrow",
+            InitCommand=function(self) self:x(SCREEN_CENTER_X+150) end,
+            ScrollSubMessageCommand=function(self, params)
+                if params.Direction == 1 then
+                    self:playcommand("Move") end
+            end,
+            ScrollMainMessageCommand=function(self, params)
+                if params.Direction == 1 then
+                    self:playcommand("Move") end
+            end,
+            RefreshHighlightMessageCommand=function(self)
+                self:stoptweening():easeoutexpo(0.4):zoom(IsFocusedMain and 0.5 or 1)
+            end,
+            MoveCommand=function(self) 
+                local ZoomVal1 = IsFocusedMain and 0.56 or 1.1
+                local ZoomVal2 = IsFocusedMain and 0.5 or 1 
+                self:stoptweening():x(SCREEN_CENTER_X+150):linear(0.09):zoom(ZoomVal1):x(SCREEN_CENTER_X+235):decelerate(0.2):zoom(ZoomVal2):x(SCREEN_CENTER_X+150) end,
+        },
+
+        Def.Sprite {
+            Texture="tg_grouparrow",
+            InitCommand=function(self) self:x(SCREEN_CENTER_X-150):rotationy(-180) end,
+            ScrollSubMessageCommand=function(self, params)
+                if params.Direction == -1 then
+                    self:playcommand("Move") end
+            end,
+            ScrollMainMessageCommand=function(self, params)
+                if params.Direction == -1 then
+                    self:playcommand("Move") end
+            end,
+            RefreshHighlightMessageCommand=function(self)
+                self:stoptweening():easeoutexpo(0.4):zoom(IsFocusedMain and 0.5 or 1)
+            end,
+            MoveCommand=function(self)
+                local ZoomVal1 = IsFocusedMain and 0.56 or 1.1
+                local ZoomVal2 = IsFocusedMain and 0.5 or 1 
+                self:stoptweening():x(SCREEN_CENTER_X-150):linear(0.09):zoom(ZoomVal1):x(SCREEN_CENTER_X-235):decelerate(0.2):zoom(ZoomVal2):x(SCREEN_CENTER_X-150) end,
+        },
+}
 
 t[#t+1] = Def.ActorFrame {
     Def.BitmapText {
