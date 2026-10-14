@@ -14,7 +14,7 @@ local t = Def.ActorFrame {
         Def.Quad {
             Name="Back1",
             InitCommand=function(self)
-                self:zoomto(FrameW, FrameH):diffuseleftedge(color("#16EEFF")):diffuserightedge(color("#EE16FF")):fadetop(0.9):diffusealpha(0)
+                self:zoomto(FrameW, FrameH):diffuseleftedge(color("#16EEFF")):diffuserightedge(color("#c01d00")):fadetop(0.9):diffusealpha(0)
             end,
 			ScrollMessageCommand=function(self)
 				self:stoptweening():diffusealpha(0.7):sleep(PreviewDelay):diffusealpha(0) end

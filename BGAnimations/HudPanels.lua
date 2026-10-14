@@ -10,11 +10,37 @@ local t = Def.ActorFrame {
             self:sleep(0.2):easeoutexpo(0.9):xy(SCREEN_CENTER_X, -128)
         end,
 
+            
         Def.Sprite {
-            Texture=THEME:GetPathG("", "UI/euv_header_up"),
+            Texture=THEME:GetPathG("", "UI/tg_glow_header"),
+            InitCommand=function(self)
+                self:scaletofit(0, 0, 1280, 128):xy(0, -5):diffuse(color("#CC16EE")):valign(0):queuecommand("Fade")
+            end,
+            FadeCommand=function(self)
+                self:diffusealpha(1):linear(2):diffusealpha(0.3):linear(2):diffusealpha(1):queuecommand("Fade")
+            end
+        },
+
+        Def.Sprite {
+            Texture=THEME:GetPathG("", "UI/tg_header_up"),
             InitCommand=function(self)
                 self:scaletofit(0, 0, 1280, 128):xy(0, -5):valign(0)
             end,
+        },
+
+        Def.Sprite {
+            Texture=THEME:GetPathG("", "UI/headermask"),
+            InitCommand=function(self)
+                self:scaletofit(0, 0, 1280, 128):xy(0, -5):valign(0):MaskSource()
+            end,
+        },
+
+        Def.Quad {
+            InitCommand=function(self)
+                self:zoomto(1280, 128):fadetop(0.5):xy(0, -5):diffuse(color("#c01d00")):valign(0):MaskDest():ztestmode("ZTestMode_WriteOnFail"):queuecommand("Animate")
+            end,
+            AnimateCommand=function(self)
+                self:diffusealpha(0.8):linear(2):diffusealpha(0):linear(2):diffusealpha(0.8):sleep(1):queuecommand("Animate") end,
         },
 
         -- Screen name
@@ -23,7 +49,7 @@ local t = Def.ActorFrame {
             Font="inter extrabold 45px",
             Text=ToUpper(Screen.String("HeaderText")),
             InitCommand=function(self)
-                self:xy(-WideScale(255, 230), 0):zoom(0.6):sleep(0.2):diffusealpha(0):easeoutexpo(1):xy(-WideScale(200, 165), 45):halign(1):skewy(0.1)
+                self:xy(-WideScale(255, 230), 0):zoom(0.6):strokecolor(Color.Black):sleep(0.2):diffusealpha(0):easeoutexpo(1):xy(-WideScale(200, 165), 45):halign(1):skewy(0.1)
                 :diffuse(Color.White)
 
                 if not IsUsingWideScreen() then
@@ -83,39 +109,48 @@ local t = Def.ActorFrame {
             },
         }
     },
-
     -- Bottom panel
-    Def.Sprite {
-        Texture=THEME:GetPathG("", "UI/euv_footer_part"),
+    -- finally cleaned this one up
+    Def.ActorFrame {
         InitCommand=function(self)
-            self:scaletofit(0, 0, 1280, 140)
-            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 128):valign(1)
-        end,
-        OnCommand=function(self)
-            self:smooth(0.5)
-            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM)
-        end,
-        OffCommand=function(self)
-            self:sleep(0.2):easeoutexpo(0.9)
-            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 128)
-        end,
-    },
-    Def.Sprite {
-        Texture=THEME:GetPathG("", "UI/euv_footer_down"),
-        InitCommand=function(self)
-            self:scaletofit(0, 0, 1280, 128)
-            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 130):valign(1)
-        end,
-        OnCommand=function(self)
-            self:smooth(0.5)
-            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 28):decelerate(0.3):y(SCREEN_BOTTOM + 30)
-        end,
-        OffCommand=function(self)
-            self:sleep(0.2):easeoutexpo(0.9)
-            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 130)
-        end,
-    },
+                self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 130):valign(1)
+            end,
+            OnCommand=function(self)
+                self:smooth(0.5)
+                :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 28):decelerate(0.3):y(SCREEN_BOTTOM + 30)
+            end,
+            OffCommand=function(self)
+                self:sleep(0.2):easeoutexpo(0.9)
+                :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 130)
+            end,
 
+        Def.Sprite {
+            Texture=THEME:GetPathG("", "UI/euv_footer_part"),
+            InitCommand=function(self)
+                self:scaletofit(0, 0, 1280, 140)
+                :xy(0,-15):valign(1)
+            end,
+        },
+        
+        Def.Sprite {
+            Texture=THEME:GetPathG("", "UI/tg_glow_footer"),
+            InitCommand=function(self)
+                self:scaletofit(0, 0, 1280, 128)
+                :xy(0,0):diffuse(color("#16CCEE")):valign(1):queuecommand("Fade")
+            end,
+            FadeCommand=function(self)
+                    self:diffusealpha(1):linear(2):diffusealpha(0.3):linear(2):diffusealpha(1):queuecommand("Fade")
+            end
+        },
+
+        Def.Sprite {
+            Texture=THEME:GetPathG("", "UI/tg_footer_down"),
+            InitCommand=function(self)
+                self:scaletofit(0, 0, 1280, 128)
+                :xy(0,0):valign(1)
+            end,
+        },
+    }
 }
 
 -- Avatar display and info on bottom panel
