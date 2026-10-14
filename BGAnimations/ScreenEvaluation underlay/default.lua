@@ -5,7 +5,7 @@ local ClassicGrades = LoadModule("Config.Load.lua")("ClassicGrades", "Save/OutFo
 local AdvScoresShown = false
 local BasicMode = getenv("IsBasicMode")
 
-local GradeZoom = IsUsingWideScreen() and 0.3 or 0.25
+local GradeZoom = IsUsingWideScreen() and 0.32 or 0.25
 
 -- we will pass the gradezoom values here, since new and classic grade letters are in different resolutions, and need diff zoom values, kinda stupid but eh it works
 local GradeZoomAdd = ClassicGrades and GradeZoom or GradeZoom+0.2
@@ -26,6 +26,8 @@ local PlateZoom = IsUsingWideScreen() and 0.7 or 0.45
 
 -- how long it takes for the grading/plate/sfx to play after evallines finishes showing all stats
 local GradeTime = 3
+
+local GradeX = IsUsingWideScreen() and 220 or 260
 
 local Grades = { PlayerNumber_P1 = "FailF", PlayerNumber_P2 = "FailF" }
 local GradePriority = {
@@ -145,7 +147,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		-- fx
 		Def.Sprite {
             InitCommand=function(self)
-                local GradeX = IsUsingWideScreen() and 300 or 260
                 self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6)
 
                 self:Load(THEME:GetPathG("", "ParticlesAndEffects/Stars2"))
@@ -156,7 +157,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		
 		Def.Sprite {
             InitCommand=function(self)
-                local GradeX = IsUsingWideScreen() and 300 or 260
                 self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6)
 
                 self:Load(THEME:GetPathG("", "ParticlesAndEffects/Stars3"))
@@ -167,7 +167,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		
 		Def.Sprite {
             InitCommand=function(self)
-                local GradeX = IsUsingWideScreen() and 300 or 260
                 self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6)
 
                 self:Load(THEME:GetPathG("", "Background/circle"))
@@ -179,7 +178,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		-- letter grades
         Def.Sprite {
             InitCommand=function(self)
-                local GradeX = IsUsingWideScreen() and 300 or 260
                 self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 4)
 
                 local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
@@ -194,14 +192,13 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		
         Def.Sprite {
             InitCommand=function(self)
-                local GradeX = IsUsingWideScreen() and 300 or 260
                 self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 3):blend("Add")
 
                 local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                 Grades[pn] = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
 
                 self:Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") .. Grades[pn]))
-                :diffusealpha(0):glow(1,1,1,0):sleep(GradeTime+0.1):glow(1,1,1,1):diffusealpha(0.9):zoom(GradeZoomAdd):decelerate(0.6)
+                :diffusealpha(0):glow(1,1,1,0):sleep(GradeTime+0.1):glow(1,1,1,1):diffusealpha(0.9):zoom(GradeZoomAdd):decelerate(0.9)
                 :zoom(GradeZoomAdd * 1.28):glow(1,1,1,0):diffusealpha(0)
             end
         }
@@ -213,7 +210,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 			
 			Def.Sprite {
                 InitCommand=function(self)
-                    local GradeX = IsUsingWideScreen() and 300 or 260
                     self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y - 100)
 
                     local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
@@ -228,7 +224,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 			
 			Def.Sprite {
                 InitCommand=function(self)
-                    local GradeX = IsUsingWideScreen() and 300 or 260
                     self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y - 100)
 
                     local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)

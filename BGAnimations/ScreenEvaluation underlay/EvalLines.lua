@@ -10,7 +10,7 @@ Length = Length + 4
 
 local RowAmount = Length
 local RowH = 40
-local RowX = IsUsingWideScreen() and 480 or 380
+local RowX = IsUsingWideScreen() and 420 or 380
 local RowY = SCREEN_CENTER_Y - (RowAmount * RowH) / 2
 
 -- And a function to make even better use out of the table.
@@ -76,16 +76,16 @@ local t = Def.ActorFrame {}
 for i = 1, RowAmount do
     t[#t+1] = Def.ActorFrame {
         Def.Sprite {
-            Texture=THEME:GetPathG("", "Evaluation/EvalRow"),
+            Texture=THEME:GetPathG("", "Evaluation/tg_evalrow"),
             InitCommand=function(self)
-                self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24):zoomy(0):easeoutexpo(0.5):xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24):zoomx(0.92):zoomy(0.85)
+                self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24):fadeleft(0.1):faderight(0.1):diffusealpha(0.6):zoomy(0):easeoutexpo(0.5):xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24):zoomx(0.69):zoomy(0.79)
             end
         }
     }
 end
 
 -- Separation lines between the center column text
-for i = 1, RowAmount + 1 do
+--[[ for i = 1, RowAmount + 1 do
     t[#t+1] = Def.ActorFrame {
         Def.Quad {
             InitCommand=function(self)
@@ -96,13 +96,13 @@ for i = 1, RowAmount + 1 do
             end
         }
     }
-end
+end ]]
 
 for i = 1, RowAmount do
     t[#t+1] = Def.ActorFrame {
             InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 26)
-            :zoomy(0.68):zoomx(1.3):diffusealpha(0):sleep(0.1+i*0.05):easeoutexpo(0.5):zoomx(0.68):diffusealpha(1)
+            :zoomy(0):zoomx(0.68):diffusealpha(0):sleep(0.1+i*0.05):easeoutexpo(0.5):zoomy(0.68):diffusealpha(1)
         end,
         Def.BitmapText {
             Font="Strike Fighter 45px",
@@ -162,7 +162,7 @@ t[#t+1] = Def.ActorFrame {
         }
     },
 -- scales up or down depending on what timing window was used, may apply this to EvalBall and EvalSongInfo
-    Def.Sprite {
+    --[[ Def.Sprite {
         Texture=THEME:GetPathG("", "Evaluation/tg_curve_glow"),
         InitCommand=function(self)
             self:y(SCREEN_CENTER_Y+4):x(SCREEN_CENTER_X):diffusealpha(0):diffuseleftedge(color("#16EEFFFF")):diffuserightedge(color("#EE16FFFF")):zoomx(6):zoomy(0.64):sleep(0.1):easeoutexpo(0.5):zoomx(RowAmount == 9 and 0.78 or 0.7):zoomy(RowAmount == 9 and 0.71 or 0.63):diffusealpha(1)
@@ -173,7 +173,7 @@ t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
             self:y(SCREEN_CENTER_Y+4):x(SCREEN_CENTER_X):zoomy(0.6):zoomx(6.3):sleep(0.1):easeoutexpo(0.5):zoomy(RowAmount == 9 and 0.71 or 0.63):zoomx(RowAmount == 9 and 0.78 or 0.7)
         end,
-    },
+    }, ]]
 }
 
 
