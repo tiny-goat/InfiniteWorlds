@@ -20,32 +20,35 @@ local t = Def.ActorFrame {
 }
 
 -- background dim!
-t[#t+1] = Def.Quad {
-    InitCommand=function(self)
-        self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y):valign(0.5)
-        :zoomx(SCREEN_WIDTH)
-        :diffuse(0,0,0,0.9)
-        :zoomy(SCREEN_HEIGHT)
-		:diffusealpha(0)
-    end,       
+t[#t+1] = Def.ActorFrame {
+    CloseGroupWheelMessageCommand=function(self) self:stoptweening():zoomx(1):diffusealpha(1) end,
+    OpenGroupWheelMessageCommand=function(self) self:stoptweening():easeoutexpo(0.4):diffusealpha(0.2) end,
 
-	SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.2):diffusealpha(0.4) end,
-	SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.2):diffusealpha(0) end,
+    Def.Quad {
+        InitCommand=function(self)
+            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y):valign(0.5)
+            :zoomx(SCREEN_WIDTH)
+            :diffuse(0,0,0,0.9)
+            :zoomy(SCREEN_HEIGHT)
+            :diffusealpha(0)
+        end,       
+
+        SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.2):diffusealpha(0.4) end,
+        SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.2):diffusealpha(0) end,
+    },
+
+    Def.Quad {
+        InitCommand=function(self)
+            self:xy(SCREEN_CENTER_X,SCREEN_BOTTOM-150)
+            :zoomx(SCREEN_WIDTH)
+            :diffuse(0,0,0,0.9)
+            :zoomy(300):fadetop(0.13)
+        end,
+
+        SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.2):diffusealpha(0.9) end,
+        SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.2):diffusealpha(0.8) end,
+    }
 }
-
--- background dim 2, the one behind musicwheel
-t[#t+1] = Def.Quad {
-    InitCommand=function(self)
-        self:xy(SCREEN_CENTER_X,SCREEN_BOTTOM-150)
-        :zoomx(SCREEN_WIDTH)
-        :diffuse(0,0,0,0.9)
-        :zoomy(300):fadetop(0.13)
-    end,
-
-	SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.2):diffusealpha(0.9) end,
-	SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.2):diffusealpha(0.8) end,
-}
-
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = Def.ActorFrame {
@@ -171,6 +174,10 @@ t[#t+1] = Def.ActorFrame {
         SongUnchosenMessageCommand=function(self)
             self:stoptweening():easeoutexpo(0.65):zoom(1)
         end,
+
+        
+        CloseGroupWheelMessageCommand=function(self) self:stoptweening():zoom(1.2):sleep(0.3):easeoutexpo(0.4):zoom(1):diffusealpha(1) end,
+        OpenGroupWheelMessageCommand=function(self) self:stoptweening():easeoutexpo(0.4):zoomx(0):diffusealpha(0) end,
 		
         LoadActor("SongsInfo") .. {
             InitCommand=function(self) self:zoom(0.8):y(-120):diffusealpha(0):easeoutexpo(1):y(-100):diffusealpha(1) end,

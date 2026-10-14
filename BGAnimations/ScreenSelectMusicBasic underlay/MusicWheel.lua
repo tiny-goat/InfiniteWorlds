@@ -193,7 +193,7 @@ local t = Def.ActorFrame {
     },
 
     Def.Sound {
-        File=THEME:GetPathS("MusicWheel", "change"),
+        File=THEME:GetPathS("", "tg_musicsel"),
         IsAction=true,
         ScrollMessageCommand=function(self) self:play() end
     },

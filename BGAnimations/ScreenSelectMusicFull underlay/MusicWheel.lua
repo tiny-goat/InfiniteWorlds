@@ -150,7 +150,10 @@ local t = Def.ActorFrame {
         :playcommand("NotBusy")
     end,
     
-    OpenGroupWheelMessageCommand=function(self) IsBusy = true end,
+    OpenGroupWheelMessageCommand=function(self)
+        self:stoptweening():easeoutexpo(0.4):y(SCREEN_HEIGHT / 2 + 10):diffusealpha(0) 
+        IsBusy = true 
+    end,
     CloseGroupWheelMessageCommand=function(self, params)
         if params.Silent == false then
             -- Grab the new list of songs from the selected group
@@ -163,6 +166,7 @@ local t = Def.ActorFrame {
         UpdateItemTargets(SongIndex)
         MESSAGEMAN:Broadcast("ForceUpdate")
         self:sleep(0.01):queuecommand("NotBusy")
+        self:sleep(0.3):easeoutexpo(0.4):y(SCREEN_HEIGHT / 2 - 165):diffusealpha(1)
     end,
     
     BusyCommand=function(self) IsBusy = true end,
@@ -193,7 +197,7 @@ local t = Def.ActorFrame {
     },
 
     Def.Sound {
-        File=THEME:GetPathS("MusicWheel", "change"),
+        File=THEME:GetPathS("", "tg_musicsel"),
         IsAction=true,
         ScrollMessageCommand=function(self) self:play() end
     },

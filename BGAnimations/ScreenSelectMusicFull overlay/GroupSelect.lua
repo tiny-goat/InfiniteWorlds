@@ -36,6 +36,8 @@ local IsBusy = false
 local IsFocusedMain = false
 -- group sound
 local CurrentGroupSoundPath
+-- fix sound issues (OpenWheelMessageCommand just spams, this is somehow different with the alpha4 lts behavior)
+local OpenedWheel = false
 
 LastGroupMainIndex = tonumber(LoadModule("Config.Load.lua")("GroupMainIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
 LastGroupSubIndex = tonumber(LoadModule("Config.Load.lua")("GroupSubIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
@@ -322,12 +324,26 @@ local t = Def.ActorFrame {
         IsAction=true,
         CloseGroupWheelMessageCommand=function(self) self:play() end
     },
-    
+
+    -- fix messagecommand spam affecting this thing
     Def.Sound {
-        File=THEME:GetPathS("", "tg_groupfocus"),
+        File=THEME:GetPathS("", "tg_group_open"),
         IsAction=true,
-        RefreshHighlightMessageCommand=function(self) self:play() end
+        OpenGroupWheelMessageCommand=function(self)
+            if not OpenedWheel then
+                OpenedWheel = true
+                self:stop():load(THEME:GetPathS("", "tg_group_open")):play()
+            end
+        end,
+        CloseGroupWheelMessageCommand=function(self)
+            OpenedWheel = false
+            self:stop()
+        end,
+        RefreshHighlightMessageCommand=function(self)
+            self:stop():load(THEME:GetPathS("", "tg_groupfocus")):play()
+        end
     },
+    
     -- when a folder is in focus, play the respective soundbyte in the info folder
     Def.Sound {
         File=THEME:GetPathS("MusicWheel", "change"),
@@ -361,11 +377,11 @@ for i = 1, MainWheelSize do
             
             -- Set initial position, Direction = 0 means it won't tween
             self:playcommand("ScrollMain", {Direction = 0})
-            self:diffuse(IsFocusedMain and color("#FFFF20") or color("#FFFF20A0"))
+            self:diffuse(IsFocusedMain and color("#FFFF20") or color("#00CDFD"))
         end,
 
         RefreshHighlightMessageCommand=function(self)
-            self:finishtweening():easeoutexpo(0.4):diffuse(IsFocusedMain and color("#FFFF20") or color("#FFFF20A0"))
+            self:finishtweening():easeoutexpo(0.4):diffuse(IsFocusedMain and color("#FFFF20") or color("#00CDFD"))
         end,
 
         ScrollMainMessageCommand=function(self, params)
@@ -438,6 +454,12 @@ for i = 1, SubWheelSize do
             self:playcommand("ScrollSub", {Direction = 0})
         end,
         
+        OpenGroupWheelMessageCommand=function(self)
+            if not OpenedWheel then
+                self:stoptweening():y(SCREEN_CENTER_Y - 40):decelerate(0.2):y(SCREEN_CENTER_Y + 1):accelerate(0.05):y(SCREEN_CENTER_Y)
+            end
+        end,
+
         -- This is so that whenever the main wheel scrolls all the bottom items can update as well.
         RefreshSubMessageCommand=function(self, params) self:playcommand("On") end,
         

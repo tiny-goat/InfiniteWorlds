@@ -23,16 +23,6 @@ return Def.ActorFrame {
         OffCommand=function(self) self:stoptweening():easeoutexpo(1):xy(SCREEN_RIGHT + 72, -72) end
     },
 
-    Def.Sprite {
-        Texture=THEME:GetPathG("", "CornerArrows/shiftarrow_red"),
-        InitCommand=function(self) self:xy(SCREEN_RIGHT - 50,  50):rotationz(-135):zoom(0.6):blend('add'):diffusealpha(0) end,
-        SongUnchosenMessageCommand=function(self) self:playcommand("Glow") end,
-        OpenGroupWheelMessageCommand=function(self) self:playcommand("Glow") end,
-        GlowCommand=function(self)
-            self:stoptweening():glow(1,0.4,0,1):zoom(0.6):linear(0.25):glow(1,1,1,0):zoom(0.7)
-        end
-    },
-
     -- Down Left
     LoadActor(THEME:GetPathG("", "CornerArrows/blue")).. {
         --[[Texture=THEME:GetPathG("", "CornerArrows/blue"),]]--

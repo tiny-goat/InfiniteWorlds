@@ -71,7 +71,8 @@ t[#t+1] = Def. ActorFrame {
             self:stoptweening():zoomx(1.2):zoomy(0.8):easeoutexpo(0.15):zoomx(0.8):zoomy(0.8):diffusealpha(1)
     end,
 		
-	CloseGroupWheelMessageCommand=function(self) self:zoomx(1.2):zoomy(0.8):sleep(0.2):easeoutexpo(1):zoomx(0.8):zoomy(0.8) end,
+	CloseGroupWheelMessageCommand=function(self) self:stoptweening():zoomx(1.2):zoomy(0.8):sleep(0.2):easeoutexpo(1):diffusealpha(1):zoomx(0.8):zoomy(0.8) end,
+    OpenGroupWheelMessageCommand=function(self) self:stoptweening():zoom(0.8):easeoutexpo(0.13):zoomx(1.2):diffusealpha(0) end,
 
 	LoadActor("tg_glow_pointerwheel_music") .. {
 		InitCommand=function(self) self:diffusealpha(1):zoom(0.82):pulse():effectmagnitude(1,1.05,0):effectperiod(1) end,
@@ -104,16 +105,11 @@ t[#t+1] = Def.ActorFrame {
     Def.ActorFrame {
         InitCommand=function(self) self:diffusealpha(0) end,
         CloseGroupWheelMessageCommand=function(self) self:stoptweening():sleep(0.25):diffusealpha(0) end,
-        OpenGroupWheelMessageCommand=function(self) self:stoptweening():easeoutexpo(0.3):diffusealpha(0.8) end,
-        Def.Quad {
-            InitCommand=function(self)
-                self:FullScreen():diffuse(color("#000000")):diffusealpha(0.6)
-            end,
-        },
+        OpenGroupWheelMessageCommand=function(self) self:stoptweening():easeoutexpo(0.3):diffusealpha(0.7) end,
 
         Def.Quad {
             InitCommand=function(self)
-                self:FullScreen():fadetop(0.05):croptop(0.45):diffuse(color("#101010")):diffusealpha(1)
+                self:FullScreen():diffuse(color("#000000"))
             end,
         },
 

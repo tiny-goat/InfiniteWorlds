@@ -17,7 +17,7 @@ local t = Def.ActorFrame {
                 self:scaletofit(0, 0, 1280, 128):xy(0, -5):diffuse(color("#CC16EE")):valign(0):queuecommand("Fade")
             end,
             FadeCommand=function(self)
-                self:diffusealpha(1):linear(2):diffusealpha(0.3):linear(2):diffusealpha(1):queuecommand("Fade")
+                self:diffusealpha(0.3):linear(2):diffusealpha(1):linear(2):diffusealpha(0.3):queuecommand("Fade")
             end
         },
 
@@ -34,13 +34,13 @@ local t = Def.ActorFrame {
                 self:scaletofit(0, 0, 1280, 128):xy(0, -5):valign(0):MaskSource()
             end,
         },
-
+        
         Def.Quad {
             InitCommand=function(self)
-                self:zoomto(1280, 128):fadetop(0.5):xy(0, -5):diffuse(color("#c01d00")):valign(0):MaskDest():ztestmode("ZTestMode_WriteOnFail"):queuecommand("Animate")
+                self:zoomto(1280, 128):fadetop(0.8):xy(0, -5):diffuse(color("#CC16EE")):valign(0):MaskDest():ztestmode("ZTestMode_WriteOnFail"):queuecommand("Animate")
             end,
             AnimateCommand=function(self)
-                self:diffusealpha(0.8):linear(2):diffusealpha(0):linear(2):diffusealpha(0.8):sleep(1):queuecommand("Animate") end,
+                self:diffusealpha(0):linear(2):diffusealpha(0.8):linear(2):diffusealpha(0):queuecommand("Animate") end,
         },
 
         -- Screen name
