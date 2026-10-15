@@ -4,7 +4,7 @@ local MenuButtonsOnly = PREFSMAN:GetPreference("OnlyDedicatedMenuButtons")
 
 local t = Def.ActorFrame {
     Def.Sound {
-        File=THEME:GetPathS("", "OpenCommandWindow"),
+        File=THEME:GetPathS("", "fm_options_entry"),
         OptionsListPlaySoundMessageCommand=function(self, params) self:play() end
     },
 
