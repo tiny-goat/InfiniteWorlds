@@ -105,15 +105,28 @@ t[#t+1] = Def.ActorFrame {
     Def.ActorFrame {
         InitCommand=function(self) self:diffusealpha(0) end,
         CloseGroupWheelMessageCommand=function(self) self:stoptweening():sleep(0.25):diffusealpha(0) end,
-        OpenGroupWheelMessageCommand=function(self) self:stoptweening():easeoutexpo(0.3):diffusealpha(0.7) end,
+        OpenGroupWheelMessageCommand=function(self) self:stoptweening():easeoutexpo(0.3):diffusealpha(1) end,
 
         Def.Quad {
             InitCommand=function(self)
-                self:FullScreen():diffuse(color("#000000"))
+                self:FullScreen():diffuse(color("#000000")):diffusealpha(0.75)
             end,
         },
 
-        --[[ LoadActor(THEME:GetPathG("","Grid/default.lua"))..{} ]]
+        Def.Quad {
+            InitCommand=function(self)
+                self:zoomto(1280,0):xy(SCREEN_CENTER_X, SCREEN_CENTER_Y):fadeleft(0.6):faderight(0.6):diffuse(color("#FCFCFC")):diffusealpha(0)
+            end,
+            OpenGroupWheelMessageCommand=function(self) self:stoptweening():decelerate(0.3):zoomto(1280,128):diffusealpha(0.5) end,
+            CloseGroupWheelMessageCommand=function(self) self:stoptweening():decelerate(0.3):zoomto(1280,0):diffusealpha(0) end,
+
+            ScrollSubMessageCommand=function(self) self:playcommand("Bounce") end,
+
+            BounceCommand=function(self)
+                self:stoptweening():diffusealpha(1):zoomto(1280, 140):decelerate(0.3):diffusealpha(0.5):zoomto(1280, 128)
+            end
+        },
+
     },
 
     Def.BitmapText {

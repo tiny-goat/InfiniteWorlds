@@ -454,16 +454,6 @@ for i = 1, SubWheelSize do
             self:playcommand("ScrollSub", {Direction = 0})
         end,
         
-        OpenGroupWheelMessageCommand=function(self)
-            if not OpenedWheel then
-                self:stoptweening():y(SCREEN_CENTER_Y - 40):decelerate(0.2):y(SCREEN_CENTER_Y + 1):accelerate(0.05):y(SCREEN_CENTER_Y)
-            end
-        end,
-
-        CloseGroupWheelMessageCommand=function(self)
-            self:stoptweening():y(SCREEN_CENTER_Y - 40)
-        end,
-
         -- This is so that whenever the main wheel scrolls all the bottom items can update as well.
         RefreshSubMessageCommand=function(self, params) self:playcommand("On") end,
         
