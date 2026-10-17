@@ -59,30 +59,35 @@ local t = Def.ActorFrame {
 	end
 }
 
--- The column thing
-t[#t+1] = Def.Quad {
-    InitCommand=function(self)
-        self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y):valign(0.5)
-        :zoomx(SCREEN_WIDTH)
-        :diffuse(0,0,0,0)
-        :zoomy(SCREEN_HEIGHT)
-    end,       
+-- bg dims
+t[#t+1] = Def.ActorFrame {
+    CloseGroupWheelMessageCommand=function(self) self:stoptweening():zoomx(1):diffusealpha(1) end,
+    OpenGroupWheelMessageCommand=function(self) self:stoptweening():easeoutexpo(0.4):diffusealpha(0.2) end,
 
-	SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.7):diffusealpha(0.8) end,
-	SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.2):diffusealpha(0) end,
-}
+    Def.Quad {
+        InitCommand=function(self)
+            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y):valign(0.5)
+            :zoomx(SCREEN_WIDTH)
+            :diffuse(0,0,0,0.9)
+            :zoomy(SCREEN_HEIGHT)
+            :diffusealpha(0)
+        end,       
 
--- background dim 2, the one behind musicwheel
-t[#t+1] = Def.Quad {
-    InitCommand=function(self)
-        self:xy(SCREEN_CENTER_X,SCREEN_BOTTOM-150)
-        :zoomx(SCREEN_WIDTH)
-        :diffuse(0,0,0,0.9)
-        :zoomy(280):fadetop(0.2)
-    end,       
+        SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.2):diffusealpha(0.4) end,
+        SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.2):diffusealpha(0) end,
+    },
 
-	SongChosenMessageCommand=function(self) self:stoptweening():diffusealpha(0) end,
-	SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.2):diffusealpha(0.9) end,
+    Def.Quad {
+        InitCommand=function(self)
+            self:xy(SCREEN_CENTER_X,SCREEN_BOTTOM-150)
+            :zoomx(SCREEN_WIDTH)
+            :diffuse(0,0,0,0.9)
+            :zoomy(300):fadetop(0.13)
+        end,
+
+        SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.2):diffusealpha(0.9) end,
+        SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.2):diffusealpha(0.8) end,
+    }
 }
 
 
@@ -232,10 +237,7 @@ t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
         end,
-        OffCommand=function(self)
-            self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
-        end,
-
+        
         SongChosenMessageCommand=function(self)
             self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y):zoom(0.9)
         end,

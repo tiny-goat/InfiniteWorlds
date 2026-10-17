@@ -124,7 +124,7 @@ local t = Def.ActorFrame {
             Texture=THEME:GetPathG("", "UI/euv_footer_part"),
             InitCommand=function(self)
                 self:scaletofit(0, 0, 1280, 140)
-                :xy(0,-15):valign(1)
+                :xy(0,-30):decelerate(1):xy(0,-15):valign(1)
             end,
         },
         
