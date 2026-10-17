@@ -5,7 +5,7 @@ local ClassicGrades = LoadModule("Config.Load.lua")("ClassicGrades", "Save/OutFo
 local AdvScoresShown = false
 local BasicMode = getenv("IsBasicMode")
 
-local GradeZoom = IsUsingWideScreen() and 0.32 or 0.25
+local GradeZoom = IsUsingWideScreen() and 0.32 or 0.3
 
 -- we will pass the gradezoom values here, since new and classic grade letters are in different resolutions, and need diff zoom values, kinda stupid but eh it works
 local GradeZoomAdd = ClassicGrades and GradeZoom or GradeZoom+0.2
@@ -22,12 +22,12 @@ Length = Length + 4
 
 local RowAmount = Length
 
-local PlateZoom = IsUsingWideScreen() and 0.7 or 0.45
+local PlateZoom = IsUsingWideScreen() and 0.7 or 0.65
 
 -- how long it takes for the grading/plate/sfx to play after evallines finishes showing all stats
 local GradeTime = 3
 
-local GradeX = IsUsingWideScreen() and 220 or 260
+local GradeX = IsUsingWideScreen() and 220 or 210
 
 local Grades = { PlayerNumber_P1 = "FailF", PlayerNumber_P2 = "FailF" }
 local GradePriority = {

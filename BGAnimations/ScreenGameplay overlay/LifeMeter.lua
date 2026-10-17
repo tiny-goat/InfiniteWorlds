@@ -177,8 +177,9 @@ local t = Def.ActorFrame {
         Name="Avatar",
         Texture=LoadModule("Options.GetProfileData.lua")(pn)["Image"],
         InitCommand=function(self)
+            local XAdj = IsUsingWideScreen() and 29 or 26
             self:scaletofit(0, 0, 37, 37):rotationy(pn==PLAYER_1 and 0 or -180)
-            :xy(-BarW / 2 - 29, 0)
+            :xy(-BarW / 2 - XAdj, 0)
         end,
 		
 		-- only show profile avatars if we are actually on gameplay, make it not visible if were only on demo play

@@ -119,7 +119,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             },
 			
 			LoadActor(THEME:GetPathG("","PressCenterStep")) .. {
-				InitCommand=function(self) self:y(-120):x(-10):zoom(0.8) end
+				InitCommand=function(self) self:y(-120):x(IsUsingWideScreen() and -10 or 30):zoom(0.8) end
 			},
 			
 			Def.Sprite {

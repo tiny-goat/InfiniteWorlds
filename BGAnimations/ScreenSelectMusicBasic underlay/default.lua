@@ -93,7 +93,7 @@ t[#t+1] = Def. ActorFrame {
 	Def.ActorFrame {
 	InitCommand=function(self)
             self:diffusealpha(0):xy(SCREEN_CENTER_X, SCREEN_BOTTOM-164)
-            :zoomx(1):zoomy(1.35):diffuse(color("#20FFFF"))
+            :zoomx(1):zoomy(1.35)
     end,
 		
 	OnCommand=function(self) 
@@ -109,27 +109,49 @@ t[#t+1] = Def. ActorFrame {
 		
 	CloseGroupWheelMessageCommand=function(self) self:zoomx(1.2):zoomy(0.8):sleep(0.2):easeoutexpo(1):zoomx(0.8):zoomy(0.8) end,
 
-	LoadActor(THEME:GetPathB("", "ScreenSelectMusicFull overlay/tg_glow_pointerwheel_music")) .. {
-		InitCommand=function(self) self:diffusealpha(1):zoom(0.82):pulse():effectmagnitude(1,1.05,0):effectperiod(1) end,
+	Def.Sprite {
+        Texture=THEME:GetPathG("", "MusicWheel/tg_glow_pointerwheel_music"),
+		InitCommand=function(self) self:diffusealpha(1):zoom(0.82):diffuse(color("#20FFFF")):pulse():effectmagnitude(1,1.05,0):effectperiod(1) end,
 		ScrollMessageCommand=function(self)
 			self:stoptweening():x(0):linear(0.1):zoom(0.95):decelerate(0.2):zoom(0.82)
 		end,
 	},
 	
 	-- left
-	LoadActor(THEME:GetPathB("", "ScreenSelectMusicFull overlay/tg_pointerwheel_music")) .. {
-		InitCommand=function(self) self:cropleft(0.5) end,
+	Def.Sprite {
+        Texture=THEME:GetPathG("", "MusicWheel/tg_pointerwheel_music"),
+		InitCommand=function(self) self:diffuse(color("#20FFFF")):cropleft(0.5) end,
 		ScrollMessageCommand=function(self, params) if params.Direction == 1 then
 		self:stoptweening():x(0):linear(0.1):x(60):decelerate(0.2):x(0) end
 		end,
 	},
 	-- right
-	LoadActor(THEME:GetPathB("", "ScreenSelectMusicFull overlay/tg_pointerwheel_music")) .. {
-		InitCommand=function(self) self:cropright(0.5) end,
+	Def.Sprite {
+        Texture=THEME:GetPathG("", "MusicWheel/tg_pointerwheel_music"),
+		InitCommand=function(self) self:diffuse(color("#20FFFF")):cropright(0.5) end,
 		ScrollMessageCommand=function(self, params) if params.Direction == -1 then
 		self:stoptweening():x(0):linear(0.1):x(-60):decelerate(0.2):x(0) end
 		end,
 	},
+
+    Def.Sprite {
+        Texture=THEME:GetPathG("", "MusicWheel/tg_mask_wheelitem"),
+        InitCommand=function(self) self:zoom(0.93):MaskSource() end,
+    },
+
+    Def.Quad {
+        InitCommand=function(self) 
+            self:zoomto(50, 290)
+            :fadeleft(0.1):faderight(0.1)
+            :rotationz(-45):diffusealpha(0)
+            :blend("Add"):MaskDest():ztestmode("ZTestMode_WriteOnFail") end,
+
+        ScrollMessageCommand=function(self) self:playcommand("Shine") end,
+        SongUnchosenMessageCommand=function(self) self:playcommand("Shine") end,
+        ShineCommand=function(self)
+            self:finishtweening():sleep(0.3):diffusealpha(0.4):xy(-240,-1):linear(0.5):xy(240,-1):linear(0.1):diffusealpha(0)
+        end
+    },
 	
 	}
 }

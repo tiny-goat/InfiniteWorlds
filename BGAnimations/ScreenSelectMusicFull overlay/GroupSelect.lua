@@ -597,7 +597,7 @@ t[#t+1] = Def.ActorFrame{
         end,
 
         Def.Sprite {
-            Texture="tg_grouparrow",
+            Texture=THEME:GetPathG("","MusicWheel/tg_grouparrow"),
             InitCommand=function(self) self:x(SCREEN_CENTER_X+150) end,
             ScrollSubMessageCommand=function(self, params)
                 if params.Direction == 1 then
@@ -617,7 +617,7 @@ t[#t+1] = Def.ActorFrame{
         },
 
         Def.Sprite {
-            Texture="tg_grouparrow",
+            Texture=THEME:GetPathG("","MusicWheel/tg_grouparrow"),
             InitCommand=function(self) self:x(SCREEN_CENTER_X-150):rotationy(-180) end,
             ScrollSubMessageCommand=function(self, params)
                 if params.Direction == -1 then

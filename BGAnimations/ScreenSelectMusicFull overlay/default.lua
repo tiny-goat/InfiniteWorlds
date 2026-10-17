@@ -56,8 +56,8 @@ t[#t+1] = Def. ActorFrame {
 	-- theres gotta be a more efficient way of recreating the kpump counterpart of this (tiny)
 	Def.ActorFrame {
     InitCommand=function(self)
-            self:diffusealpha(0):xy(SCREEN_CENTER_X, SCREEN_BOTTOM-164)
-            :zoomx(1):zoomy(1.35):diffuse(color("#FFFF20"))
+            self:diffusealpha(0):xy(SCREEN_CENTER_X, SCREEN_BOTTOM-165)
+            :zoomx(1):zoomy(1.35)
     end,
 		
 	OnCommand=function(self) 
@@ -74,27 +74,50 @@ t[#t+1] = Def. ActorFrame {
 	CloseGroupWheelMessageCommand=function(self) self:stoptweening():zoomx(1.2):zoomy(0.8):sleep(0.2):easeoutexpo(1):diffusealpha(1):zoomx(0.8):zoomy(0.8) end,
     OpenGroupWheelMessageCommand=function(self) self:stoptweening():zoom(0.8):easeoutexpo(0.13):zoomx(1.2):diffusealpha(0) end,
 
-	LoadActor("tg_glow_pointerwheel_music") .. {
-		InitCommand=function(self) self:diffusealpha(1):zoom(0.82):pulse():effectmagnitude(1,1.05,0):effectperiod(1) end,
+	Def.Sprite {
+        Texture=THEME:GetPathG("", "MusicWheel/tg_glow_pointerwheel_music"),
+		InitCommand=function(self) self:diffusealpha(1):diffuse(color("#FFFF20")):zoom(0.82):pulse():effectmagnitude(1,1.05,0):effectperiod(1) end,
 		ScrollMessageCommand=function(self)
 			self:stoptweening():x(0):linear(0.1):zoom(0.95):decelerate(0.2):zoom(0.82)
 		end,
 	},
 	
 	-- left
-	LoadActor("tg_pointerwheel_music") .. {
-		InitCommand=function(self) self:cropleft(0.5) end,
+	Def.Sprite {
+        Texture=THEME:GetPathG("", "MusicWheel/tg_pointerwheel_music"),
+		InitCommand=function(self) self:diffuse(color("#FFFF20")):cropleft(0.5) end,
 		ScrollMessageCommand=function(self, params) if params.Direction == 1 then
 		self:stoptweening():x(0):linear(0.1):zoom(1.5):x(60):decelerate(0.2):zoom(1):x(0) end
 		end,
 	},
 	-- right
-	LoadActor("tg_pointerwheel_music") .. {
-		InitCommand=function(self) self:cropright(0.5) end,
+	Def.Sprite {
+        Texture=THEME:GetPathG("", "MusicWheel/tg_pointerwheel_music"),
+		InitCommand=function(self) self:diffuse(color("#FFFF20")):cropright(0.5) end,
 		ScrollMessageCommand=function(self, params) if params.Direction == -1 then
 		self:stoptweening():x(0):linear(0.1):zoom(1.5):x(-60):decelerate(0.2):zoom(1):x(0) end
 		end,
 	},
+
+    Def.Sprite {
+        Texture=THEME:GetPathG("", "MusicWheel/tg_mask_wheelitem"),
+        InitCommand=function(self) self:zoom(0.93):MaskSource() end,
+    },
+
+    Def.Quad {
+        InitCommand=function(self) 
+            self:zoomto(50, 290)
+            :fadeleft(0.1):faderight(0.1)
+            :rotationz(-45):diffusealpha(0)
+            :blend("Add"):MaskDest():ztestmode("ZTestMode_WriteOnFail") end,
+
+        ScrollMessageCommand=function(self) self:playcommand("Shine") end,
+        CloseGroupWheelMessageCommand=function(self) self:sleep(0.5):queuecommand ("Shine") end,
+        SongUnchosenMessageCommand=function(self) self:playcommand("Shine") end,
+        ShineCommand=function(self)
+            self:finishtweening():sleep(0.3):diffusealpha(0.4):xy(-240,-1):linear(0.5):xy(240,-1):linear(0.1):diffusealpha(0)
+        end
+    },
 	
 	}
 }
@@ -115,15 +138,17 @@ t[#t+1] = Def.ActorFrame {
 
         Def.Quad {
             InitCommand=function(self)
-                self:zoomto(1280,0):xy(SCREEN_CENTER_X, SCREEN_CENTER_Y):fadeleft(0.6):faderight(0.6):diffuse(color("#FCFCFC")):diffusealpha(0)
+                self:zoomto(1280,0):xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
+                :cropleft(0.2):cropright(0.2):fadeleft(0.1):faderight(0.1)
+                :diffuse(color("#FCFCFC")):diffusealpha(0)
             end,
-            OpenGroupWheelMessageCommand=function(self) self:stoptweening():decelerate(0.3):zoomto(1280,128):diffusealpha(0.5) end,
+            OpenGroupWheelMessageCommand=function(self) self:stoptweening():decelerate(0.3):zoomto(1280,128):diffusealpha(0.6) end,
             CloseGroupWheelMessageCommand=function(self) self:stoptweening():decelerate(0.3):zoomto(1280,0):diffusealpha(0) end,
 
             ScrollSubMessageCommand=function(self) self:playcommand("Bounce") end,
 
             BounceCommand=function(self)
-                self:stoptweening():diffusealpha(1):zoomto(1280, 140):decelerate(0.3):diffusealpha(0.5):zoomto(1280, 128)
+                self:stoptweening():diffusealpha(1):zoomto(1280, 140):easeoutexpo(0.4):diffusealpha(0.6):zoomto(1280, 128)
             end
         },
 

@@ -1,3 +1,4 @@
+local BasicMode = getenv("IsBasicMode")
 local t = Def.ActorFrame {
     Def.ActorFrame {
         InitCommand=function(self)
@@ -14,7 +15,7 @@ local t = Def.ActorFrame {
         Def.Sprite {
             Texture=THEME:GetPathG("", "UI/tg_glow_header"),
             InitCommand=function(self)
-                self:scaletofit(0, 0, 1280, 128):xy(0, -5):diffuse(color("#CC16EE")):valign(0):queuecommand("Fade")
+                self:scaletofit(0, 0, 1280, 128):xy(0, -5):diffuse(BasicMode and color("#16EECC") or color("#CC16EE")):valign(0):queuecommand("Fade")
             end,
             FadeCommand=function(self)
                 self:diffusealpha(0.3):linear(2):diffusealpha(1):linear(2):diffusealpha(0.3):queuecommand("Fade")
@@ -29,18 +30,13 @@ local t = Def.ActorFrame {
         },
 
         Def.Sprite {
-            Texture=THEME:GetPathG("", "UI/headermask"),
+            Texture=THEME:GetPathG("", "UI/header_fill"),
             InitCommand=function(self)
-                self:scaletofit(0, 0, 1280, 128):xy(0, -5):valign(0):MaskSource()
+                self:scaletofit(0, 0, 1280, 128):xy(0, -5):diffuse(BasicMode and color("#16EECC") or color("#CC16EE")):blend("Add"):valign(0):queuecommand("Animate")
             end,
-        },
-        
-        Def.Quad {
-            InitCommand=function(self)
-                self:zoomto(1280, 128):fadetop(0.8):xy(0, -5):diffuse(color("#CC16EE")):valign(0):MaskDest():ztestmode("ZTestMode_WriteOnFail"):queuecommand("Animate")
-            end,
+            
             AnimateCommand=function(self)
-                self:diffusealpha(0):linear(2):diffusealpha(0.8):linear(2):diffusealpha(0):queuecommand("Animate") end,
+                self:diffusealpha(0.2):linear(2):diffusealpha(0.7):linear(2):diffusealpha(0.2):queuecommand("Animate") end,
         },
 
         -- Screen name
@@ -136,7 +132,7 @@ local t = Def.ActorFrame {
             Texture=THEME:GetPathG("", "UI/tg_glow_footer"),
             InitCommand=function(self)
                 self:scaletofit(0, 0, 1280, 128)
-                :xy(0,0):diffuse(color("#16CCEE")):valign(1):queuecommand("Fade")
+                :xy(0,0):diffuse(BasicMode and color("#16EECC") or color("#CC16EE")):valign(1):queuecommand("Fade")
             end,
             FadeCommand=function(self)
                     self:diffusealpha(1):linear(2):diffusealpha(0.3):linear(2):diffusealpha(1):queuecommand("Fade")
@@ -154,8 +150,15 @@ local t = Def.ActorFrame {
 }
 
 -- Avatar display and info on bottom panel
+
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     if PROFILEMAN:GetProfile(pn) and (PROFILEMAN:IsPersistentProfile(pn) or PROFILEMAN:ProfileWasLoadedFromMemoryCard(pn)) then
+    
+    -- accomodate the non-wide screen layouts
+    local XVal1 = IsUsingWideScreen() and 260 or 220
+    local XVal2 = IsUsingWideScreen() and 346 or 306
+    local XVal3 = IsUsingWideScreen() and 240 or 200
+
         t[#t+1] = Def.ActorFrame {
             Def.ActorFrame {
                 InitCommand=function(self) self:y(108) end,
@@ -166,7 +169,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 				Def.Sprite {
                     Texture=THEME:GetPathG("", "UI/tg_profile_deck"),
                     InitCommand=function(self)
-                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 260 or -260), SCREEN_BOTTOM + 3)
+                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and XVal1 or -XVal1), SCREEN_BOTTOM + 3)
                         :rotationy(pn == PLAYER_2 and 180 or 0):zoom(1)
                     end
                 },
@@ -174,7 +177,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 				Def.Sprite {
                     Texture=THEME:GetPathG("", "UI/tg_glow_profile_deck"),
                     InitCommand=function(self)
-                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 260 or -260), SCREEN_BOTTOM + 3)
+                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and XVal1 or -XVal1), SCREEN_BOTTOM + 3)
                         :rotationy(pn == PLAYER_2 and 180 or 0):zoom(1):blend('Add'):queuecommand("Breathe")
                     end,
 					BreatheCommand=function(self) self:diffusealpha(0.4):linear(2):diffusealpha(1):linear(2):diffusealpha(0.4):queuecommand("Breathe") end
@@ -185,7 +188,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     Texture=LoadModule("Options.GetProfileData.lua")(pn)["Image"],
                     InitCommand=function(self)
                         self:scaletofit(0, 0, 37, 37)
-                        :xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 346 or -346), SCREEN_BOTTOM - 21)
+                        :xy(SCREEN_CENTER_X + (pn == PLAYER_2 and XVal2 or -XVal2), SCREEN_BOTTOM - 21)
                         :diffusealpha(1)
                     end
                 },
@@ -194,7 +197,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     Font="inter medium 25px",
                     Text=PROFILEMAN:GetProfile(pn):GetDisplayName(),
                     InitCommand=function(self)
-                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_1 and -240 or 240), SCREEN_BOTTOM - 34):strokecolor(Color.Black):zoom(0.7)
+                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_1 and -XVal3 or XVal3), SCREEN_BOTTOM - 34):strokecolor(Color.Black):zoom(0.7)
                         :maxwidth(112 / self:GetZoom())
 
                         if PROFILEMAN:GetProfile(pn):GetDisplayName() == "" then
@@ -207,7 +210,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     Font="inter medium 25px",
                     -- This ingenious level system was made up at 4am
                         InitCommand=function(self)
-                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_1 and -240 or 240), SCREEN_BOTTOM - 12):strokecolor(Color.Black):zoom(0.7)
+                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_1 and -XVal3 or XVal3), SCREEN_BOTTOM - 12):strokecolor(Color.Black):zoom(0.7)
                         :maxwidth(112 / self:GetZoom())
                         lvl = math.floor(math.sqrt(PROFILEMAN:GetProfile(pn):GetTotalDancePoints() / 500)) + 1
                         -- You can check if a number is "nan" by comparing it to itself
