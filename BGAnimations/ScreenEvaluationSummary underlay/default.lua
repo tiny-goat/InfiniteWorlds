@@ -31,6 +31,21 @@ local function Plates(EvalDetail, pn)
 end
 
 local t = Def.ActorFrame {
+	-- apply timer check here
+	InitCommand=function(self)
+		self:sleep(0.5):queuecommand("CheckTimer")
+	end,
+	CheckTimerCommand=function(self)
+		if SCREENMAN:GetTopScreen():GetChild("Timer"):GetSeconds() <= 0 then
+			self:queuecommand("TimerExpired")
+		else
+			self:sleep(0.5):queuecommand("CheckTimer")
+		end
+	end,
+	TimerExpiredCommand=function(self)
+        SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
+	end,
+	
     LoadActor(THEME:GetPathB("","HudPanels"))..{}
 }
 
@@ -40,21 +55,21 @@ for i = FirstSong, #Song do
 	t[#t+1] = Def.Quad {
 		InitCommand=function(self)
 			self:xy(SCREEN_CENTER_X, BoxY):zoomto(SCREEN_WIDTH - 80, rowY - 2)
-				:diffuse(color("#000000")):diffusealpha(0.7):fadeleft(0.1):faderight(0.1)
+				:diffuse(color("#000000")):diffusealpha(0.77):fadeleft(0.1):faderight(0.1)
 		end,
         OnCommand=function(self)
             self:zoomto(SCREEN_WIDTH - 80, 0):sleep(i*0.2):easeoutexpo(0.6):zoomto(SCREEN_WIDTH - 80, rowY - 2) end
 	}
     -- song title
 	t[#t+1] = Def.BitmapText {
-		Font="inter medium 25px",
+		Font="inter medium 32px",
 		Text=Detail.Title or "Unknown",
 		InitCommand=function(self)
 			self:xy(SCREEN_CENTER_X, BoxY - 2):zoom(0):diffusealpha(0)
 				:maxwidth(math.max(100, SCREEN_WIDTH / 2 - 40)):strokecolor(Color.Black)
 		end,
         OnCommand=function(self)
-            self:zoomy(0.68):zoomx(1.3):sleep(i*0.2):easeoutexpo(0.3):zoom(0.68):diffusealpha(1) end
+            self:zoomy(0.7):zoomx(1.3):sleep(i*0.2):easeoutexpo(0.3):zoom(0.7):diffusealpha(1) end
 	}
 
     -- lettergrade n plate
