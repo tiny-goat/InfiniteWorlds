@@ -17,7 +17,12 @@ return Def.ActorFrame {
             if SCREENMAN:GetTopScreen():HaveProfileToSave() then self:sleep(1) end
             self:queuecommand("Load")
         end,
-        LoadCommand=function() SCREENMAN:GetTopScreen():Continue() end
+        -- eval summary prio
+        LoadCommand=function()
+            local nextScreen = CustomBranch.AfterProfileSave()
+            SCREENMAN:GetTopScreen():SetNextScreenName(nextScreen)
+            SCREENMAN:GetTopScreen():Continue()
+        end
     }
 
 }

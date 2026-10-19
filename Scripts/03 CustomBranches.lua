@@ -40,8 +40,19 @@ function ToLoadOrNotToLoad()
     end
 end
 
+-- if no more stages, go over to evaluation summary and then game over
+local function GameOverOrSummary()
+    if SessionEvaluationSummary and #SessionEvaluationSummary > 0 then
+        return "ScreenEvaluationSummary"
+    end
+    return GameOverOrContinue()
+end
+
 CustomBranch = {
     StartGame = function()
+        -- clear play result details when a new game is started
+        SessionEvaluationSummary = {}
+        
         if SONGMAN:GetNumSongs() == 0 and SONGMAN:GetNumAdditionalSongs() == 0 then
             return "ScreenHowToInstallSongs"
         end
@@ -61,7 +72,8 @@ CustomBranch = {
         if GAMESTATE:IsEventMode() then
             return SelectMusicOrCourse()
         elseif STATSMAN:GetCurStageStats():AllFailed() then
-            return GameOverOrContinue()
+            -- even if the player fails, still show the play result, does cause a bug where the profile decks appear on fail but not when you clear all songs
+            return GameOverOrSummary()
         end
         
         -- If a player has ran out of stages, unjoin them
@@ -71,7 +83,7 @@ CustomBranch = {
         -- This is done so that if a player has joined mid
         -- session can still play the rest of their stages.
         if GAMESTATE:GetNumSidesJoined() <= 0 then
-            return GameOverOrContinue()
+            return GameOverOrSummary()
         else
             return SelectMusicOrCourse()
         end

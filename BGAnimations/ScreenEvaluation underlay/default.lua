@@ -11,7 +11,6 @@ local GradeZoom = IsUsingWideScreen() and 0.32 or 0.3
 local GradeZoomAdd = ClassicGrades and GradeZoom or GradeZoom+0.2
 
 -- same code taken from EvalLines, probably not the most efficient method of making certain elements resize/reposition depending on the rows on screen though :/
-
 local Name, Length = LoadModule("Options.SmartTapNoteScore.lua")()
 table.sort(Name)
 Name[#Name+1] = "Miss"
@@ -100,6 +99,34 @@ t[#t+1] = Def.ActorFrame {
         SCREENMAN:set_input_redirected(PLAYER_1, true)
         SCREENMAN:set_input_redirected(PLAYER_2, true)
 
+        -- uhh we do not need a play result in event mode
+        if not GAMESTATE:IsEventMode() then
+            -- system that forwards info to be used by evaluation summary screen
+            -- temporarily saves details of the played songs, then passes them over to ScreenEvaluationSummary
+            local song = GAMESTATE:GetCurrentSong()
+            if song then
+                SessionEvaluationSummary = SessionEvaluationSummary or {}
+                local EvalDetail = {
+                    Title = PREFSMAN:GetPreference("ShowNativeLanguage") and song:GetDisplayMainTitle() or song:GetTranslitFullTitle(),
+                    Players = {}
+                }
+                for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
+                    local playerStats = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
+                    local steps = GAMESTATE:GetCurrentSteps(pn) 
+                    if steps then
+                        EvalDetail.Players[pn] = {
+                            Difficulty = ToEnumShortString(ToEnumShortString(steps:GetStepsType())) .. " " .. steps:GetMeter(),
+                            Percentage = string.format("%.2f%%", playerStats:GetPercentDancePoints() * 100),
+                            Grade = LoadModule("PIU/Score.GradingEval.lua")(playerStats),
+                            Plate = Scoring == "New" and LoadModule("PIU/Score.PlatesEval.lua")(playerStats) or nil
+                        }
+                    end
+                end
+                -- increment until we run out of available stages/rounds per session
+                SessionEvaluationSummary[#SessionEvaluationSummary + 1] =  EvalDetail
+            end
+        end
+
         -- Discord RPC
         local pn = GAMESTATE:GetMasterPlayerNumber()
         local SongOrCourse = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentCourse() or GAMESTATE:GetCurrentSong()
@@ -134,7 +161,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 :visible(not BasicMode)
             end,
         },
-
 		-- the 2nd element that needs that y adjustment
         LoadActor("EvalBall", pn) .. {
             InitCommand=function(self)
@@ -143,7 +169,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             end,
 
         },
-
 		-- fx
 		Def.Sprite {
             InitCommand=function(self)
@@ -154,7 +179,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 :zoom(0.13):diffusealpha(0)
             end
         },
-		
 		Def.Sprite {
             InitCommand=function(self)
                 self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6)
@@ -164,7 +188,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 :zoom(0.13):diffusealpha(0)
             end
         },
-		
 		Def.Sprite {
             InitCommand=function(self)
                 self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6)
@@ -174,7 +197,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 :zoom(0.35):diffusealpha(0)
             end
         },
-		
 		-- letter grades
         Def.Sprite {
             InitCommand=function(self)
@@ -188,8 +210,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 :zoom(GradeZoomAdd):diffusealpha(1)
             end,
 		},
-		
-		
         Def.Sprite {
             InitCommand=function(self)
                 self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 3):blend("Add")
@@ -207,7 +227,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 	-- plates
     if Scoring == "New" then
         t[#t+1] = Def.ActorFrame {
-			
 			Def.Sprite {
                 InitCommand=function(self)
                     self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y - 100)
@@ -221,7 +240,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 end,
 				LevitateCommand=function(self) self:y(SCREEN_CENTER_Y - 100):smooth(1.2):y(SCREEN_CENTER_Y - 104):smooth(1.2):y(SCREEN_CENTER_Y - 100):queuecommand("Levitate") end
             },
-			
 			Def.Sprite {
                 InitCommand=function(self)
                     self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y - 100)
@@ -234,7 +252,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     :zoom(PlateZoom * 1.3):diffusealpha(0)
                 end
             },
-			
 			Def.Sound {
 				File=THEME:GetPathS("", "tg_platesound"),
 				InitCommand=function(self) self:sleep(GradeTime+0.3):queuecommand("Play") end,
@@ -245,9 +262,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 end
 
 -- Sounds
-
 -- ticking sound effect, this is timed to EvalLines, plays a tick every time a new eval line element appears.
-
 for i = 1, RowAmount do
 	t[#t+1] = Def.Sound {
 		File = THEME:GetPathS("","tg_tick"),
@@ -255,17 +270,13 @@ for i = 1, RowAmount do
 		PlayCommand=function(self) self:play() end
 	}
 end
-
 -- evaluation hit
-
 t[#t+1] = Def.Sound {
             File=THEME:GetPathS("", "tg_hit"),
             InitCommand=function(self) self:sleep(GradeTime):queuecommand("Play") end,
             PlayCommand=function(self) self:play() end,
 }
-
 -- announcer
-
 t[#t+1] = Def.ActorFrame {
     OnCommand=function(self)
         self:sleep(GradeTime+0.1):queuecommand("Announcer")
