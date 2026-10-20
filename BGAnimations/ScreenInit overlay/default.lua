@@ -131,7 +131,6 @@ return Def.ActorFrame {
     },
 	
 	Def.ActorFrame {
-		-- dj505 logo
 		Name="infinitesimal",
 		OnCommand=function(self) self:diffusealpha(0):sleep(19):linear(0.7):diffusealpha(1) end,
 		
