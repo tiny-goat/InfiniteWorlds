@@ -120,40 +120,44 @@ return Def.ActorFrame {
 		},
 	},
 	
-	-- the dj505 intro is back
+	-- credit to infinitesimal
 	Def.Quad {
       Name="Background1",
       InitCommand=function(self)
           self:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center()
-          :diffuse(color("#7174e4")):diffusealpha(0)
+          :diffusetopedge(color("#cf2149")):diffusebottomedge(color("#93192a")):diffusealpha(0)
       end,
 	  OnCommand=function(self) self:sleep(18.6):linear(0.7):diffusealpha(1) end
     },
 	
 	Def.ActorFrame {
 		-- dj505 logo
-		Name="dj505intro",
+		Name="infinitesimal",
 		OnCommand=function(self) self:diffusealpha(0):sleep(19):linear(0.7):diffusealpha(1) end,
 		
-		Def.Sprite {
-			Name="dj505_1",
-			Texture="dj505_arrow",
+		Def.BitmapText {
+			Name="text1",
+			Font="Montserrat semibold 40px",
 			InitCommand=function(self)
-				self:Center()
-				:diffusealpha(1):addx(-15):addy(10):zoom(0.36):rotationz(45)
+				self:Center():settext("InfiniteWorlds is based on"):addy(-130):zoom(0.6)
 			end,
-			OnCommand=function(self)
-				self:sleep(20.6):decelerate(1):rotationz(-135)
-			end
 		},
 		
 		Def.Sprite {
-			Name="dj505_2",
-			Texture="dj505_logo",
+			Name="inf2",
+			Texture=THEME:GetPathG("","Logo/Parts/Text"),
 			InitCommand=function(self)
 				self:Center()
-				:diffusealpha(1):zoom(0.9)
+				:diffusealpha(1):zoom(0.6)
 			end
+		},
+		
+		Def.BitmapText {
+			Name="text1",
+			Font="Montserrat semibold 40px",
+			InitCommand=function(self)
+				self:Center():settext("Visit github.com/Team-Infinitesimal/Infinitesimal for more!"):addy(130):zoom(0.6)
+			end,
 		},
 		
 	},

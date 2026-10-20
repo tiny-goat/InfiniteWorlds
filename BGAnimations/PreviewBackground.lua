@@ -60,22 +60,50 @@ local t = Def.ActorFrame {
         end
     },
 
+    -- the new decorations
     Def.ActorFrame {
         InitCommand=function(self)
-            self:zoom(1.05):diffusealpha(0):sleep(PreviewDelay):linear(0.2):zoom(1):diffusealpha(1) end,
+            self:xy(0, -90):stoptweening():diffusealpha(0)
+            :sleep(PreviewDelay):linear(0.2):diffusealpha(1)
+        end,
 		ScrollMessageCommand=function(self)
-			self:stoptweening():zoom(1.05):diffusealpha(0):sleep(PreviewDelay):linear(0.2):zoom(1):diffusealpha(1) end,
+			self:stoptweening():diffusealpha(0)
+            :sleep(PreviewDelay):linear(0.2):diffusealpha(1)
+        end,
 
         Def.Sprite {
+            Name="Circle1",
             Texture=THEME:GetPathG("", "UI/circles1"),
             InitCommand=function(self)
-                self:zoomto(1024,1024):blend("Add"):diffusealpha(0.5):spin():effectmagnitude(0,0,12):effectperiod(0.3) end
+                self:zoomto(1024,1024):diffusealpha(0.3):spin():effectmagnitude(0,0,12):effectperiod(0.3) end
         },
         Def.Sprite {
+            Name="Circle2",
             Texture=THEME:GetPathG("", "UI/circles2"),
             InitCommand=function(self)
-                self:zoomto(1024,1024):blend("Add"):diffusealpha(0.3):spin():effectmagnitude(0,0,-12):effectperiod(0.3) end
+                self:zoomto(1024,1024):diffuse(color("#16decb")):diffusealpha(0.4):spin():effectmagnitude(0,0,-12):effectperiod(0.3) end
+        },
+        
+        Def.Sprite {
+            Name="Circle3",
+            Texture=THEME:GetPathG("", "UI/circles3"),
+            InitCommand=function(self)
+                self:zoomto(340,340):diffuse(color("#df16eb80")):rotationz(45) end,
+            ScrollMessageCommand=function(self)
+                self:stoptweening():zoomto(350,350):sleep(PreviewDelay):linear(0.2):zoomto(340,340)
+            end
+        },
+
+        Def.Sprite {
+            Name="Xmark",
+            Texture=THEME:GetPathG("", "UI/targ1"),
+            InitCommand=function(self)
+                self:zoomto(340,340):diffusealpha(0.7) end,
+            ScrollMessageCommand=function(self)
+                self:stoptweening():zoomto(290,290):sleep(PreviewDelay):linear(0.2):zoomto(340,340)
+            end
         }
+
     }
 }
 
