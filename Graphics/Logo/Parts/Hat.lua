@@ -30,13 +30,13 @@ return Def.ActorFrame {
 		Def.BitmapText {
 			Font="Eurostile Extended 32px",
 			InitCommand=function(self)
-				self:settext(string.format("%d YEAR ANNIVERSARY!", (Year() - 2023))):strokecolor(color("#000000AA")) end,
+				self:settext(string.format("%d YEAR ANNIVERSARY!", (Year() - 2026))):strokecolor(color("#000000AA")) end,
 		},
 		
 		Def.BitmapText {
 			Font="Eurostile Extended 32px",
 			InitCommand=function(self)
-				self:settext(string.format("%d YEAR ANNIVERSARY!", (Year() - 2023)))
+				self:settext(string.format("%d YEAR ANNIVERSARY!", (Year() - 2026)))
 				:diffusealpha(0)
 			end,
 			OnCommand=function(self)

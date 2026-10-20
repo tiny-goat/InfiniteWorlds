@@ -27,9 +27,5 @@ return Def.ActorFrame {
         end,
 	OnCommand=function(self) self:diffusealpha(0):sleep(0.8):diffusealpha(0.3) end
     },
-
-    LoadActor("Hat")..{
-        Condition = IsAnniversary()
-    }
-
+    
 }

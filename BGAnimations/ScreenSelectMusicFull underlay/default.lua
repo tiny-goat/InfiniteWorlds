@@ -227,6 +227,6 @@ t[#t+1] = Def.ActorFrame {
 	}
 }
 
-t[#t+1] = LoadActor("MusicWheel") .. {}
+t[#t+1] = LoadActor("MusicWheel") .. { Name = "MusicWheel" }
 
 return t
