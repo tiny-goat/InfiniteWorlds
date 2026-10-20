@@ -58,6 +58,24 @@ local t = Def.ActorFrame {
                 self:queuecommand("LoadBG")
             end
         end
+    },
+
+    Def.ActorFrame {
+        InitCommand=function(self)
+            self:zoom(1.05):diffusealpha(0):sleep(PreviewDelay):linear(0.2):zoom(1):diffusealpha(1) end,
+		ScrollMessageCommand=function(self)
+			self:stoptweening():zoom(1.05):diffusealpha(0):sleep(PreviewDelay):linear(0.2):zoom(1):diffusealpha(1) end,
+
+        Def.Sprite {
+            Texture=THEME:GetPathG("", "UI/circles1"),
+            InitCommand=function(self)
+                self:zoomto(1024,1024):blend("Add"):diffusealpha(0.5):spin():effectmagnitude(0,0,12):effectperiod(0.3) end
+        },
+        Def.Sprite {
+            Texture=THEME:GetPathG("", "UI/circles2"),
+            InitCommand=function(self)
+                self:zoomto(1024,1024):blend("Add"):diffusealpha(0.3):spin():effectmagnitude(0,0,-12):effectperiod(0.3) end
+        }
     }
 }
 
