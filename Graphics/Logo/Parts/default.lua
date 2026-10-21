@@ -7,7 +7,6 @@ return Def.ActorFrame {
 		OnCommand=function(self)
             self:zoom(0.1)
             :diffusealpha(0)
-            :sleep(0.85)
             :diffusealpha(0.5)
             :decelerate(1)
             :zoom(0.4)
@@ -21,7 +20,7 @@ return Def.ActorFrame {
 		OnCommand=function(self)
             self:zoom(0.1)
             :diffusealpha(0)
-            :sleep(0.85)
+            :sleep(0.9)
             :diffusealpha(0.5)
             :decelerate(1)
             :zoom(0.4)
@@ -91,12 +90,12 @@ return Def.ActorFrame {
         end,
         AnimateCommand=function(self)
             self:diffusealpha(0)
-            :zoom(1.5):y(-150):cropright(1)
+            :zoom(1.5):cropright(1)
             :sleep(1.45):queuecommand("Displace")
             :diffusealpha(1)
             :glow(1,1,1,1)
             :easeoutexpo(1)
-            :zoom(0.9):y(0):cropright(0)
+            :zoom(0.9):cropright(0)
             :glow(1,1,1,0)
         end,
 		

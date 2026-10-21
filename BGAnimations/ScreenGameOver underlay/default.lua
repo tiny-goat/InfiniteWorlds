@@ -38,16 +38,16 @@ return Def.ActorFrame {
     Def.Sprite{
         Texture="tg_gameover",
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
-            :diffusealpha(0):cropbottom(0.3):zoom(5):sleep(0.65)
+            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y + 20)
+            :diffusealpha(0):cropbottom(0.3):zoom(5):sleep(1.25)
             :accelerate(0.3)
             :diffusealpha(1)
-	    :zoom(0.9)
-	    :sleep(0.5)
-	    :smooth(0.5)
+	        :zoom(0.9)
+	        :sleep(0.5)
+	        :smooth(0.5)
             :sleep(2.08)
             :accelerate(0.5)
-	    :zoom(1.5)
+	        :zoom(1.5)
             :diffusealpha(0)
         end
     },
@@ -55,17 +55,17 @@ return Def.ActorFrame {
     Def.Sprite{
         Texture="tg_gameover",
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
-            :diffusealpha(0):croptop(0.7):cropright(1):zoom(5):sleep(0.4)
+            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y + 40)
+            :diffusealpha(0):croptop(0.7):cropright(1):zoom(5):sleep(0.7)
             :accelerate(0.3)
             :diffusealpha(1)
-	    :zoom(0.9)
-	    :sleep(0.1)
-	    :linear(1.9)
-	    :cropright(0)
+	        :zoom(0.5)
+	        :sleep(0.1)
+	        :linear(1.9)
+	        :cropright(0)
             :sleep(1.8)
             :accelerate(0.5)
-	    :zoom(1.5)
+	        :zoom(1.5)
             :diffusealpha(0)
         end
     },
@@ -74,7 +74,7 @@ return Def.ActorFrame {
     Def.Sprite{
         Texture="matte",
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X-200, SCREEN_CENTER_Y-100)
+            self:xy(SCREEN_CENTER_X-200, SCREEN_CENTER_Y-110)
             :diffusealpha(0):cropbottom(0.3):cropright(0.475):zoom(1.5):sleep(0)
             :linear(0.5)
             :diffusealpha(0.8)
@@ -87,7 +87,7 @@ return Def.ActorFrame {
     Def.Sprite{
         Texture="matte",
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X+200, SCREEN_CENTER_Y+130)
+            self:xy(SCREEN_CENTER_X+200, SCREEN_CENTER_Y+140)
             :diffusealpha(0):cropbottom(0.3):cropleft(0.53):zoom(1.5):sleep(0)
             :linear(0.5)
             :diffusealpha(0.8)
@@ -102,13 +102,10 @@ return Def.ActorFrame {
     Def.Sprite{
         Texture="tg_gameover",
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
-            :diffusealpha(0):cropbottom(0.3):sleep(0.65)
-            :accelerate(0.3)
-            :diffusealpha(1)
-	    :zoom(0.9)
+            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y + 20)
+            :diffusealpha(0):cropbottom(0.3):zoom(0.9):blend("Add"):sleep(1.6):diffusealpha(1)
             :linear(0.5)
-	    :zoom(1.2)
+	        :zoom(1.2)
             :diffusealpha(0)
         end
     },
@@ -118,7 +115,7 @@ return Def.ActorFrame {
         InitCommand=function(self)
             self:zoom(0.1)
             :diffusealpha(0)
-            :sleep(0.85)
+            :sleep(1.5)
             :Center()
             :diffusealpha(0.5)
             :decelerate(1)
@@ -132,7 +129,7 @@ return Def.ActorFrame {
         InitCommand=function(self)
             self:zoom(0.1)
             :diffusealpha(0)
-            :sleep(0.85)
+            :sleep(1.5)
             :Center()
             :diffusealpha(0.5)
             :decelerate(1)
@@ -146,7 +143,7 @@ return Def.ActorFrame {
         InitCommand=function(self)
             self:zoom(0.1)
             :diffusealpha(0)
-            :sleep(1)
+            :sleep(1.5)
             :Center()
             :diffusealpha(0.75)
             :decelerate(1)
@@ -158,7 +155,7 @@ return Def.ActorFrame {
     Def.Quad {
         InitCommand=function(self)
             self:FullScreen():diffuse(Color.Black)
-            :diffusealpha(0):sleep(4):easeoutexpo(0.5):diffusealpha(1)
+            :diffusealpha(0):sleep(4.8):easeoutexpo(0.8):diffusealpha(1)
             :queuecommand("Transition")
         end,
         TransitionMessageCommand=function(self)

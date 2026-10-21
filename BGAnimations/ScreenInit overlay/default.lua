@@ -147,7 +147,7 @@ return Def.ActorFrame {
 			Texture=THEME:GetPathG("","Logo/Parts/Text"),
 			InitCommand=function(self)
 				self:Center()
-				:diffusealpha(1):zoom(0.6)
+				:diffusealpha(0):sleep(19):zoom(1.2):easeoutexpo(1):diffusealpha(1):zoom(0.6)
 			end
 		},
 		

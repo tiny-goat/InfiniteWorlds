@@ -24,7 +24,7 @@ local RowAmount = Length
 local PlateZoom = IsUsingWideScreen() and 0.7 or 0.65
 
 -- how long it takes for the grading/plate/sfx to play after evallines finishes showing all stats
-local GradeTime = 3
+local GradeTime = 2.9
 
 local GradeX = IsUsingWideScreen() and 220 or 210
 
@@ -98,6 +98,10 @@ t[#t+1] = Def.ActorFrame {
         SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
         SCREENMAN:set_input_redirected(PLAYER_1, true)
         SCREENMAN:set_input_redirected(PLAYER_2, true)
+
+        -- TODO: This causes a bug that when you restart ScreenEvaluation from the debug menu, it also duplicates the entry thats going to be sent to ScreenEvaluationSummary.
+        -- expect to see the same song you refreshed in Evaluation to appear like a dozen times when you get to EvaluationSummary lmao
+        -- only happens when you F3/2 the thing though :/
 
         -- uhh we do not need a play result in event mode
         if not GAMESTATE:IsEventMode() then
@@ -266,7 +270,7 @@ end
 for i = 1, RowAmount do
 	t[#t+1] = Def.Sound {
 		File = THEME:GetPathS("","tg_tick"),
-		OnCommand=function(self) self:sleep(1.5+i*0.1):queuecommand("Play") end,
+		OnCommand=function(self) self:sleep(1.3+i*0.1):queuecommand("Play") end,
 		PlayCommand=function(self) self:play() end
 	}
 end

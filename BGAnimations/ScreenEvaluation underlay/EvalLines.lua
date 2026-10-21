@@ -84,20 +84,6 @@ for i = 1, RowAmount do
     }
 end
 
--- Separation lines between the center column text
---[[ for i = 1, RowAmount + 1 do
-    t[#t+1] = Def.ActorFrame {
-        Def.Quad {
-            InitCommand=function(self)
-                self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24 - (RowH / 2))
-                :zoomto(190 + math.sin(math.abs(self:GetY() - SCREEN_CENTER_Y) / SCREEN_CENTER_Y) * 210, 3)
-                :diffuse(color("#11CCFF")):diffusealpha(0)
-                :fadeleft(0.1):faderight(0.1):sleep(0.9):linear(0.2):diffusealpha(1)
-            end
-        }
-    }
-end ]]
-
 for i = 1, RowAmount do
     t[#t+1] = Def.ActorFrame {
             InitCommand=function(self)
@@ -161,19 +147,6 @@ t[#t+1] = Def.ActorFrame {
             end
         }
     },
--- scales up or down depending on what timing window was used, may apply this to EvalBall and EvalSongInfo
-    --[[ Def.Sprite {
-        Texture=THEME:GetPathG("", "Evaluation/tg_curve_glow"),
-        InitCommand=function(self)
-            self:y(SCREEN_CENTER_Y+4):x(SCREEN_CENTER_X):diffusealpha(0):diffuseleftedge(color("#16EEFFFF")):diffuserightedge(color("#EE16FFFF")):zoomx(6):zoomy(0.64):sleep(0.1):easeoutexpo(0.5):zoomx(RowAmount == 9 and 0.78 or 0.7):zoomy(RowAmount == 9 and 0.71 or 0.63):diffusealpha(1)
-        end,
-    },
-    Def.Sprite {
-        Texture=THEME:GetPathG("", "Evaluation/tg_eval_curve"),
-        InitCommand=function(self)
-            self:y(SCREEN_CENTER_Y+4):x(SCREEN_CENTER_X):zoomy(0.6):zoomx(6.3):sleep(0.1):easeoutexpo(0.5):zoomy(RowAmount == 9 and 0.71 or 0.63):zoomx(RowAmount == 9 and 0.78 or 0.7)
-        end,
-    }, ]]
 }
 
 
@@ -181,7 +154,7 @@ for i = 1, RowAmount do
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
             self:x(SCREEN_CENTER_X):y(RowY + RowH * (i - 1) + 22)
-            :zoomy(2):diffusealpha(0):sleep(1.5+i*0.1):decelerate(0.05):zoomy(0.8):diffusealpha(1):accelerate(0.1):zoomy(1)
+            :zoomy(2):diffusealpha(0):sleep(1.3+i*0.1):decelerate(0.05):zoomy(0.8):diffusealpha(1):accelerate(0.1):zoomy(1)
         end,
 
 

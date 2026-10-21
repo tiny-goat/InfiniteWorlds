@@ -70,7 +70,7 @@ local t = Def.ActorFrame {
 			self:stoptweening():diffusealpha(0)
             :sleep(PreviewDelay):linear(0.2):diffusealpha(1)
         end,
-
+        
         Def.Sprite {
             Name="Circle1",
             Texture=THEME:GetPathG("", "UI/circles1"),
@@ -88,19 +88,24 @@ local t = Def.ActorFrame {
             Name="Circle3",
             Texture=THEME:GetPathG("", "UI/circles3"),
             InitCommand=function(self)
-                self:zoomto(340,340):diffuse(color("#df16eb80")):rotationz(45) end,
+                self:zoomto(400,400):diffuse(color("#df16eb80")):rotationz(45) end,
             ScrollMessageCommand=function(self)
-                self:stoptweening():zoomto(350,350):sleep(PreviewDelay):linear(0.2):zoomto(340,340)
-            end
+                self:stoptweening():zoomto(450,450):sleep(PreviewDelay):linear(0.2):zoomto(400,400)
+            end,
+            SongChosenMessageCommand=function(self)
+                self:stoptweening():zoomto(400,400):easeoutexpo(0.5):zoomto(240,240) 
+            end,    
+            SongUnchosenMessageCommand=function(self)
+                self:stoptweening():zoomto(240,240):easeoutexpo(0.5):zoomto(400,400) end
         },
 
         Def.Sprite {
             Name="Xmark",
             Texture=THEME:GetPathG("", "UI/targ1"),
             InitCommand=function(self)
-                self:zoomto(340,340):diffusealpha(0.7) end,
+                self:zoomto(390,390):diffusealpha(0.7) end,
             ScrollMessageCommand=function(self)
-                self:stoptweening():zoomto(290,290):sleep(PreviewDelay):linear(0.2):zoomto(340,340)
+                self:stoptweening():zoomto(200,200):sleep(PreviewDelay):linear(0.2):zoomto(390,390)
             end
         }
 
