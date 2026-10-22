@@ -103,6 +103,10 @@ t[#t+1] = Def. ActorFrame {
 		
 	OnCommand=function(self) 
 			self:diffusealpha(0):zoomx(1):zoomy(0.8):sleep(0.45):decelerate(0.2):diffusealpha(1):zoomx(0.8):zoomy(0.8) end,
+
+    OffCommand=function(self)
+            self:easeinexpo(0.3):zoomx(1):zoomy(0.8):diffusealpha(0)
+    end,
 	
  	SongChosenMessageCommand=function(self)
             self:stoptweening():easeoutexpo(0.5):diffusealpha(0):zoomx(0):zoomy(0):sleep(0.001):zoomx(1.12):zoomy(0.8)
@@ -243,6 +247,10 @@ t[#t+1] = Def.ActorFrame {
         end,
         SongUnchosenMessageCommand=function(self)
             self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y):zoom(1)
+        end,
+
+        OffCommand=function(self)
+            self:stoptweening():easeinexpo(0.3):zoom(1.05):diffusealpha(0)
         end,
 
         LoadActor("SongsInfo") .. {
