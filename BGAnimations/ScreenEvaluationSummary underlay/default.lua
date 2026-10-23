@@ -103,9 +103,8 @@ for i = FirstSong, #Song do
 		-- difficulty + accuracy display, maybe we could do 1.000.000 scoring style next?
 		Def.BitmapText {
 			Font="inter medium 25px",
-			Text=PlayerResult(Detail, PLAYER_1),
 			InitCommand=function(self)
-				self:xy(-StatsX, Scoring == "New" and -18 or -1):halign(0):zoom(0.62):diffusealpha(0)
+				self:settext(PlayerResult(Detail, PLAYER_1)):xy(-StatsX, Scoring == "New" and -18 or -1):halign(0):zoom(0.62):diffusealpha(0)
 					:maxwidth(math.max(100, SCREEN_WIDTH / 2 - 40)):strokecolor(Color.Black)
 			end,
 			OnCommand=function(self)
@@ -113,9 +112,8 @@ for i = FirstSong, #Song do
 		},
 		Def.BitmapText {
 			Font="inter medium 25px",
-			Text=PlayerResult(Detail, PLAYER_2),
 			InitCommand=function(self)
-				self:xy(StatsX, Scoring == "New" and -18 or -1):halign(1):zoom(0.62):diffusealpha(0)
+				self:settext(PlayerResult(Detail, PLAYER_2)):xy(StatsX, Scoring == "New" and -18 or -1):halign(1):zoom(0.62):diffusealpha(0)
 					:maxwidth(math.max(100, SCREEN_WIDTH / 2 - 40)):strokecolor(Color.Black)
 			end,
 			OnCommand=function(self)
