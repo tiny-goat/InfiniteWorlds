@@ -301,7 +301,13 @@ t[#t+1] = Def.ActorFrame {
             Grade = (ScoreP1 > ScoreP2 and Grades[PLAYER_1] or Grades[PLAYER_2])
         end
 
-        SOUND:PlayAnnouncer(Grade)
+        -- re added this
+        if ANNOUNCER:GetCurrentAnnouncer() ~= nil then
+            SOUND:PlayAnnouncer(Grade)
+        else
+            SOUND:PlayOnce(THEME:GetPathS("", "Announcer/" .. Grade))
+        end
+
     end
 }
 
