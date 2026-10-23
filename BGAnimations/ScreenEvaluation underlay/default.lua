@@ -99,9 +99,31 @@ t[#t+1] = Def.ActorFrame {
         SCREENMAN:set_input_redirected(PLAYER_1, true)
         SCREENMAN:set_input_redirected(PLAYER_2, true)
 
-        -- TODO: This causes a bug that when you restart ScreenEvaluation from the debug menu, it also duplicates the entry thats going to be sent to ScreenEvaluationSummary.
-        -- expect to see the same song you refreshed in Evaluation to appear like a dozen times when you get to EvaluationSummary lmao
-        -- only happens when you F3/2 the thing though :/
+        -- Discord RPC
+        local pn = GAMESTATE:GetMasterPlayerNumber()
+        local SongOrCourse = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentCourse() or GAMESTATE:GetCurrentSong()
+        local StepOrTrails = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentTrail(pn) or GAMESTATE:GetCurrentSteps(pn)
+        if GAMESTATE:GetCurrentSong() then
+            local title = PREFSMAN:GetPreference("ShowNativeLanguage") and GAMESTATE:GetCurrentSong():GetDisplayMainTitle() or GAMESTATE:GetCurrentSong():GetTranslitFullTitle()
+            local details = not GAMESTATE:IsCourseMode() and title .. " - " .. SongOrCourse:GetDisplayArtist() or title
+            details = string.len(details) < 128 and details or string.sub(details, 1, 124) .. "..."
+            local Difficulty = ToEnumShortString(ToEnumShortString((StepOrTrails:GetStepsType()))) .. " " .. StepOrTrails:GetMeter()
+            local Percentage = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn):GetPercentDancePoints()
+            local states = Difficulty .. " (" .. string.format( "%.2f%%", Percentage*100) .. ")"
+            GAMESTATE:UpdateDiscordProfile(GAMESTATE:GetPlayerDisplayName(pn))
+            GAMESTATE:UpdateDiscordScreenInfo(details, states, 1)
+        end
+    end,
+
+    OffCommand=function(self) self:playcommand("EnableInput") end,
+    CancelCommand=function(self) self:playcommand("EnableInput") end,
+
+    EnableInputCommand=function(self)
+        SCREENMAN:set_input_redirected(PLAYER_1, false)
+        SCREENMAN:set_input_redirected(PLAYER_2, false)
+
+        -- i am a big stupid why didnt i just put the eval summary info code here in the first place instead of OnCommand (tiny)
+        -- we no longer have the duping play result entries thing when you reload ScreenEvaluationSummary yes ong
 
         -- uhh we do not need a play result in event mode
         if not GAMESTATE:IsEventMode() then
@@ -131,28 +153,6 @@ t[#t+1] = Def.ActorFrame {
             end
         end
 
-        -- Discord RPC
-        local pn = GAMESTATE:GetMasterPlayerNumber()
-        local SongOrCourse = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentCourse() or GAMESTATE:GetCurrentSong()
-        local StepOrTrails = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentTrail(pn) or GAMESTATE:GetCurrentSteps(pn)
-        if GAMESTATE:GetCurrentSong() then
-            local title = PREFSMAN:GetPreference("ShowNativeLanguage") and GAMESTATE:GetCurrentSong():GetDisplayMainTitle() or GAMESTATE:GetCurrentSong():GetTranslitFullTitle()
-            local details = not GAMESTATE:IsCourseMode() and title .. " - " .. SongOrCourse:GetDisplayArtist() or title
-            details = string.len(details) < 128 and details or string.sub(details, 1, 124) .. "..."
-            local Difficulty = ToEnumShortString(ToEnumShortString((StepOrTrails:GetStepsType()))) .. " " .. StepOrTrails:GetMeter()
-            local Percentage = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn):GetPercentDancePoints()
-            local states = Difficulty .. " (" .. string.format( "%.2f%%", Percentage*100) .. ")"
-            GAMESTATE:UpdateDiscordProfile(GAMESTATE:GetPlayerDisplayName(pn))
-            GAMESTATE:UpdateDiscordScreenInfo(details, states, 1)
-        end
-    end,
-
-    OffCommand=function(self) self:playcommand("EnableInput") end,
-    CancelCommand=function(self) self:playcommand("EnableInput") end,
-
-    EnableInputCommand=function(self)
-        SCREENMAN:set_input_redirected(PLAYER_1, false)
-        SCREENMAN:set_input_redirected(PLAYER_2, false)
     end
 }
 
