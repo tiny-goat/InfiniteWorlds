@@ -35,39 +35,53 @@ return Def.ActorFrame {
         end
     },
 	
-    Def.Sprite{
-        Texture="tg_gameover",
+    Def.ActorFrame {
+        -- all of this just for the thing
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y + 20)
-            :diffusealpha(0):cropbottom(0.3):zoom(5):sleep(1.25)
-            :accelerate(0.3)
-            :diffusealpha(1)
-	        :zoom(0.9)
-	        :sleep(0.5)
-	        :smooth(0.5)
-            :sleep(2.08)
-            :accelerate(0.5)
-	        :zoom(1.5)
-            :diffusealpha(0)
-        end
-    },
+            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y):sleep(4.8):accelerate(0.5):rotationz(19):diffusealpha(0)
+        end,
 
-    Def.Sprite{
-        Texture="tg_gameover",
-        InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y + 40)
-            :diffusealpha(0):croptop(0.7):cropright(1):zoom(5):sleep(0.7)
-            :accelerate(0.3)
-            :diffusealpha(1)
-	        :zoom(0.5)
-	        :sleep(0.1)
-	        :linear(1.9)
-	        :cropright(0)
-            :sleep(1.8)
-            :accelerate(0.5)
-	        :zoom(1.5)
-            :diffusealpha(0)
-        end
+        Def.Sprite{
+            Texture="tg_gameover",
+            InitCommand=function(self)
+                self:xy(0, 20)
+                :diffusealpha(0):cropbottom(0.3):zoom(5):sleep(1.25)
+                :accelerate(0.3)
+                :diffusealpha(1)
+                :zoom(0.9)
+
+                -- top 10 animations of all time
+
+                :linear(0.01):xy(-4,26)
+                :linear(0.01):xy(2,23)
+                :linear(0.01):xy(5,24)
+                :linear(0.01):xy(-2,19)
+                :linear(0.01):xy(3,21)
+                :linear(0.01):xy(6,27)
+                :linear(0.01):xy(0,20)
+                
+                :sleep(3)
+                :accelerate(0.5)
+                :zoom(1.5)
+            end
+        },
+
+        Def.Sprite{
+            Texture="tg_gameover",
+            InitCommand=function(self)
+                self:xy(0, 40)
+                :diffusealpha(0):croptop(0.7):cropright(1):zoom(5):sleep(0.7)
+                :accelerate(0.3)
+                :diffusealpha(1)
+                :zoom(0.5)
+                :sleep(0.1)
+                :linear(1.9)
+                :cropright(0)
+                :sleep(1.8)
+                :accelerate(0.5)
+                :zoom(1.5)
+            end
+        },
     },
 
 --[[up and down flashes of game and over]]--
