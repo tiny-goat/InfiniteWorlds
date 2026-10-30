@@ -14,7 +14,7 @@ local Choices = {
     {
         Name = "restart_song",
         Action = function( screen )
-            screen:SetPrevScreenName('ScreenStageInformation'):begin_backing_out()
+            screen:SetPrevScreenName('ScreenGameplay'):begin_backing_out()
         end
     },
     {
@@ -73,13 +73,13 @@ local Selections = Def.ActorFrame{
                 Name="Top",
                 InitCommand=function(self)
                         self:valign(1):zoomto(250, 60):y(-90)
-                        self:diffuse(color("#BB10DD")):diffusebottomedge(color("#1fbcff"))
+                        self:diffuse(color("#BB0088")):diffusebottomedge(color("#880033"))
                 end
         },
         Def.BitmapText {
                 Font="inter extrabold 45px",
                 InitCommand=function(self)
-                        self:skewx(-0.2):strokecolor(color("#16CCEE55")):settext("PAUSED")
+                        self:skewx(-0.2):strokecolor(color("#DD0040")):settext("PAUSED")
                         :y(-120)
                 end
         }

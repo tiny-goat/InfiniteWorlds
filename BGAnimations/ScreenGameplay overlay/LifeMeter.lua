@@ -34,7 +34,7 @@ local ProLifebarCrop = 1
 
 local t = Def.ActorFrame {
     InitCommand=function(self)
-		self:SetUpdateFunction(MeterUpdate):addy(IsReverse and 100 or -100)
+		self:SetUpdateFunction(MeterUpdate)
 
 		if ProLifebar then
 			local StepData = GAMESTATE:GetCurrentSteps(pn)
@@ -55,7 +55,7 @@ local t = Def.ActorFrame {
 		end
 	end,
 	
-    OnCommand=function(self) self:easeoutexpo(0.6):addy(IsReverse and -100 or 100):playcommand("Refresh", {Player = pn, Life = 0.5}) end,
+    OnCommand=function(self) self:playcommand("Refresh", {Player = pn, Life = 0.5}) end,
 
     -- This message command is only used if the Gameplay.Life module is active. Due to it being able to
     -- manipulate the player's health, it can restore life and break certain fail conditions, so the visible
