@@ -141,7 +141,7 @@ end
 
 -- Manages banner on sprite
 function UpdateBanner(self, Banner)
-    if Banner == "" then Banner = THEME:GetPathG("Common fallback", "banner") end
+    if Banner == "" then Banner = THEME:GetPathG("Common fallback", "groupbanner") end
     self:Load(Banner):scaletofit(-WheelItem.Width / 2, -WheelItem.Height / 2, WheelItem.Width / 2, WheelItem.Height / 2)
 end
 
@@ -313,7 +313,7 @@ local t = Def.ActorFrame {
     end,
 
     Def.Sound {
-        File=THEME:GetPathS("MusicWheel", "change"),
+        File=THEME:GetPathS("", "tg_groupwheel_move"),
         IsAction=true,
         ScrollMainMessageCommand=function(self) self:play() end,
         ScrollSubMessageCommand=function(self, params) if params.Direction ~= 0 then self:play() end end
