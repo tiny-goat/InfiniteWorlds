@@ -3,13 +3,13 @@ return Def.ActorFrame {
         Name="PartyHat",
         Texture="PartyHat",
         InitCommand=function(self)
-            self:xy(210, -320):rotationz(40):diffusealpha(0)
+            self:xy(260, -320):rotationz(40):diffusealpha(0)
         end,
         OnCommand=function(self)
-            self:sleep(0.7)
+            self:sleep(0.8)
             :easeoutexpo(0.9)
             :diffusealpha(1)
-            :y(-280):wag():effectmagnitude(0,0,3):effectperiod(2)
+            :y(-280)
         end
     },
 

@@ -23,8 +23,7 @@ return Def.ActorFrame {
     Def.Quad {
       Name="Background1",
       InitCommand=function(self)
-          self:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center()
-          :diffuse(Color.White):sleep(14):diffuse(Color.Black)
+          self:diffuse(Color.Black):zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center()
       end
     },
 	
@@ -41,7 +40,7 @@ return Def.ActorFrame {
 				:diffusealpha(0):zoom(0.6):cropleft(0.29)
 			end,
 			OnCommand=function(self)
-				self:sleep(2.9):linear(0.7):diffusealpha(1)
+				self:sleep(2.5):linear(0.7):diffusealpha(1)
 			end
 		},
 	
@@ -53,7 +52,7 @@ return Def.ActorFrame {
 				:diffusealpha(1):zoom(0.4)
 			end,
 			OnCommand=function(self)
-				self:diffusealpha(0):sleep(0.5):linear(0.7):diffusealpha(1):sleep(0.6):linear(1):zoom(0.18):addx(-190)
+				self:diffusealpha(0):linear(0.7):diffusealpha(1):sleep(0.6):linear(1):zoom(0.18):addx(-190)
 			end
 		}
 		
@@ -66,13 +65,13 @@ return Def.ActorFrame {
 		
 		Def.Sprite {
 			Name="tinyLogo",
-			Texture="tg_logo",
+			Texture="tinylogo",
 			InitCommand=function(self)
 				self:Center()
-				:diffusealpha(0):zoom(0.6)
+				:diffusealpha(0):zoom(0.8)
 			end,
 			OnCommand=function(self)
-				self:diffusealpha(1):sleep(10.7):easeoutexpo(0.5):zoomx(0.8):zoomy(0)
+				self:diffusealpha(1):sleep(10.7):easeinexpo(1):zoom(1.4):diffusealpha(0)
 			end
 		},
 		
@@ -82,7 +81,7 @@ return Def.ActorFrame {
 	Def.ActorFrame {
 		-- the4kman logo
 		Name="4kmanintro",
-		OnCommand=function(self) self:diffusealpha(0):sleep(11.6):linear(0.7):diffusealpha(1):sleep(5):linear(0.7):diffusealpha(0) end,
+		OnCommand=function(self) self:diffusealpha(0):sleep(10.8):linear(0.7):diffusealpha(1):sleep(5):linear(0.7):diffusealpha(0) end,
 		
 		Def.Sound {
 			File="the4k",
@@ -93,18 +92,9 @@ return Def.ActorFrame {
 		Def.Quad {
 			Name="Background1",
 			InitCommand=function(self)
-				self:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center()
+				self:Center():zoomto(SCREEN_WIDTH, 0):sleep(12):easeoutexpo(0.8):zoomto(SCREEN_WIDTH, SCREEN_HEIGHT)
 				:diffuse(color("#007fff")):diffusealpha(1)
 			end,
-		},
-		
-		Def.BitmapText {
-			Name="text",
-			Font="Eurostile Extended 32px",
-			InitCommand=function(self)
-				self:Center()
-				:settext("SOUND BY"):zoomx(1):zoomy(1):diffusealpha(0)
-				:sleep(11):easeoutexpo(0.7):diffusealpha(1):sleep(1.3):easeoutexpo(0.4):zoomx(1):zoomy(1.5):diffusealpha(0) end,
 		},
 		
 		Def.Sprite {

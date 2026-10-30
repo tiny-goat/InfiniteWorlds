@@ -15,7 +15,7 @@ local t = Def.ActorFrame {
         Def.Sprite {
             Texture=THEME:GetPathG("", "UI/tg_glow_header"),
             InitCommand=function(self)
-                self:scaletofit(0, 0, 1280, 128):xy(0, -5):diffuse(BasicMode and color("#16EECC") or color("#CC16EE")):valign(0):queuecommand("Fade")
+                self:scaletofit(0, 0, 1280, 128):xy(0, -5):diffuse(BasicMode and color("#16EECC") or color("#CC0062")):valign(0):queuecommand("Fade")
             end,
             FadeCommand=function(self)
                 self:diffusealpha(0.3):linear(2):diffusealpha(1):linear(2):diffusealpha(0.3):queuecommand("Fade")
@@ -32,7 +32,7 @@ local t = Def.ActorFrame {
         Def.Sprite {
             Texture=THEME:GetPathG("", "UI/header_fill"),
             InitCommand=function(self)
-                self:scaletofit(0, 0, 1280, 128):xy(0, -5):diffuse(BasicMode and color("#16EECC") or color("#CC16EE")):blend("Add"):valign(0):queuecommand("Animate")
+                self:scaletofit(0, 0, 1280, 128):xy(0, -5):diffuse(BasicMode and color("#16EECC") or color("#CC0062")):blend("Add"):valign(0):queuecommand("Animate")
             end,
             
             AnimateCommand=function(self)
@@ -79,7 +79,7 @@ local t = Def.ActorFrame {
             Def.Sprite {
                 Texture=THEME:GetPathG("", "UI/euv_heartbank"),
                 InitCommand=function(self)
-                    self:cropleft(0.38):zoomx(0.2):zoomy(0.2):y(0):x(-38):diffusealpha(0.8):sleep(0.2):easeoutexpo(1.1):zoomx(0.2):zoomy(0.2):diffusealpha(1)
+                    self:cropleft(0.39):zoomx(0.2):zoomy(0.2):y(0):x(-38):diffusealpha(0.8):sleep(0.2):easeoutexpo(1.1):zoomx(0.2):zoomy(0.2):diffusealpha(1)
                 end
             },
 
@@ -132,7 +132,7 @@ local t = Def.ActorFrame {
             Texture=THEME:GetPathG("", "UI/tg_glow_footer"),
             InitCommand=function(self)
                 self:scaletofit(0, 0, 1280, 128)
-                :xy(0,0):diffuse(BasicMode and color("#16EECC") or color("#CC16EE")):valign(1):queuecommand("Fade")
+                :xy(0,0):diffuse(BasicMode and color("#16EECC") or color("#CC0062")):valign(1):queuecommand("Fade")
             end,
             FadeCommand=function(self)
                     self:diffusealpha(1):linear(2):diffusealpha(0.3):linear(2):diffusealpha(1):queuecommand("Fade")

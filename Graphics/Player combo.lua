@@ -48,12 +48,12 @@ local t = Def.ActorFrame {
         c.Number:settext(string.rep("0",3-string.len(iCombo))..iCombo)
 
         c.ComboLabel:stoptweening():diffuse(params.Misses and Color.Red or Color.White)
-        :glow(1,1,1,0):diffusealpha(1):y(-22):zoomx(1.6):zoomy(1.5):decelerate(0.15):zoom(1.1)
-        :sleep(0.4):decelerate(0.24):glow(1,1,1,0.8):diffusealpha(0):y(-19):zoomx(1.7):zoomy(0)
+        :diffusealpha(1):y(-22):zoomx(1.6):zoomy(1.5):decelerate(0.15):zoom(1.1)
+        :sleep(0.4):decelerate(0.24):diffusealpha(0):y(-20):zoomx(1.7):zoomy(0)
 		
         c.Number:stoptweening():diffuse(params.Misses and Color.Red or Color.White)
-        :zoomx(0.88):diffusealpha(1):y(20):decelerate(0.15):y(14)
-        :sleep(0.4):smooth(0.24):zoomx(1):diffusealpha(0)
+        :zoomx(0.88):diffusealpha(1):y(22):decelerate(0.15):y(14)
+        :sleep(0.4):decelerate(0.3):diffusealpha(0)
         
     end
 }

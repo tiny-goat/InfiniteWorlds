@@ -45,7 +45,7 @@ return Def.ActorFrame {
     LoadActor("AnimatedLoop")..{
         Name="Loop",
         OnCommand=function(self)
-            self:zoom(0.95):queuecommand("Animate")
+            self:zoom(1):rotationz(45):queuecommand("Animate")
         end,
         AnimateCommand=function(self)
             self:GetChild("PlainLoop"):diffusealpha(1)
@@ -60,7 +60,7 @@ return Def.ActorFrame {
         Texture="iw_logo_3",
         Name="Text_Mask",
         InitCommand=function(self)
-            self:MaskSource():zoom(1.15)
+            self:MaskSource():rotationz(45):zoom()
         end
     },
 
@@ -74,12 +74,10 @@ return Def.ActorFrame {
             :diffuse(1,1,1,0.8)
             :skewx(-1)
             :x(-535)
-            :sleep(0.9)
+            :sleep(1.7)
             :linear(0.5)
-            :x(535):MaskDest():ztestmode("ZTestMode_WriteOnFail"):queuecommand("Shine")
+            :x(535):MaskDest():ztestmode("ZTestMode_WriteOnFail")
         end,
-	ShineCommand=function(self)
-	    self:x(-535):sleep(3.5):linear(0.8):x(535):queuecommand("Shine") end
     },
 
     Def.Sprite {
@@ -90,19 +88,19 @@ return Def.ActorFrame {
         end,
         AnimateCommand=function(self)
             self:diffusealpha(0)
-            :zoom(1.5):cropright(1)
+            :zoom(2)
             :sleep(1.45):queuecommand("Displace")
             :diffusealpha(1)
             :glow(1,1,1,1)
             :easeoutexpo(1)
-            :zoom(0.9):cropright(0)
+            :zoom(0.9)
             :glow(1,1,1,0)
         end,
 		
 		DisplaceCommand=function(self)
-			self:sleep(3.4)
+			self:sleep(3.5)
             :easeinquad(0.4):zoom(1.1):cropleft(1):diffusealpha(0)
-            :sleep(3.4)
+            :sleep(3.5)
             :decelerate(0.5):zoom(0.9):cropleft(0):diffusealpha(1)
             :queuecommand("Displace")
 		end,
@@ -116,7 +114,7 @@ return Def.ActorFrame {
         end,
         AnimateCommand=function(self)
             self:diffusealpha(0)
-            :zoom(0.9):x(-200):y(0)
+            :zoom(0.9):x(-200):y(95)
             :sleep(1.45):queuecommand("Displace")
             :diffusealpha(1)
             :glow(1,1,1,1)
@@ -126,9 +124,9 @@ return Def.ActorFrame {
         end,
 		
 		DisplaceCommand=function(self)
-			self:sleep(3.4)
+			self:sleep(3.5)
             :easeinquad(0.4):zoom(1.1):cropright(1):diffusealpha(0)
-            :sleep(3.4)
+            :sleep(3.5)
             :decelerate(0.5):zoom(0.9):cropright(0):diffusealpha(1)
             :queuecommand("Displace")
 		end,

@@ -127,7 +127,7 @@ local t = Def.ActorFrame {
 -- This will be responsible for displaying the selected noteskin
 t[#t+1] = Def.ActorProxy {
     OnCommand=function(self)
-        self:y(IconH - 1)
+        self:y(IconH + 0.2)
         :zoom(0.6)
         :playcommand("Refresh")
     end,
@@ -156,8 +156,8 @@ for i = 1, IconAmount do
             Name="Text",
             Font="Strike Fighter 45px",
             InitCommand=function(self)
-                self:y((i > 1 and IconH or 0) + IconH * (i - 1) - 1)
-                :zoom(0.45):vertspacing(1)
+                self:y((i > 1 and IconH or 0) + IconH * (i - 1))
+                :zoom(0.41):vertspacing(1.3)
                 :wrapwidthpixels((IconW - 4) / self:GetZoom())
                 :maxwidth((IconW - 4) / self:GetZoom())
                 :maxheight((IconH - 4) / self:GetZoom())

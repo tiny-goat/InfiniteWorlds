@@ -102,7 +102,7 @@ return Def.ActorFrame {
         Judg:visible(not bHideJudgment):setstate(iFrame)
         :stoptweening():glow(1,1,1,0):zoom(0.9 * AddZoom):y(5):diffusealpha(1):decelerate(0.15)
         :zoom(0.70 * AddZoom):y(7):sleep(0.4):glow(1,1,1,0.7):smooth(0.24)
-        :diffusealpha(0):zoomy(0):y(-9):zoomx(0.92 * AddZoom)
+        :diffusealpha(0):zoomy(0):y(-9):zoomx(0.95 * AddZoom)
         
         Prot:visible(bProtiming)
         OFB:GetChild("Background"):visible(bOffsetBar)

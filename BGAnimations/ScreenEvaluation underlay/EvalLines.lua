@@ -13,6 +13,8 @@ local RowH = 40
 local RowX = IsUsingWideScreen() and 420 or 380
 local RowY = SCREEN_CENTER_Y - (RowAmount * RowH) / 2
 
+local BasicMode = getenv("IsBasicMode")
+
 -- And a function to make even better use out of the table.
 local function GetJLineValue(line, pl)
     local PSS = STATSMAN:GetCurStageStats():GetPlayerStageStats(pl)
@@ -78,7 +80,9 @@ for i = 1, RowAmount do
         Def.Sprite {
             Texture=THEME:GetPathG("", "Evaluation/tg_evalrow"),
             InitCommand=function(self)
-                self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24):fadeleft(0.1):faderight(0.1):diffusealpha(0.6):zoomy(0):easeoutexpo(0.5):xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24):zoomx(0.69):zoomy(0.79)
+                self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24):diffuse(BasicMode and (color("#00CCAA")) or (color("#AA0052")))
+				:fadeleft(0.05):faderight(0.05):diffusealpha(1):zoomx(0.2):zoomy(0.79)
+				:easeoutexpo(0.9):xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24):zoomx(IsUsingWideScreen() and 0.69 or 0.64)
             end
         }
     }
@@ -88,12 +92,12 @@ for i = 1, RowAmount do
     t[#t+1] = Def.ActorFrame {
             InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 26)
-            :zoomy(0):zoomx(0.68):diffusealpha(0):sleep(0.1+i*0.05):easeoutexpo(0.5):zoomy(0.68):diffusealpha(1)
+            :zoomy(0):zoomx(0.68):diffusealpha(0):sleep(0.1+i*0.08):easeoutexpo(0.9):zoomy(0.68):diffusealpha(1)
         end,
         Def.BitmapText {
-            Font="Strike Fighter 45px",
+            Font="Eurostile Extended 32px",
             InitCommand=function(self)
-                self:maxwidth(360):zoom(0.7):strokecolor(Color.Black):visible(true):y(-3)
+                self:maxwidth(360):zoom(0.9):strokecolor(Color.Black):visible(true):y(-8)
 
                 if Name[i] == "Accuracy" or Name[i] == "Score" then
                     self:settext(ToUpper(THEME:GetString("EvaluationLabel", Name[i])))

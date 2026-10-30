@@ -32,7 +32,7 @@ return Def.ActorFrame {
 
     Def.Sprite {
         Texture=THEME:GetPathG("", "Evaluation/tg_songinfo"),
-	InitCommand=function(self) self:zoomx(0):zoomy(0.5):fadeleft(0.34):faderight(0.34):sleep(0.1):smooth(0.3):zoomx(0.7) end
+	InitCommand=function(self) self:zoomx(0):zoomy(0.5):fadeleft(0.34):faderight(0.34):easeoutexpo(0.9):zoomx(IsUsingWideScreen() and 0.7 or 0.65) end
     },
 
     Def.BitmapText {

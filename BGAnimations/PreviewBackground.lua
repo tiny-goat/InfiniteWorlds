@@ -14,7 +14,7 @@ local t = Def.ActorFrame {
         Def.Quad {
             Name="Back1",
             InitCommand=function(self)
-                self:zoomto(FrameW, FrameH):diffuseleftedge(color("#16EEFF")):diffuserightedge(color("#c01d00")):fadetop(0.9):diffusealpha(0)
+                self:zoomto(FrameW, FrameH):diffuse(color("#300005")):fadetop(0.9):diffusealpha(0)
             end,
 			ScrollMessageCommand=function(self)
 				self:stoptweening():diffusealpha(0.7):sleep(PreviewDelay):diffusealpha(0) end
@@ -88,7 +88,7 @@ local t = Def.ActorFrame {
             Name="Circle3",
             Texture=THEME:GetPathG("", "UI/circles3"),
             InitCommand=function(self)
-                self:zoomto(400,400):diffuse(color("#df16eb80")):rotationz(45) end,
+                self:zoomto(400,400):diffuse(color("#ff00de80")):rotationz(45) end,
             ScrollMessageCommand=function(self)
                 self:stoptweening():zoomto(450,450):sleep(PreviewDelay):linear(0.2):zoomto(400,400)
             end,
