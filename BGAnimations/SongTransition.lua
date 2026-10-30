@@ -55,6 +55,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		
         Def.ActorFrame {
             OnCommand=function(self)
+				-- add an extra wait time, its TOO fast right now
                 self:xy(pn == PLAYER_2 and SCREEN_RIGHT - 85 or 85, SCREEN_BOTTOM - 35):playcommand("Refresh")
             end,
 
@@ -94,13 +95,10 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 else
                     self:visible(false)
                 end
+				-- add a wait time when on stage info, its TOO fast
+				-- sleep time is predetermined
+				self:sleep(SCREENMAN:GetTopScreen():GetName() == "ScreenStageInformation" and 4.5 or 0)
             end,
-
-            -- Def.Sprite {
-                -- Name="Frame",
-                -- Texture=THEME:GetPathG("", "UI/StepArtist" .. (pn == PLAYER_2 and "R" or "L")),
-				-- InitCommand=function(self) self:zoom(0.5) end,
-            -- },
 			
 			Def.Sprite {
                  Name="Frame",

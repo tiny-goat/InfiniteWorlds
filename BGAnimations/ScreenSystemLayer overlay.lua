@@ -1,17 +1,6 @@
 local previousCredits = nil
 
 local t = Def.ActorFrame {
-
-	-- dual-coinsound of kpump
-	Def.Sound {
-        Name = "CoinInsertedSound",
-        File = THEME:GetPathS("", "coin_in"),
-    },
-
-    Def.Sound {
-        Name = "CreditAddedSound",
-        File = THEME:GetPathS("", "credit_add"),
-    },
 	
     InitCommand=function(self)
         if LoadModule("Config.Load.lua")("AutogenBasicMode", "Save/OutFoxPrefs.ini") == true then
@@ -23,102 +12,104 @@ local t = Def.ActorFrame {
         AssembleGroupSorting()
     end,
     
-	-- this is for the credits/coin text
-    Def.BitmapText {
-        Font="Common normal",
-        InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM - 19):zoom(0.8):strokecolor(Color.Black):diffusebottomedge(color("#EECC33")):diffusetopedge(color("#DDFF33")):queuecommand('Refresh')
-        end,
-        
-        OnCommand=function(self) self:playcommand('Refresh') end,
+	-- credit display
+	Def.ActorFrame {
+		-- unintentional visibility problems that i caused that i now have to fix
 		
-        ScreenChangedMessageCommand=function(self)
+		ScreenChangedMessageCommand=function(self)
             local Screen = SCREENMAN:GetTopScreen()
             local IsVisible = true
             if Screen then
                 local sClass = Screen:GetName()
                 IsVisible = THEME:GetMetric(sClass, "ShowCreditDisplay")
             end
-            
             self:visible(IsVisible)
-			self:playcommand('Refresh')
         end,
 		
-		-- kpump dual-coinsound system
-        CoinInsertedMessageCommand=function(self)
-			local creditCount = math.floor(GAMESTATE:GetCoins() / GAMESTATE:GetCoinsNeededToJoin())
+		-- dual kpump coinsound thingy
+		Def.Sound {
+			Name = "CoinInsertedSound",
+			File = THEME:GetPathS("", "coin_in"),
+		},
+
+		Def.Sound {
+			Name = "CreditAddedSound",
+			File = THEME:GetPathS("", "credit_add"),
+		},
 		
-			if previousCredits ~= nil and creditCount > previousCredits then
-				self:GetParent():GetChild("CreditAddedSound"):play()
-			else
-				self:GetParent():GetChild("CoinInsertedSound"):play()
+		-- this  the credits/coin text
+		Def.BitmapText {
+			Font="Common Normal",
+			InitCommand=function(self)
+				self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM - 20):zoom(0.85):strokecolor(Color.Black):diffusebottomedge(color("#EECC33")):diffusetopedge(color("#DDFF33")):queuecommand('Refresh')
+			end,
+			
+			OnCommand=function(self) self:playcommand('Refresh') end,
+			
+			-- kpump dual-coinsound system
+			CoinInsertedMessageCommand=function(self)
+				local creditCount = math.floor(GAMESTATE:GetCoins() / GAMESTATE:GetCoinsNeededToJoin())
+			
+				if previousCredits ~= nil and creditCount > previousCredits then
+					self:GetParent():GetChild("CreditAddedSound"):play()
+				else
+					self:GetParent():GetChild("CoinInsertedSound"):play()
+				end
+
+				previousCredits = creditCount
+				self:playcommand('Refresh')
+			end,
+			
+			PlayerJoinedMessageCommand=function(self) self:playcommand('Refresh') end,
+			RefreshCreditTextMessageCommand=function(self) self:playcommand('Refresh') end,
+
+			RefreshCommand=function(self)
+				local CoinMode = GAMESTATE:GetCoinMode()
+				local EventMode = GAMESTATE:IsEventMode()
+				local creditCount = math.floor(GAMESTATE:GetCoins() / GAMESTATE:GetCoinsNeededToJoin())
+				
+				-- no one wants screen burn-in at home!
+				if CoinMode == "CoinMode_Home" then
+					self:visible(false)
+				elseif EventMode then
+					self:visible(false)
+				elseif CoinMode == 'CoinMode_Free' then
+					self:visible(false)
+				elseif CoinMode == 'CoinMode_Pay' then
+					local CreditText = "CREDIT(S) " .. creditCount .. " [" .. GAMESTATE:GetCoinsNeededToJoin() .. "/" .. GAMESTATE:GetCoins() .. "]"
+					self:visible(true):settext(CreditText)
+				end
 			end
-
-			previousCredits = creditCount
-			self:playcommand('Refresh')
-		end,
+		},
 		
-        PlayerJoinedMessageCommand=function(self) self:playcommand('Refresh') end,
-        RefreshCreditTextMessageCommand=function(self) self:playcommand('Refresh') end,
-
-        RefreshCommand=function(self)
-            local CoinMode = GAMESTATE:GetCoinMode()
-            local EventMode = GAMESTATE:IsEventMode()
-			local creditCount = math.floor(GAMESTATE:GetCoins() / GAMESTATE:GetCoinsNeededToJoin())
+		-- text only for freeplay/event
+		Def.BitmapText {
+			Font="Eurostile Extended 32px",
+			InitCommand=function(self)
+				self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM - 19):zoom(0.65):strokecolor(Color.Black):diffusetopedge(color("#FFFFFF")):diffusebottomedge(color("#555555")):queuecommand('Refresh')
+			end,
 			
-            -- no one wants screen burn-in at home!
-            if CoinMode == "CoinMode_Home" then
-                self:visible(false)
-            elseif EventMode then
-                self:visible(false)
-            elseif CoinMode == 'CoinMode_Free' then
-                self:visible(false)
-            elseif CoinMode == 'CoinMode_Pay' then
-                local CreditText = "CREDIT(S) " .. creditCount .. " [" .. GAMESTATE:GetCoinsNeededToJoin() .. "/" .. GAMESTATE:GetCoins() .. "]"
-                self:visible(true):settext(CreditText)
-            end
-        end
-    },
-	
-	-- text only for freeplay/event
-	Def.BitmapText {
-        Font="Eurostile Extended 32px",
-        InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM - 19):zoom(0.65):strokecolor(Color.Black):diffusetopedge(color("#FFFFFF")):diffusebottomedge(color("#555555")):queuecommand('Refresh')
-        end,
-        
-        OnCommand=function(self) self:playcommand('Refresh') end,
-		
-        ScreenChangedMessageCommand=function(self)
-            local Screen = SCREENMAN:GetTopScreen()
-            local IsVisible = true
-            if Screen then
-                local sClass = Screen:GetName()
-                IsVisible = THEME:GetMetric(sClass, "ShowCreditDisplay")
-            end
-            
-            self:visible(IsVisible)
-			self:playcommand('Refresh')
-        end,
-		
-        PlayerJoinedMessageCommand=function(self) self:playcommand('Refresh') end,
-        RefreshCreditTextMessageCommand=function(self) self:playcommand('Refresh') end,
-
-        RefreshCommand=function(self)
-            local CoinMode = GAMESTATE:GetCoinMode()
-            local EventMode = GAMESTATE:IsEventMode()
+			OnCommand=function(self) self:playcommand('Refresh') end,
 			
-            if CoinMode == "CoinMode_Home" then
-                self:visible(false)
-            elseif EventMode then
-                self:visible(true):settext("EVENT")
-            elseif CoinMode == 'CoinMode_Free' then
-                self:visible(true):settext("FREE PLAY")
-            elseif CoinMode == 'CoinMode_Pay' then
-                self:visible(false)
-            end
-        end
-    }
+			PlayerJoinedMessageCommand=function(self) self:playcommand('Refresh') end,
+			RefreshCreditTextMessageCommand=function(self) self:playcommand('Refresh') end,
+
+			RefreshCommand=function(self)
+				local CoinMode = GAMESTATE:GetCoinMode()
+				local EventMode = GAMESTATE:IsEventMode()
+				
+				if CoinMode == "CoinMode_Home" then
+					self:visible(false)
+				elseif EventMode then
+					self:visible(true):settext("EVENT")
+				elseif CoinMode == 'CoinMode_Free' then
+					self:visible(true):settext("FREE PLAY")
+				elseif CoinMode == 'CoinMode_Pay' then
+					self:visible(false)
+				end
+			end
+		}
+	}
 }
 
 -- SCREENMAN:SystemMessage display

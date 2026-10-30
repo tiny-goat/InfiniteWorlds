@@ -1,19 +1,15 @@
 return Def.ActorFrame {
     OnCommand=function(self)
-	-- close enough to kpump ig
-        self:GetChild("FirstFade"):diffusealpha(0)
-		self:GetChild("ChartStats"):diffusealpha(0)
+	-- FINALLY perfected the kpump song decide screen
+        self:GetChild("Fade"):diffusealpha(0)
     end,
     
     StartTransitioningCommand=function(self)
         if SCREENMAN:GetTopScreen():GetNextScreenName() == "ScreenStageInformation" then
-        self:GetChild("FirstFade"):sleep(0.3):easeoutexpo(0.5):diffusealpha(1):sleep(1.9)
-		
-	    self:GetChild("ChartStats"):sleep(1):diffusealpha(1)
-
-	    self:GetChild("SFX"):play()
+        self:GetChild("Fade"):sleep(0.3):easeoutexpo(0.5):diffusealpha(1)
+	    self:GetChild("SFX"):playcommand("Play")
         else
-            self:sleep(1)
+            self:sleep(0)
         end
     end,
 
@@ -22,20 +18,18 @@ return Def.ActorFrame {
 	end,
 	
 	DimCommand=function(s) SOUND:StopMusic() end,
-
-    Def.Sound {
+	
+	-- the stage decide SFX now plays thru the screens, no more cutoff yay
+    Def.ActorFrame {
         Name="SFX",
-        File=THEME:GetPathS("", "stage_warp")
+		PlayCommand=function(self)
+			SOUND:PlayOnce(THEME:GetPathS("", "stage_warp"))
+		end,
     },
 
     Def.Quad {
-        Name="FirstFade",
+        Name="Fade",
 		InitCommand=function(self) self:FullScreen():diffuse(Color.Black) end
     },
 	
-    LoadActor("SongTransition") .. {
-        Name="ChartStats"
-    }
-
-
 }
