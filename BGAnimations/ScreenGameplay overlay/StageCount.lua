@@ -44,7 +44,7 @@ return Def.ActorFrame {
         Font="_praetorian numbers 42px",
         Text=string.format("%02d", GAMESTATE:GetCurrentStageIndex() + 1),
         InitCommand=function(self)
-            self:y(15):zoomx(0.66):zoomy(0.75):strokecolor(IsDemonstration and (color("#00BBAA")) or (BasicMode and (color("#00BBAA")) or (color("#FF0040"))))
+            self:y(15):zoomx(0.65):zoomy(0.75):strokecolor(IsDemonstration and (color("#00BBAA")) or (BasicMode and (color("#00BBAA")) or (color("#FF0040"))))
         end
     }
 }

@@ -7,7 +7,7 @@ return Def.ActorFrame {
     Def.BitmapText {
         Font="inter light 22px",
         InitCommand=function(self)
-            self:xy(SCREEN_LEFT + 20, SCREEN_BOTTOM - 20)
+            self:xy(SCREEN_LEFT + 20, SCREEN_BOTTOM - 40)
             :halign(0):valign(1):zoom(0.7)
             :settext("INFINITEWORLDS \n"..ToUpper(string.format("OutFox %s - %s", ProductVersion(), VersionDate())))
         end

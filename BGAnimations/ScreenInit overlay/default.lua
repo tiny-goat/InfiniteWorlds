@@ -36,8 +36,8 @@ return Def.ActorFrame {
 			Name="OutFoxLogo0",
 			Texture="OutFox",
 			InitCommand=function(self)
-				self:Center()
-				:diffusealpha(0):zoom(0.6):cropleft(0.29)
+				self:xy(SCREEN_CENTER_X+60,SCREEN_CENTER_Y)
+				:diffusealpha(0):zoom(0.6)
 			end,
 			OnCommand=function(self)
 				self:sleep(2.5):linear(0.7):diffusealpha(1)
@@ -137,7 +137,7 @@ return Def.ActorFrame {
 			Texture=THEME:GetPathG("","Logo/Parts/Text"),
 			InitCommand=function(self)
 				self:Center()
-				:diffusealpha(0):sleep(19):zoom(1.2):easeoutexpo(1):diffusealpha(1):zoom(0.6)
+				:glow(1,1,1,1):sleep(19):zoom(1):easeoutexpo(1):glow(1,1,1,0):zoom(0.6)
 			end
 		},
 		

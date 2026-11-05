@@ -54,10 +54,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = Def.ActorFrame {
 		
         Def.ActorFrame {
-            OnCommand=function(self)
-				-- add an extra wait time, its TOO fast right now
-                self:xy(pn == PLAYER_2 and SCREEN_RIGHT - 85 or 85, SCREEN_BOTTOM - 35):playcommand("Refresh")
-            end,
+		
+            OnCommand=function(self) self:xy(pn == PLAYER_2 and SCREEN_RIGHT - 85 or 85, SCREEN_BOTTOM - 35):playcommand("Refresh") end,
 
             StartTransitioningCommand=function(self) self:playcommand("Refresh") end,
 
