@@ -8,7 +8,7 @@ local BasicMode = getenv("IsBasicMode")
 local GradeZoom = IsUsingWideScreen() and 0.32 or 0.3
 
 -- we will pass the gradezoom values here, since new and classic grade letters are in different resolutions, and need diff zoom values, kinda stupid but eh it works
-local GradeZoomAdd = ClassicGrades and GradeZoom or GradeZoom+0.2
+local GradeZoomAdd = ClassicGrades and GradeZoom+0.3 or GradeZoom+0.2
 
 -- same code taken from EvalLines, probably not the most efficient method of making certain elements resize/reposition depending on the rows on screen though :/
 local Name, Length = LoadModule("Options.SmartTapNoteScore.lua")()

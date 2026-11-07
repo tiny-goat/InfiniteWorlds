@@ -17,7 +17,7 @@ local t = Def.ActorFrame {
     end,
 
     Def.Sprite { 
-        Texture=THEME:GetPathG("", "UI/euv_playername_plate"), 
+        Texture=THEME:GetPathG("", "UI/tg_playername_plate"), 
         OnCommand=function(self)
             self:visible(PROFILEMAN:IsPersistentProfile(pn)):cropleft(0.2):cropright(0.2):fadeleft(0.2):faderight(0.2):zoomy(0.8):zoomx(0):sleep(0.4):easeoutexpo(0.45):zoomx(1) 
         end
