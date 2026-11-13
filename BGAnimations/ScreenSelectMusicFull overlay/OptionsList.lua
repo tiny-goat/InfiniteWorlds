@@ -2,15 +2,13 @@ local IsMenuOpen = { PlayerNumber_P1 = false, PlayerNumber_P2 = false}
 local CurrentClosingPlayer -- Global hack for race condition when exiting with the Select button...
 local MenuButtonsOnly = PREFSMAN:GetPreference("OnlyDedicatedMenuButtons")
 
+-- for command window sounds fix 
+local NotRoot = false
+
 local t = Def.ActorFrame {
     Def.Sound {
         File=THEME:GetPathS("", "fm_options_entry"),
         OptionsListPlaySoundMessageCommand=function(self, params) self:play() end
-    },
-
-    Def.Sound {
-        File=THEME:GetPathS("", "CloseCommandWindow"),
-        OptionsListClosedMessageCommand=function(self) self:play() end
     },
 
     Def.Sound {
@@ -23,11 +21,29 @@ local t = Def.ActorFrame {
 
     Def.Sound {
         File=THEME:GetPathS("", "StartCommandWindow"),
-        -- No idea why we need all of this. OptionsList sucks.
-        OptionsListStartMessageCommand=function(self) self:queuecommand("Refresh") end,
         OptionsListResetMessageCommand=function(self) self:queuecommand("Refresh") end,
-        OptionsListPopMessageCommand=function(self) self:queuecommand("Refresh") end,
-        OptionsListPushMessageCommand=function(self) self:queuecommand("Refresh") end,
+        OptionsListPushMessageCommand=function(self) NotRoot = true self:queuecommand("Refresh") end,
+        RefreshCommand=function(self) self:play() end
+    },
+
+    Def.Sound {
+        File=THEME:GetPathS("", "CloseCommandWindow"),
+        OptionsListClosedMessageCommand=function(self) 
+            NotRoot = false
+            self:queuecommand("Refresh") end,
+        OptionsListStartMessageCommand=function(self) 
+            NotRoot = true
+            self:queuecommand("Refresh") end,
+        RefreshCommand=function(self) self:play() end
+    },
+
+    Def.Sound {
+        File=THEME:GetPathS("", "tg_subexit_commw"),
+        OptionsListPopMessageCommand=function(self) 
+            if NotRoot then 
+                self:queuecommand("Refresh") 
+            end
+        end,
         RefreshCommand=function(self) self:play() end
     }
 }
